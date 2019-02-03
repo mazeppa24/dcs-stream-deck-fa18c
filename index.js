@@ -106,11 +106,11 @@ var pages = {
         2: {type: 'image', image: '/menus/menu_text_UFC.png'},
         3: {type: 'image', image: '/menus/menu_text_TACAN.png'},
         6: {type: 'button', button: 'UFC_ONOFF', upImage: '/ufc/ufc_on_off.png', downImage: '/ufc/ufc_on_off_down.png'},
-        11: {type: 'buttonUFC_OS1',  button: 'UFC_OS1', upImage: '/ufc/ufc_tcn/ufc_tcn_tr_off.png', downImage: '/ufc/ufc_tcn/ufc_tcn_tr_on.png', page: 'UFC_TCN_TR'},
-        12: {type: 'buttonUFC_OS2', button: 'UFC_OS2', upImage: '/ufc/ufc_tcn/ufc_tcn_rcv_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_rcv_off.png', page: 'UFC_TCN_RCV'},
-        13: {type: 'buttonUFC_OS3', button: 'UFC_OS3', upImage: '/ufc/ufc_tcn/ufc_tcn_aa_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_aa_off.png', page: 'UFC_TCN_AA'},
-        14: {type: 'buttonUFC_OS4', button: 'UFC_OS4', upImage: '/ufc/ufc_tcn/ufc_tcn_x_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_x_off.png', page: 'UFC_TCN_X'},
-        15: {type: 'buttonUFC_OS5', button: 'UFC_OS5', upImage: '/ufc/ufc_tcn/ufc_tcn_y_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_y_off.png', page: 'UFC_TCN_Y'},
+        11: {type: 'buttonUFC_OS1',  button: 'UFC_OS1', upImage: '/ufc/ufc_tcn/ufc_tcn_tr_off.png', downImage: '/ufc/ufc_tcn/ufc_tcn_tr_on.png', page: 'UFC_TCN_TR', prevPage: 'UFC_TCN', timeout:5000},
+        12: {type: 'buttonUFC_OS2', button: 'UFC_OS2', upImage: '/ufc/ufc_tcn/ufc_tcn_rcv_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_rcv_off.png', page: 'UFC_TCN_RCV', prevPage: 'UFC_TCN', timeout:5000},
+        13: {type: 'buttonUFC_OS3', button: 'UFC_OS3', upImage: '/ufc/ufc_tcn/ufc_tcn_aa_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_aa_off.png', page: 'UFC_TCN_AA', prevPage: 'UFC_TCN', timeout:5000},
+        14: {type: 'buttonUFC_OS4', button: 'UFC_OS4', upImage: '/ufc/ufc_tcn/ufc_tcn_x_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_x_off.png', page: 'UFC_TCN_X', prevPage: 'UFC_TCN', timeout:5000},
+        15: {type: 'buttonUFC_OS5', button: 'UFC_OS5', upImage: '/ufc/ufc_tcn/ufc_tcn_y_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_y_off.png', page: 'UFC_TCN_Y', prevPage: 'UFC_TCN', timeout:5000},
     },
     UFC_TCN_TR: {
         1: {type: 'page', page: 'UFC_TCN', image: '/menus/button_back.png'},
@@ -331,7 +331,7 @@ function addKeyListener(key) {
             streamDeck.on(`up:${key.number}`, () => {
                 api.sendMessage(`${key.button} 1\n`);
                 key.currentImage = stateOneImagePath;
-                displayPage(key.page);
+                displayPage(key.page, key.prevPage, key.timeout);
                 //draw(key);
             });
             break;
@@ -414,7 +414,7 @@ function addKeyListener(key) {
                 api.sendMessage(`${key.button} 0\n`);
                 key.currentImage = upImagePath;
                 draw(key);
-                displayPage(key.page);
+                displayPage(key.page, key.prevPage, key.timeout);
             });
             break;
         case 'buttonUFC_OS2':
@@ -430,7 +430,7 @@ function addKeyListener(key) {
                 api.sendMessage(`${key.button} 0\n`);
                 key.currentImage = upImagePath;
                 draw(key);
-                displayPage(key.page);
+                displayPage(key.page, key.prevPage, key.timeout);
             });
             break;
         case 'buttonUFC_OS3':
@@ -446,7 +446,7 @@ function addKeyListener(key) {
                 api.sendMessage(`${key.button} 0\n`);
                 key.currentImage = upImagePath;
                 draw(key);
-                displayPage(key.page);
+                displayPage(key.page, key.prevPage, key.timeout);
             });
             break;
         case 'buttonUFC_OS4':
@@ -462,7 +462,7 @@ function addKeyListener(key) {
                 api.sendMessage(`${key.button} 0\n`);
                 key.currentImage = upImagePath;
                 draw(key);
-                displayPage(key.page);
+                displayPage(key.page, key.prevPage, key.timeout);
             });
             break;
         case 'buttonUFC_OS5':
@@ -478,7 +478,7 @@ function addKeyListener(key) {
                 api.sendMessage(`${key.button} 0\n`);
                 key.currentImage = upImagePath;
                 draw(key);
-                displayPage(key.page);
+                displayPage(key.page, key.prevPage, key.timeout);
             });
             break;
         case 'page':
@@ -830,31 +830,31 @@ function createMomentaryPageButton(key) {
 function createMomentaryPageButtonUFC_OS1(key) {
     createMomentaryButtonUFC_OS1(key);
     streamDeck.on(`up:${key.button}`, () => {
-        displayPage(pages[key.page]);
+        displayPage(pages[key.page], key.prevPage, key.timeout);
     });
 }
 function createMomentaryPageButtonUFC_OS2(key) {
     createMomentaryButtonUFC_OS2(key);
     streamDeck.on(`up:${key.button}`, () => {
-        displayPage(pages[key.page]);
+        displayPage(pages[key.page], key.prevPage, key.timeout);
     });
 }
 function createMomentaryPageButtonUFC_OS3(key) {
     createMomentaryButtonUFC_OS3(key);
     streamDeck.on(`up:${key.button}`, () => {
-        displayPage(pages[key.page]);
+        displayPage(pages[key.page], key.prevPage, key.timeout);
     });
 }
 function createMomentaryPageButtonUFC_OS4(key) {
     createMomentaryButtonUFC_OS4(key);
     streamDeck.on(`up:${key.button}`, () => {
-        displayPage(pages[key.page]);
+        displayPage(pages[key.page], key.prevPage, key.timeout);
     });
 }
 function createMomentaryPageButtonUFC_OS5(key) {
     createMomentaryButtonUFC_OS5(key);
     streamDeck.on(`up:${key.button}`, () => {
-        displayPage(pages[key.page]);
+        displayPage(pages[key.page], key.prevPage, key.timeout);
     });
 }
 
@@ -908,11 +908,19 @@ function createPviSelectedWaypointIndicator(buttonNumber) {
  *
  * @param pageName
  */
-function displayPage(pageName) {
+function displayPage(pageName, target, timeout) {
     streamDeck.removeButtonListeners();
     currentPage = pageName;
     var page = pages[pageName];
-
+    logger.info('PAGE:' + page);
+    if(timeout){
+        logger.info('TIMOUT:' + page);
+        setTimeout(returnToPreviousPage, timeout);
+    }
+    function returnToPreviousPage() {
+        logger.info('rETURN TO:' + target);
+        displayPage(target);
+    }
     Object.keys(page).forEach((keyNumber) => {
         var key = page[keyNumber];
         addKeyListener(key);
