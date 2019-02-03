@@ -17,649 +17,206 @@ process.on('SIGINT', () => {
     api.stopListening();
     process.exit();
 });
-
 streamDeck.reset();
 
 var pages = {
     MAIN: {
-        1: {type: 'page', page: 'GROUND', image: '/menu_text_GND.png'},
-        2: {type: 'page', page: 'UFC', image: '/menu_text_UFC.png'},
+        1: {type: 'page', page: 'GROUND', image: '/menus/menu_text_GND.png'},
+        2: {type: 'page', page: 'UFC', image: '/menus/menu_text_UFC.png'},
     },
     GROUND: {
         1: {type: 'page', page: 'MAIN', image: 'button_back.png'},
-        2: {
-            type: 'toggle_switch2way',
-            button: 'LDG_TAXI_SW',
-            stateOneImage: 'ldg_taxi_light_off.png',
-            stateTwoImage: 'ldg_taxi_light_on.png'
-        },
         3: {type: 'button', button: 'UFC_AP', upImage: 'ldg_taxi_light_off.png', downImage: 'ldg_taxi_light_on.png'},
     },
     UFC: {
-        1: {type: 'page', page: 'MAIN', image: 'button_back.png'},
-        2: {
-            type: 'button',
-            button: 'UFC_1',
-            upImage: 'menu_text_UFC.png',
-            downImage: 'menu_text_UFC.png'
-        },
+        1: {type: 'page', page: 'MAIN', image: '/menus/button_back.png'},
+        2: {type: 'button', button: 'UFC_1', upImage: '/menus/menu_text_UFC.png', downImage: '/menus/menu_text_UFC.png'},
         6: {type: 'pageWithAction', button: 'UFC_AP', upImage: '/ufc/ufc_ap.png', downImage: '/ufc/ufc_ap_down.png',page: 'UFC_AP'},
-        11: {
-            type: 'pageWithAction',
-            button: 'UFC_TCN',
-            upImage: '/ufc/ufc_tcn.png',
-            downImage: '/ufc/ufc_tcn_down.png',
-            page: 'UFC_TCN'
-        },
+        11: {type: 'pageWithAction', button: 'UFC_TCN', upImage: '/ufc/ufc_tcn.png', downImage: '/ufc/ufc_tcn_down.png', page: 'UFC_TCN'},
         7: {type: 'button', button: 'UFC_IFF', upImage: '/ufc/ufc_iff.png', downImage: '/ufc/ufc_iff_down.png'},
         12: {type: 'button', button: 'UFC_ILS', upImage: '/ufc/ufc_ils.png', downImage: '/ufc/ufc_ils_down.png'},
         13: {type: 'button', button: 'UFC_DL', upImage: '/ufc/ufc_dl.png', downImage: '/ufc/ufc_dl_down.png'},
         14: {type: 'button', button: 'UFC_BCN', upImage: '/ufc/ufc_bcn.png', downImage: '/ufc/ufc_bcn_down.png'},
-        15: {
-            type: 'button',
-            button: 'UFC_ONOFF',
-            upImage: '/ufc/ufc_on_off.png',
-            downImage: '/ufc/ufc_on_off_down.png'
-        },
-
+        15: {type: 'button', button: 'UFC_ONOFF', upImage: '/ufc/ufc_on_off.png', downImage: '/ufc/ufc_on_off_down.png'},
     },
     UFC_KEYBOARD: {
         1: {type: 'page', page: 'MAIN', image: 'menu_ufc.png'},
-        2: {
-            type: 'button',
-            button: 'UFC_1',
-            upImage: '/ufc/keyboard/ufc_one.png',
-            downImage: '/ufc/keyboard/ufc_one_down.png'
-        },
-        3: {
-            type: 'button',
-            button: 'UFC_2',
-            upImage: '/ufc/keyboard/ufc_two.png',
-            downImage: '/ufc/keyboard/ufc_two_down.png'
-        },
-        4: {
-            type: 'button',
-            button: 'UFC_3',
-            upImage: '/ufc/keyboard/ufc_three.png',
-            downImage: '/ufc/keyboard/ufc_three_down.png'
-        },
-        5: {
-            type: 'button',
-            button: 'UFC_CLR',
-            upImage: '/ufc/keyboard/ufc_clr.png',
-            downImage: '/ufc/keyboard/ufc_clr_down.png'
-        },
-
-        7: {
-            type: 'button',
-            button: 'UFC_4',
-            upImage: '/ufc/keyboard/ufc_four.png',
-            downImage: '/ufc/keyboard/ufc_four_down.png'
-        },
-        8: {
-            type: 'button',
-            button: 'UFC_5',
-            upImage: '/ufc/keyboard/ufc_five.png',
-            downImage: '/ufc/keyboard/ufc_five_down.png'
-        },
-        9: {
-            type: 'button',
-            button: 'UFC_6',
-            upImage: '/ufc/keyboard/ufc_six.png',
-            downImage: '/ufc/keyboard/ufc_six_down.png'
-        },
-        10: {
-            type: 'button',
-            button: 'UFC_0',
-            upImage: '/ufc/keyboard/ufc_zero.png',
-            downImage: '/ufc/keyboard/ufc_zero_down.png'
-        },
-
-
-        12: {
-            type: 'button',
-            button: 'UFC_7',
-            upImage: '/ufc/keyboard/ufc_seven.png',
-            downImage: '/ufc/keyboard/ufc_seven_down.png'
-        },
-        13: {
-            type: 'button',
-            button: 'UFC_8',
-            upImage: '/ufc/keyboard/ufc_eight.png',
-            downImage: '/ufc/keyboard/ufc_eight_down.png'
-        },
-        14: {
-            type: 'button',
-            button: 'UFC_9',
-            upImage: '/ufc/keyboard/ufc_nine.png',
-            downImage: '/ufc/keyboard/ufc_nine_down.png'
-        },
-        15: {
-            type: 'button',
-            button: 'UFC_ENT',
-            upImage: '/ufc/keyboard/ufc_enter.png',
-            downImage: '/ufc/keyboard/ufc_enter_down.png'
-        },
-
+        2: {type: 'button', button: 'UFC_1', upImage: '/ufc/keyboard/ufc_one.png', downImage: '/ufc/keyboard/ufc_one_down.png'},
+        3: {type: 'button', button: 'UFC_2', upImage: '/ufc/keyboard/ufc_two.png', downImage: '/ufc/keyboard/ufc_two_down.png'},
+        4: {type: 'button', button: 'UFC_3', upImage: '/ufc/keyboard/ufc_three.png', downImage: '/ufc/keyboard/ufc_three_down.png'},
+        5: {type: 'button', button: 'UFC_CLR', upImage: '/ufc/keyboard/ufc_clr.png', downImage: '/ufc/keyboard/ufc_clr_down.png'},
+        7: {type: 'button', button: 'UFC_4', upImage: '/ufc/keyboard/ufc_four.png', downImage: '/ufc/keyboard/ufc_four_down.png'},
+        8: {type: 'button', button: 'UFC_5', upImage: '/ufc/keyboard/ufc_five.png', downImage: '/ufc/keyboard/ufc_five_down.png'},
+        9: {type: 'button', button: 'UFC_6', upImage: '/ufc/keyboard/ufc_six.png', downImage: '/ufc/keyboard/ufc_six_down.png'},
+        10: {type: 'button', button: 'UFC_0', upImage: '/ufc/keyboard/ufc_zero.png', downImage: '/ufc/keyboard/ufc_zero_down.png'},
+        12: {type: 'button', button: 'UFC_7', upImage: '/ufc/keyboard/ufc_seven.png', downImage: '/ufc/keyboard/ufc_seven_down.png'},
+        13: {type: 'button', button: 'UFC_8', upImage: '/ufc/keyboard/ufc_eight.png', downImage: '/ufc/keyboard/ufc_eight_down.png'},
+        14: {type: 'button', button: 'UFC_9', upImage: '/ufc/keyboard/ufc_nine.png', downImage: '/ufc/keyboard/ufc_nine_down.png'},
+        15: {type: 'button', button: 'UFC_ENT', upImage: '/ufc/keyboard/ufc_enter.png', downImage: '/ufc/keyboard/ufc_enter_down.png'},
     },
     UFC_AP: {
-        1: {type: 'page', page: 'UFC', image: 'button_back.png'},
-        2: {
-            type: 'button',
-            button: 'UFC_1',
-            upImage: 'menu_text_UFC.png',
-            downImage: '/ufc/menu_text_UFC.png'
-        },
-        3: {
-            type: 'button',
-            button: 'UFC_1',
-            upImage: 'menu_text_AP.png',
-            downImage: '/ufc/menu_text_AP.png'
-        },
-        11: {
-            type: 'pageWithAction',
-            button: 'UFC_OS1',
-            upImage: '/ap/ufc_ap_atth.png',
-            downImage: '/ap/ufc_ap_atth.png',
-            page: 'UFC_AP_ATTH'
-        },
-        12: {
-            type: 'pageWithAction',
-            button: 'UFC_OS2',
-            upImage: '/ap/ufc_ap_hselt.png',
-            downImage: '/ap/ufc_ap_hselt.png',
-            page: 'UFC_AP_ATTH'
-        },
-        13: {
-            type: 'pageWithAction',
-            button: 'UFC_OS3',
-            upImage: '/ap/ufc_ap_balt.png',
-            downImage: '/ap/ap/ufc_ap_balt.png',
-            page: 'UFC_AP_ATTH'
-        },
-        14: {
-            type: 'pageWithAction',
-            button: 'UFC_OS4',
-            upImage: '/ap/ufc_ap_ralt.png',
-            downImage: '/ap/ufc_ap_ralt.png',
-            page: 'UFC_AP_ATTH'
-        },
+        1: {type: 'page', page: 'UFC', image: '/menus/button_back.png'},
+        2: {type: 'button', button: 'UFC_1', upImage: '/menus/menu_text_UFC.png', downImage: '/menus/menu_text_UFC.png'},
+        3: {type: 'button', button: 'UFC_1', upImage: '/menus/menu_text_AP.png', downImage: '/menus/menu_text_AP.png'},
+        11: {type: 'pageWithAction', button: 'UFC_OS1', upImage: '/ufc/ufc_ap/ufc_ap_atth_off.png', downImage: '/ufc/ufc_ap/ufc_ap_atth_on.png', page: 'UFC_AP_ATTH'},
+        12: {type: 'pageWithAction', button: 'UFC_OS2', upImage: '/ufc/ufc_ap/ufc_ap_hsel_off.png', downImage: '/ufc/ufc_ap/ufc_ap_hsel_on.png', page: 'UFC_AP_HSEL'},
+        13: {type: 'pageWithAction', button: 'UFC_OS3', upImage: '/ufc/ufc_ap/ufc_ap_balt_off.png', downImage: '/ufc/ufc_ap/ufc_ap_balt_on.png', page: 'UFC_AP_BALT'},
+        14: {type: 'pageWithAction', button: 'UFC_OS4', upImage: '/ufc/ufc_ap/ufc_ap_ralt_off.png', downImage: '/ufc/ufc_ap/ufc_ap_ralt_on.png', page: 'UFC_AP_RALT'},
+    },
+    UFC_AP_ATTH: {
+        1: {type: 'page', page: 'UFC_AP', image: '/menus/button_back.png'},
+        2: {type: 'button', button: 'UFC_1', upImage: '/ufc/keyboard/ufc_one.png', downImage: '/ufc/keyboard/ufc_one_down.png'},
+        3: {type: 'button', button: 'UFC_2', upImage: '/ufc/keyboard/ufc_two.png', downImage: '/ufc/keyboard/ufc_two_down.png'},
+        4: {type: 'button', button: 'UFC_3', upImage: '/ufc/keyboard/ufc_three.png', downImage: '/ufc/keyboard/ufc_three_down.png'},
+        5: {type: 'button', button: 'UFC_CLR', upImage: '/ufc/keyboard/ufc_clr.png', downImage: '/ufc/keyboard/ufc_clr_down.png'},
+        11: {type: 'pageWithAction', button: 'UFC_OS1', upImage: '/ufc/ufc_ap/ufc_ap_atth_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_tr_off.png', page: 'UFC_AP_ATTH'},
+        7: {type: 'button', button: 'UFC_4', upImage: '/ufc/keyboard/ufc_four.png', downImage: '/ufc/keyboard/ufc_four_down.png'},
+        8: {type: 'button', button: 'UFC_5', upImage: '/ufc/keyboard/ufc_five.png', downImage: '/ufc/keyboard/ufc_five_down.png'},
+        9: {type: 'button', button: 'UFC_6', upImage: '/ufc/keyboard/ufc_six.png', downImage: '/ufc/keyboard/ufc_six_down.png'},
+        10: {type: 'button', button: 'UFC_0', upImage: '/ufc/keyboard/ufc_zero.png', downImage: '/ufc/keyboard/ufc_zero_down.png'},
+        12: {type: 'button', button: 'UFC_7', upImage: '/ufc/keyboard/ufc_seven.png', downImage: '/ufc/keyboard/ufc_seven_down.png'},
+        13: {type: 'button', button: 'UFC_8', upImage: '/ufc/keyboard/ufc_eight.png', downImage: '/ufc/keyboard/ufc_eight_down.png'},
+        14: {type: 'button', button: 'UFC_9', upImage: '/ufc/keyboard/ufc_nine.png', downImage: '/ufc/keyboard/ufc_nine_down.png'},
+        15: {type: 'button', button: 'UFC_ENT', upImage: '/ufc/keyboard/ufc_enter.png', downImage: '/ufc/keyboard/ufc_enter_down.png'},
+    },
+    UFC_AP_HSEL: {
+        1: {type: 'page', page: 'UFC_AP', image: '/menus/button_back.png'},
+        2: {type: 'button', button: 'UFC_1', upImage: '/ufc/keyboard/ufc_one.png', downImage: '/ufc/keyboard/ufc_one_down.png'},
+        3: {type: 'button', button: 'UFC_2', upImage: '/ufc/keyboard/ufc_two.png', downImage: '/ufc/keyboard/ufc_two_down.png'},
+        4: {type: 'button', button: 'UFC_3', upImage: '/ufc/keyboard/ufc_three.png', downImage: '/ufc/keyboard/ufc_three_down.png'},
+        5: {type: 'button', button: 'UFC_CLR', upImage: '/ufc/keyboard/ufc_clr.png', downImage: '/ufc/keyboard/ufc_clr_down.png'},
+        11: {type: 'pageWithAction', button: 'UFC_OS1', upImage: '/ufc/ufc_ap/ufc_ap_hsel_on.png', downImage: '/ufc/ufc_ap/ufc_ap_hsel_off.png', page: 'UFC_AP_HSEL'},
+        7: {type: 'button', button: 'UFC_4', upImage: '/ufc/keyboard/ufc_four.png', downImage: '/ufc/keyboard/ufc_four_down.png'},
+        8: {type: 'button', button: 'UFC_5', upImage: '/ufc/keyboard/ufc_five.png', downImage: '/ufc/keyboard/ufc_five_down.png'},
+        9: {type: 'button', button: 'UFC_6', upImage: '/ufc/keyboard/ufc_six.png', downImage: '/ufc/keyboard/ufc_six_down.png'},
+        10: {type: 'button', button: 'UFC_0', upImage: '/ufc/keyboard/ufc_zero.png', downImage: '/ufc/keyboard/ufc_zero_down.png'},
+        12: {type: 'button', button: 'UFC_7', upImage: '/ufc/keyboard/ufc_seven.png', downImage: '/ufc/keyboard/ufc_seven_down.png'},
+        13: {type: 'button', button: 'UFC_8', upImage: '/ufc/keyboard/ufc_eight.png', downImage: '/ufc/keyboard/ufc_eight_down.png'},
+        14: {type: 'button', button: 'UFC_9', upImage: '/ufc/keyboard/ufc_nine.png', downImage: '/ufc/keyboard/ufc_nine_down.png'},
+        15: {type: 'button', button: 'UFC_ENT', upImage: '/ufc/keyboard/ufc_enter.png', downImage: '/ufc/keyboard/ufc_enter_down.png'},
+    },
+    UFC_AP_BALT: {
+        1: {type: 'page', page: 'UFC_AP', image: '/menus/button_back.png'},
+        2: {type: 'button', button: 'UFC_1', upImage: '/ufc/keyboard/ufc_one.png', downImage: '/ufc/keyboard/ufc_one_down.png'},
+        3: {type: 'button', button: 'UFC_2', upImage: '/ufc/keyboard/ufc_two.png', downImage: '/ufc/keyboard/ufc_two_down.png'},
+        4: {type: 'button', button: 'UFC_3', upImage: '/ufc/keyboard/ufc_three.png', downImage: '/ufc/keyboard/ufc_three_down.png'},
+        5: {type: 'button', button: 'UFC_CLR', upImage: '/ufc/keyboard/ufc_clr.png', downImage: '/ufc/keyboard/ufc_clr_down.png'},
+        11: {type: 'pageWithAction', button: 'UFC_OS1', upImage: '/ufc/ufc_ap/ufc_ap_balt_on.png', downImage: '/ufc/ufc_ap/ufc_ap_balt_off.png', page: 'UFC_AP_BALT'},
+        7: {type: 'button', button: 'UFC_4', upImage: '/ufc/keyboard/ufc_four.png', downImage: '/ufc/keyboard/ufc_four_down.png'},
+        8: {type: 'button', button: 'UFC_5', upImage: '/ufc/keyboard/ufc_five.png', downImage: '/ufc/keyboard/ufc_five_down.png'},
+        9: {type: 'button', button: 'UFC_6', upImage: '/ufc/keyboard/ufc_six.png', downImage: '/ufc/keyboard/ufc_six_down.png'},
+        10: {type: 'button', button: 'UFC_0', upImage: '/ufc/keyboard/ufc_zero.png', downImage: '/ufc/keyboard/ufc_zero_down.png'},
+        12: {type: 'button', button: 'UFC_7', upImage: '/ufc/keyboard/ufc_seven.png', downImage: '/ufc/keyboard/ufc_seven_down.png'},
+        13: {type: 'button', button: 'UFC_8', upImage: '/ufc/keyboard/ufc_eight.png', downImage: '/ufc/keyboard/ufc_eight_down.png'},
+        14: {type: 'button', button: 'UFC_9', upImage: '/ufc/keyboard/ufc_nine.png', downImage: '/ufc/keyboard/ufc_nine_down.png'},
+        15: {type: 'button', button: 'UFC_ENT', upImage: '/ufc/keyboard/ufc_enter.png', downImage: '/ufc/keyboard/ufc_enter_down.png'},
+    },
+    UFC_AP_RALT: {
+        1: {type: 'page', page: 'UFC_AP', image: '/menus/button_back.png'},
+        2: {type: 'button', button: 'UFC_1', upImage: '/ufc/keyboard/ufc_one.png', downImage: '/ufc/keyboard/ufc_one_down.png'},
+        3: {type: 'button', button: 'UFC_2', upImage: '/ufc/keyboard/ufc_two.png', downImage: '/ufc/keyboard/ufc_two_down.png'},
+        4: {type: 'button', button: 'UFC_3', upImage: '/ufc/keyboard/ufc_three.png', downImage: '/ufc/keyboard/ufc_three_down.png'},
+        5: {type: 'button', button: 'UFC_CLR', upImage: '/ufc/keyboard/ufc_clr.png', downImage: '/ufc/keyboard/ufc_clr_down.png'},
+        11: {type: 'pageWithAction', button: 'UFC_OS1', upImage: '/ufc/ufc_ap/ufc_ap_ralt_on.png', downImage: '/ufc/ufc_ap/ufc_ap_ralt_off.png', page: 'UFC_AP_RALT'},
+        7: {type: 'button', button: 'UFC_4', upImage: '/ufc/keyboard/ufc_four.png', downImage: '/ufc/keyboard/ufc_four_down.png'},
+        8: {type: 'button', button: 'UFC_5', upImage: '/ufc/keyboard/ufc_five.png', downImage: '/ufc/keyboard/ufc_five_down.png'},
+        9: {type: 'button', button: 'UFC_6', upImage: '/ufc/keyboard/ufc_six.png', downImage: '/ufc/keyboard/ufc_six_down.png'},
+        10: {type: 'button', button: 'UFC_0', upImage: '/ufc/keyboard/ufc_zero.png', downImage: '/ufc/keyboard/ufc_zero_down.png'},
+        12: {type: 'button', button: 'UFC_7', upImage: '/ufc/keyboard/ufc_seven.png', downImage: '/ufc/keyboard/ufc_seven_down.png'},
+        13: {type: 'button', button: 'UFC_8', upImage: '/ufc/keyboard/ufc_eight.png', downImage: '/ufc/keyboard/ufc_eight_down.png'},
+        14: {type: 'button', button: 'UFC_9', upImage: '/ufc/keyboard/ufc_nine.png', downImage: '/ufc/keyboard/ufc_nine_down.png'},
+        15: {type: 'button', button: 'UFC_ENT', upImage: '/ufc/keyboard/ufc_enter.png', downImage: '/ufc/keyboard/ufc_enter_down.png'},
     },
     UFC_TCN: {
-        1: {type: 'page', page: 'UFC', image: 'button_back.png'},
-        2: {
-            type: 'button',
-            button: 'UFC_1',
-            upImage: 'menu_text_UFC.png',
-            downImage: '/ufc/menu_text_UFC.png'
-        },
-        3: {
-            type: 'button',
-            button: 'UFC_1',
-            upImage: 'menu_text_TACAN.png',
-            downImage: '/ufc/menu_text_TACAN.png'
-        },
-        11: {
-            type: 'pageWithAction',
-            button: 'UFC_OS1',
-            upImage: '/ufc/ufc_tcn/ufc_tcn_tr_on.png',
-            downImage: '/ufc/ufc_tcn/ufc_tcn_tr_off.png',
-            page: 'UFC_TCN_TR'
-        },
-        12: {
-            type: 'pageWithAction',
-            button: 'UFC_OS2',
-            upImage: '/ufc/ufc_tcn/ufc_tcn_rcv_on.png',
-            downImage: '/ufc/ufc_tcn/ufc_tcn_rcv_off.png',
-            page: 'UFC_TCN_RCV'
-        },
-        13: {
-            type: 'pageWithAction',
-            button: 'UFC_OS3',
-            upImage: '/ufc/ufc_tcn/ufc_tcn_aa_on.png',
-            downImage: '/ufc/ufc_tcn/ufc_tcn_aa_off.png',
-            page: 'UFC_TCN_AA'
-        },
-        14: {
-            type: 'pageWithAction',
-            button: 'UFC_OS4',
-            upImage: '/ufc/ufc_tcn/ufc_tcn_x_on.png',
-            downImage: '/ufc/ufc_tcn/ufc_tcn_x_off.png',
-            page: 'UFC_TCN_X'
-        },
-
-        15: {
-            type: 'pageWithAction',
-            button: 'UFC_OS5',
-            upImage: '/ufc/ufc_tcn/ufc_tcn_y_on.png',
-            downImage: '/ufc/ufc_tcn/ufc_tcn_y_off.png',
-            page: 'UFC_TCN_Y'
-        },
+        1: {type: 'page', page: 'UFC', image: '/menus/button_back.png'},
+        2: {type: 'button', button: 'UFC_1', upImage: '/menus/menu_text_UFC.png', downImage: '/menus/menu_text_UFC.png'},
+        3: {type: 'button', button: 'UFC_1', upImage: '/menus/menu_text_TACAN.png', downImage: '/menus/menu_text_TACAN.png'},
+        11: {type: 'pageWithAction', button: 'UFC_OS1', upImage: '/ufc/ufc_tcn/ufc_tcn_tr_off.png', downImage: '/ufc/ufc_tcn/ufc_tcn_tr_on.png', page: 'UFC_TCN_TR'},
+        12: {type: 'pageWithAction', button: 'UFC_OS2', upImage: '/ufc/ufc_tcn/ufc_tcn_rcv_off.png', downImage: '/ufc/ufc_tcn/ufc_tcn_rcv_on.png', page: 'UFC_TCN_RCV'},
+        13: {type: 'pageWithAction', button: 'UFC_OS3', upImage: '/ufc/ufc_tcn/ufc_tcn_aa_off.png', downImage: '/ufc/ufc_tcn/ufc_tcn_aa_on.png', page: 'UFC_TCN_AA'},
+        14: {type: 'pageWithAction', button: 'UFC_OS4', upImage: '/ufc/ufc_tcn/ufc_tcn_x_off.png', downImage: '/ufc/ufc_tcn/ufc_tcn_x_on.png', page: 'UFC_TCN_X'},
+        15: {type: 'pageWithAction', button: 'UFC_OS5', upImage: '/ufc/ufc_tcn/ufc_tcn_y_off.png', downImage: '/ufc/ufc_tcn/ufc_tcn_y_on.png', page: 'UFC_TCN_Y'},
     },
     UFC_TCN_TR: {
-        1: {type: 'page', page: 'UFC_TCN', image: 'button_back.png'},
-
-        2: {
-            type: 'button',
-            button: 'UFC_1',
-            upImage: '/ufc/keyboard/ufc_one.png',
-            downImage: '/ufc/keyboard/ufc_one_down.png'
-        },
-        3: {
-            type: 'button',
-            button: 'UFC_2',
-            upImage: '/ufc/keyboard/ufc_two.png',
-            downImage: '/ufc/keyboard/ufc_two_down.png'
-        },
-        4: {
-            type: 'button',
-            button: 'UFC_3',
-            upImage: '/ufc/keyboard/ufc_three.png',
-            downImage: '/ufc/keyboard/ufc_three_down.png'
-        },
-        5: {
-            type: 'button',
-            button: 'UFC_CLR',
-            upImage: '/ufc/keyboard/ufc_clr.png',
-            downImage: '/ufc/keyboard/ufc_clr_down.png'
-        },
-        11: {
-            type: 'pageWithAction',
-            button: 'UFC_OS1',
-            upImage: '/ufc/ufc_tcn/ufc_tcn_tr_on.png',
-            downImage: '/ufc/ufc_tcn/ufc_tcn_tr_off.png',
-            page: 'UFC_TCN_TR'
-        },
-        7: {
-            type: 'button',
-            button: 'UFC_4',
-            upImage: '/ufc/keyboard/ufc_four.png',
-            downImage: '/ufc/keyboard/ufc_four_down.png'
-        },
-        8: {
-            type: 'button',
-            button: 'UFC_5',
-            upImage: '/ufc/keyboard/ufc_five.png',
-            downImage: '/ufc/keyboard/ufc_five_down.png'
-        },
-        9: {
-            type: 'button',
-            button: 'UFC_6',
-            upImage: '/ufc/keyboard/ufc_six.png',
-            downImage: '/ufc/keyboard/ufc_six_down.png'
-        },
-        10: {
-            type: 'button',
-            button: 'UFC_0',
-            upImage: '/ufc/keyboard/ufc_zero.png',
-            downImage: '/ufc/keyboard/ufc_zero_down.png'
-        },
-
-
-        12: {
-            type: 'button',
-            button: 'UFC_7',
-            upImage: '/ufc/keyboard/ufc_seven.png',
-            downImage: '/ufc/keyboard/ufc_seven_down.png'
-        },
-        13: {
-            type: 'button',
-            button: 'UFC_8',
-            upImage: '/ufc/keyboard/ufc_eight.png',
-            downImage: '/ufc/keyboard/ufc_eight_down.png'
-        },
-        14: {
-            type: 'button',
-            button: 'UFC_9',
-            upImage: '/ufc/keyboard/ufc_nine.png',
-            downImage: '/ufc/keyboard/ufc_nine_down.png'
-        },
-        15: {
-            type: 'button',
-            button: 'UFC_ENT',
-            upImage: '/ufc/keyboard/ufc_enter.png',
-            downImage: '/ufc/keyboard/ufc_enter_down.png'
-        },
+        1: {type: 'page', page: 'UFC_TCN', image: '/menus/button_back.png'},
+        2: {type: 'button', button: 'UFC_1', upImage: '/ufc/keyboard/ufc_one.png', downImage: '/ufc/keyboard/ufc_one_down.png'},
+        3: {type: 'button', button: 'UFC_2', upImage: '/ufc/keyboard/ufc_two.png', downImage: '/ufc/keyboard/ufc_two_down.png'},
+        4: {type: 'button', button: 'UFC_3', upImage: '/ufc/keyboard/ufc_three.png', downImage: '/ufc/keyboard/ufc_three_down.png'},
+        5: {type: 'button', button: 'UFC_CLR', upImage: '/ufc/keyboard/ufc_clr.png', downImage: '/ufc/keyboard/ufc_clr_down.png'},
+        11: {type: 'pageWithAction', button: 'UFC_OS1', upImage: '/ufc/ufc_tcn/ufc_tcn_tr_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_tr_off.png', page: 'UFC_TCN_TR'},
+        7: {type: 'button', button: 'UFC_4', upImage: '/ufc/keyboard/ufc_four.png', downImage: '/ufc/keyboard/ufc_four_down.png'},
+        8: {type: 'button', button: 'UFC_5', upImage: '/ufc/keyboard/ufc_five.png', downImage: '/ufc/keyboard/ufc_five_down.png'},
+        9: {type: 'button', button: 'UFC_6', upImage: '/ufc/keyboard/ufc_six.png', downImage: '/ufc/keyboard/ufc_six_down.png'},
+        10: {type: 'button', button: 'UFC_0', upImage: '/ufc/keyboard/ufc_zero.png', downImage: '/ufc/keyboard/ufc_zero_down.png'},
+        12: {type: 'button', button: 'UFC_7', upImage: '/ufc/keyboard/ufc_seven.png', downImage: '/ufc/keyboard/ufc_seven_down.png'},
+        13: {type: 'button', button: 'UFC_8', upImage: '/ufc/keyboard/ufc_eight.png', downImage: '/ufc/keyboard/ufc_eight_down.png'},
+        14: {type: 'button', button: 'UFC_9', upImage: '/ufc/keyboard/ufc_nine.png', downImage: '/ufc/keyboard/ufc_nine_down.png'},
+        15: {type: 'button', button: 'UFC_ENT', upImage: '/ufc/keyboard/ufc_enter.png', downImage: '/ufc/keyboard/ufc_enter_down.png'},
     },
     UFC_TCN_RCV: {
-        1: {type: 'page', page: 'UFC_TCN', image: 'button_back.png'},
-
-        2: {
-            type: 'button',
-            button: 'UFC_1',
-            upImage: '/ufc/keyboard/ufc_one.png',
-            downImage: '/ufc/keyboard/ufc_one_down.png'
-        },
-        3: {
-            type: 'button',
-            button: 'UFC_2',
-            upImage: '/ufc/keyboard/ufc_two.png',
-            downImage: '/ufc/keyboard/ufc_two_down.png'
-        },
-        4: {
-            type: 'button',
-            button: 'UFC_3',
-            upImage: '/ufc/keyboard/ufc_three.png',
-            downImage: '/ufc/keyboard/ufc_three_down.png'
-        },
-        5: {
-            type: 'button',
-            button: 'UFC_CLR',
-            upImage: '/ufc/keyboard/ufc_clr.png',
-            downImage: '/ufc/keyboard/ufc_clr_down.png'
-        },
-        11: {
-            type: 'pageWithAction',
-            button: 'UFC_OS1',
-            upImage: '/ufc/ufc_tcn/ufc_tcn_rcv_on.png',
-            downImage: '/ufc/ufc_tcn/ufc_tcn_rcv_off.png',
-            page: 'UFC_TCN_TR'
-        },
-        7: {
-            type: 'button',
-            button: 'UFC_4',
-            upImage: '/ufc/keyboard/ufc_four.png',
-            downImage: '/ufc/keyboard/ufc_four_down.png'
-        },
-        8: {
-            type: 'button',
-            button: 'UFC_5',
-            upImage: '/ufc/keyboard/ufc_five.png',
-            downImage: '/ufc/keyboard/ufc_five_down.png'
-        },
-        9: {
-            type: 'button',
-            button: 'UFC_6',
-            upImage: '/ufc/keyboard/ufc_six.png',
-            downImage: '/ufc/keyboard/ufc_six_down.png'
-        },
-        10: {
-            type: 'button',
-            button: 'UFC_0',
-            upImage: '/ufc/keyboard/ufc_zero.png',
-            downImage: '/ufc/keyboard/ufc_zero_down.png'
-        },
-
-
-        12: {
-            type: 'button',
-            button: 'UFC_7',
-            upImage: '/ufc/keyboard/ufc_seven.png',
-            downImage: '/ufc/keyboard/ufc_seven_down.png'
-        },
-        13: {
-            type: 'button',
-            button: 'UFC_8',
-            upImage: '/ufc/keyboard/ufc_eight.png',
-            downImage: '/ufc/keyboard/ufc_eight_down.png'
-        },
-        14: {
-            type: 'button',
-            button: 'UFC_9',
-            upImage: '/ufc/keyboard/ufc_nine.png',
-            downImage: '/ufc/keyboard/ufc_nine_down.png'
-        },
-        15: {
-            type: 'button',
-            button: 'UFC_ENT',
-            upImage: '/ufc/keyboard/ufc_enter.png',
-            downImage: '/ufc/keyboard/ufc_enter_down.png'
-        },
+        1: {type: 'page', page: 'UFC_TCN', image: '/menus/button_back.png'},
+        2: {type: 'button', button: 'UFC_1', upImage: '/ufc/keyboard/ufc_one.png', downImage: '/ufc/keyboard/ufc_one_down.png'},
+        3: {type: 'button', button: 'UFC_2', upImage: '/ufc/keyboard/ufc_two.png', downImage: '/ufc/keyboard/ufc_two_down.png'},
+        4: {type: 'button', button: 'UFC_3', upImage: '/ufc/keyboard/ufc_three.png', downImage: '/ufc/keyboard/ufc_three_down.png'},
+        5: {type: 'button', button: 'UFC_CLR', upImage: '/ufc/keyboard/ufc_clr.png', downImage: '/ufc/keyboard/ufc_clr_down.png'},
+        11: {type: 'pageWithAction', button: 'UFC_OS1', upImage: '/ufc/ufc_tcn/ufc_tcn_rcv_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_rcv_off.png', page: 'UFC_TCN_RCV'},
+        7: {type: 'button', button: 'UFC_4', upImage: '/ufc/keyboard/ufc_four.png', downImage: '/ufc/keyboard/ufc_four_down.png'},
+        8: {type: 'button', button: 'UFC_5', upImage: '/ufc/keyboard/ufc_five.png', downImage: '/ufc/keyboard/ufc_five_down.png'},
+        9: {type: 'button', button: 'UFC_6', upImage: '/ufc/keyboard/ufc_six.png', downImage: '/ufc/keyboard/ufc_six_down.png'},
+        10: {type: 'button', button: 'UFC_0', upImage: '/ufc/keyboard/ufc_zero.png', downImage: '/ufc/keyboard/ufc_zero_down.png'},
+        12: {type: 'button', button: 'UFC_7', upImage: '/ufc/keyboard/ufc_seven.png', downImage: '/ufc/keyboard/ufc_seven_down.png'},
+        13: {type: 'button', button: 'UFC_8', upImage: '/ufc/keyboard/ufc_eight.png', downImage: '/ufc/keyboard/ufc_eight_down.png'},
+        14: {type: 'button', button: 'UFC_9', upImage: '/ufc/keyboard/ufc_nine.png', downImage: '/ufc/keyboard/ufc_nine_down.png'},
+        15: {type: 'button', button: 'UFC_ENT', upImage: '/ufc/keyboard/ufc_enter.png', downImage: '/ufc/keyboard/ufc_enter_down.png'},
     },
     UFC_TCN_AA: {
-        1: {type: 'page', page: 'UFC_TCN', image: 'button_back.png'},
-
-        2: {
-            type: 'button',
-            button: 'UFC_1',
-            upImage: '/ufc/keyboard/ufc_one.png',
-            downImage: '/ufc/keyboard/ufc_one_down.png'
-        },
-        3: {
-            type: 'button',
-            button: 'UFC_2',
-            upImage: '/ufc/keyboard/ufc_two.png',
-            downImage: '/ufc/keyboard/ufc_two_down.png'
-        },
-        4: {
-            type: 'button',
-            button: 'UFC_3',
-            upImage: '/ufc/keyboard/ufc_three.png',
-            downImage: '/ufc/keyboard/ufc_three_down.png'
-        },
-        5: {
-            type: 'button',
-            button: 'UFC_CLR',
-            upImage: '/ufc/keyboard/ufc_clr.png',
-            downImage: '/ufc/keyboard/ufc_clr_down.png'
-        },
-        11: {
-            type: 'pageWithAction',
-            button: 'UFC_OS1',
-            upImage: '/ufc/ufc_tcn/ufc_tcn_aa_on.png',
-            downImage: '/ufc/ufc_tcn/ufc_tcn_aa_off.png',
-            page: 'UFC_TCN_TR'
-        },
-        7: {
-            type: 'button',
-            button: 'UFC_4',
-            upImage: '/ufc/keyboard/ufc_four.png',
-            downImage: '/ufc/keyboard/ufc_four_down.png'
-        },
-        8: {
-            type: 'button',
-            button: 'UFC_5',
-            upImage: '/ufc/keyboard/ufc_five.png',
-            downImage: '/ufc/keyboard/ufc_five_down.png'
-        },
-        9: {
-            type: 'button',
-            button: 'UFC_6',
-            upImage: '/ufc/keyboard/ufc_six.png',
-            downImage: '/ufc/keyboard/ufc_six_down.png'
-        },
-        10: {
-            type: 'button',
-            button: 'UFC_0',
-            upImage: '/ufc/keyboard/ufc_zero.png',
-            downImage: '/ufc/keyboard/ufc_zero_down.png'
-        },
-
-
-        12: {
-            type: 'button',
-            button: 'UFC_7',
-            upImage: '/ufc/keyboard/ufc_seven.png',
-            downImage: '/ufc/keyboard/ufc_seven_down.png'
-        },
-        13: {
-            type: 'button',
-            button: 'UFC_8',
-            upImage: '/ufc/keyboard/ufc_eight.png',
-            downImage: '/ufc/keyboard/ufc_eight_down.png'
-        },
-        14: {
-            type: 'button',
-            button: 'UFC_9',
-            upImage: '/ufc/keyboard/ufc_nine.png',
-            downImage: '/ufc/keyboard/ufc_nine_down.png'
-        },
-        15: {
-            type: 'button',
-            button: 'UFC_ENT',
-            upImage: '/ufc/keyboard/ufc_enter.png',
-            downImage: '/ufc/keyboard/ufc_enter_down.png'
-        },
+        1: {type: 'page', page: 'UFC_TCN', image: '/menus/button_back.png'},
+        2: {type: 'button', button: 'UFC_1', upImage: '/ufc/keyboard/ufc_one.png', downImage: '/ufc/keyboard/ufc_one_down.png'},
+        3: {type: 'button', button: 'UFC_2', upImage: '/ufc/keyboard/ufc_two.png', downImage: '/ufc/keyboard/ufc_two_down.png'},
+        4: {type: 'button', button: 'UFC_3', upImage: '/ufc/keyboard/ufc_three.png', downImage: '/ufc/keyboard/ufc_three_down.png'},
+        5: {type: 'button', button: 'UFC_CLR', upImage: '/ufc/keyboard/ufc_clr.png', downImage: '/ufc/keyboard/ufc_clr_down.png'},
+        11: {type: 'pageWithAction', button: 'UFC_OS1', upImage: '/ufc/ufc_tcn/ufc_tcn_aa_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_aa_off.png', page: 'UFC_TCN_RCV'},
+        7: {type: 'button', button: 'UFC_4', upImage: '/ufc/keyboard/ufc_four.png', downImage: '/ufc/keyboard/ufc_four_down.png'},
+        8: {type: 'button', button: 'UFC_5', upImage: '/ufc/keyboard/ufc_five.png', downImage: '/ufc/keyboard/ufc_five_down.png'},
+        9: {type: 'button', button: 'UFC_6', upImage: '/ufc/keyboard/ufc_six.png', downImage: '/ufc/keyboard/ufc_six_down.png'},
+        10: {type: 'button', button: 'UFC_0', upImage: '/ufc/keyboard/ufc_zero.png', downImage: '/ufc/keyboard/ufc_zero_down.png'},
+        12: {type: 'button', button: 'UFC_7', upImage: '/ufc/keyboard/ufc_seven.png', downImage: '/ufc/keyboard/ufc_seven_down.png'},
+        13: {type: 'button', button: 'UFC_8', upImage: '/ufc/keyboard/ufc_eight.png', downImage: '/ufc/keyboard/ufc_eight_down.png'},
+        14: {type: 'button', button: 'UFC_9', upImage: '/ufc/keyboard/ufc_nine.png', downImage: '/ufc/keyboard/ufc_nine_down.png'},
+        15: {type: 'button', button: 'UFC_ENT', upImage: '/ufc/keyboard/ufc_enter.png', downImage: '/ufc/keyboard/ufc_enter_down.png'},
     },
     UFC_TCN_X: {
-        1: {type: 'page', page: 'UFC_TCN', image: 'button_back.png'},
-
-        2: {
-            type: 'button',
-            button: 'UFC_1',
-            upImage: '/ufc/keyboard/ufc_one.png',
-            downImage: '/ufc/keyboard/ufc_one_down.png'
-        },
-        3: {
-            type: 'button',
-            button: 'UFC_2',
-            upImage: '/ufc/keyboard/ufc_two.png',
-            downImage: '/ufc/keyboard/ufc_two_down.png'
-        },
-        4: {
-            type: 'button',
-            button: 'UFC_3',
-            upImage: '/ufc/keyboard/ufc_three.png',
-            downImage: '/ufc/keyboard/ufc_three_down.png'
-        },
-        5: {
-            type: 'button',
-            button: 'UFC_CLR',
-            upImage: '/ufc/keyboard/ufc_clr.png',
-            downImage: '/ufc/keyboard/ufc_clr_down.png'
-        },
-        11: {
-            type: 'pageWithAction',
-            button: 'UFC_OS1',
-            upImage: '/ufc/ufc_tcn/ufc_tcn_x_on.png',
-            downImage: '/ufc/ufc_tcn/ufc_tcn_x_off.png',
-            page: 'UFC_TCN_TR'
-        },
-        7: {
-            type: 'button',
-            button: 'UFC_4',
-            upImage: '/ufc/keyboard/ufc_four.png',
-            downImage: '/ufc/keyboard/ufc_four_down.png'
-        },
-        8: {
-            type: 'button',
-            button: 'UFC_5',
-            upImage: '/ufc/keyboard/ufc_five.png',
-            downImage: '/ufc/keyboard/ufc_five_down.png'
-        },
-        9: {
-            type: 'button',
-            button: 'UFC_6',
-            upImage: '/ufc/keyboard/ufc_six.png',
-            downImage: '/ufc/keyboard/ufc_six_down.png'
-        },
-        10: {
-            type: 'button',
-            button: 'UFC_0',
-            upImage: '/ufc/keyboard/ufc_zero.png',
-            downImage: '/ufc/keyboard/ufc_zero_down.png'
-        },
-
-
-        12: {
-            type: 'button',
-            button: 'UFC_7',
-            upImage: '/ufc/keyboard/ufc_seven.png',
-            downImage: '/ufc/keyboard/ufc_seven_down.png'
-        },
-        13: {
-            type: 'button',
-            button: 'UFC_8',
-            upImage: '/ufc/keyboard/ufc_eight.png',
-            downImage: '/ufc/keyboard/ufc_eight_down.png'
-        },
-        14: {
-            type: 'button',
-            button: 'UFC_9',
-            upImage: '/ufc/keyboard/ufc_nine.png',
-            downImage: '/ufc/keyboard/ufc_nine_down.png'
-        },
-        15: {
-            type: 'button',
-            button: 'UFC_ENT',
-            upImage: '/ufc/keyboard/ufc_enter.png',
-            downImage: '/ufc/keyboard/ufc_enter_down.png'
-        },
+        1: {type: 'page', page: 'UFC_TCN', image: '/menus/button_back.png'},
+        2: {type: 'button', button: 'UFC_1', upImage: '/ufc/keyboard/ufc_one.png', downImage: '/ufc/keyboard/ufc_one_down.png'},
+        3: {type: 'button', button: 'UFC_2', upImage: '/ufc/keyboard/ufc_two.png', downImage: '/ufc/keyboard/ufc_two_down.png'},
+        4: {type: 'button', button: 'UFC_3', upImage: '/ufc/keyboard/ufc_three.png', downImage: '/ufc/keyboard/ufc_three_down.png'},
+        5: {type: 'button', button: 'UFC_CLR', upImage: '/ufc/keyboard/ufc_clr.png', downImage: '/ufc/keyboard/ufc_clr_down.png'},
+        11: {type: 'pageWithAction', button: 'UFC_OS1', upImage: '/ufc/ufc_tcn/ufc_tcn_x_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_x_off.png', page: 'UFC_TCN_TR'},
+        7: {type: 'button', button: 'UFC_4', upImage: '/ufc/keyboard/ufc_four.png', downImage: '/ufc/keyboard/ufc_four_down.png'},
+        8: {type: 'button', button: 'UFC_5', upImage: '/ufc/keyboard/ufc_five.png', downImage: '/ufc/keyboard/ufc_five_down.png'},
+        9: {type: 'button', button: 'UFC_6', upImage: '/ufc/keyboard/ufc_six.png', downImage: '/ufc/keyboard/ufc_six_down.png'},
+        10: {type: 'button', button: 'UFC_0', upImage: '/ufc/keyboard/ufc_zero.png', downImage: '/ufc/keyboard/ufc_zero_down.png'},
+        12: {type: 'button', button: 'UFC_7', upImage: '/ufc/keyboard/ufc_seven.png', downImage: '/ufc/keyboard/ufc_seven_down.png'},
+        13: {type: 'button', button: 'UFC_8', upImage: '/ufc/keyboard/ufc_eight.png', downImage: '/ufc/keyboard/ufc_eight_down.png'},
+        14: {type: 'button', button: 'UFC_9', upImage: '/ufc/keyboard/ufc_nine.png', downImage: '/ufc/keyboard/ufc_nine_down.png'},
+        15: {type: 'button', button: 'UFC_ENT', upImage: '/ufc/keyboard/ufc_enter.png', downImage: '/ufc/keyboard/ufc_enter_down.png'},
     },
     UFC_TCN_Y: {
-        1: {type: 'page', page: 'UFC_TCN', image: 'button_back.png'},
+        1: {type: 'page', page: 'UFC_TCN', image: '/menus/button_back.png'},
 
-        2: {
-            type: 'button',
-            button: 'UFC_1',
-            upImage: '/ufc/keyboard/ufc_one.png',
-            downImage: '/ufc/keyboard/ufc_one_down.png'
-        },
-        3: {
-            type: 'button',
-            button: 'UFC_2',
-            upImage: '/ufc/keyboard/ufc_two.png',
-            downImage: '/ufc/keyboard/ufc_two_down.png'
-        },
-        4: {
-            type: 'button',
-            button: 'UFC_3',
-            upImage: '/ufc/keyboard/ufc_three.png',
-            downImage: '/ufc/keyboard/ufc_three_down.png'
-        },
-        5: {
-            type: 'button',
-            button: 'UFC_CLR',
-            upImage: '/ufc/keyboard/ufc_clr.png',
-            downImage: '/ufc/keyboard/ufc_clr_down.png'
-        },
-        11: {
-            type: 'pageWithAction',
-            button: 'UFC_OS1',
-            upImage: '/ufc/ufc_tcn/ufc_tcn_y_on.png',
-            downImage: '/ufc/ufc_tcn/ufc_tcn_y_off.png',
-            page: 'UFC_TCN_TR'
-        },
-        7: {
-            type: 'button',
-            button: 'UFC_4',
-            upImage: '/ufc/keyboard/ufc_four.png',
-            downImage: '/ufc/keyboard/ufc_four_down.png'
-        },
-        8: {
-            type: 'button',
-            button: 'UFC_5',
-            upImage: '/ufc/keyboard/ufc_five.png',
-            downImage: '/ufc/keyboard/ufc_five_down.png'
-        },
-        9: {
-            type: 'button',
-            button: 'UFC_6',
-            upImage: '/ufc/keyboard/ufc_six.png',
-            downImage: '/ufc/keyboard/ufc_six_down.png'
-        },
-        10: {
-            type: 'button',
-            button: 'UFC_0',
-            upImage: '/ufc/keyboard/ufc_zero.png',
-            downImage: '/ufc/keyboard/ufc_zero_down.png'
-        },
-
-
-        12: {
-            type: 'button',
-            button: 'UFC_7',
-            upImage: '/ufc/keyboard/ufc_seven.png',
-            downImage: '/ufc/keyboard/ufc_seven_down.png'
-        },
-        13: {
-            type: 'button',
-            button: 'UFC_8',
-            upImage: '/ufc/keyboard/ufc_eight.png',
-            downImage: '/ufc/keyboard/ufc_eight_down.png'
-        },
-        14: {
-            type: 'button',
-            button: 'UFC_9',
-            upImage: '/ufc/keyboard/ufc_nine.png',
-            downImage: '/ufc/keyboard/ufc_nine_down.png'
-        },
-        15: {
-            type: 'button',
-            button: 'UFC_ENT',
-            upImage: '/ufc/keyboard/ufc_enter.png',
-            downImage: '/ufc/keyboard/ufc_enter_down.png'
-        },
+        2: {type: 'button', button: 'UFC_1', upImage: '/ufc/keyboard/ufc_one.png', downImage: '/ufc/keyboard/ufc_one_down.png'},
+        3: {type: 'button', button: 'UFC_2', upImage: '/ufc/keyboard/ufc_two.png', downImage: '/ufc/keyboard/ufc_two_down.png'},
+        4: {type: 'button', button: 'UFC_3', upImage: '/ufc/keyboard/ufc_three.png', downImage: '/ufc/keyboard/ufc_three_down.png'},
+        5: {type: 'button', button: 'UFC_CLR', upImage: '/ufc/keyboard/ufc_clr.png', downImage: '/ufc/keyboard/ufc_clr_down.png'},
+        11: {type: 'pageWithAction', button: 'UFC_OS1', upImage: '/ufc/ufc_tcn/ufc_tcn_y_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_y_off.png', page: 'UFC_TCN_TR'},
+        7: {type: 'button', button: 'UFC_4', upImage: '/ufc/keyboard/ufc_four.png', downImage: '/ufc/keyboard/ufc_four_down.png'},
+        8: {type: 'button', button: 'UFC_5', upImage: '/ufc/keyboard/ufc_five.png', downImage: '/ufc/keyboard/ufc_five_down.png'},
+        9: {type: 'button', button: 'UFC_6', upImage: '/ufc/keyboard/ufc_six.png', downImage: '/ufc/keyboard/ufc_six_down.png'},
+        10: {type: 'button', button: 'UFC_0', upImage: '/ufc/keyboard/ufc_zero.png', downImage: '/ufc/keyboard/ufc_zero_down.png'},
+        12: {type: 'button', button: 'UFC_7', upImage: '/ufc/keyboard/ufc_seven.png', downImage: '/ufc/keyboard/ufc_seven_down.png'},
+        13: {type: 'button', button: 'UFC_8', upImage: '/ufc/keyboard/ufc_eight.png', downImage: '/ufc/keyboard/ufc_eight_down.png'},
+        14: {type: 'button', button: 'UFC_9', upImage: '/ufc/keyboard/ufc_nine.png', downImage: '/ufc/keyboard/ufc_nine_down.png'},
+        15: {type: 'button', button: 'UFC_ENT', upImage: '/ufc/keyboard/ufc_enter.png', downImage: '/ufc/keyboard/ufc_enter_down.png'},
     },
     PVI_SELECTION: {
         1: {type: 'page', page: 'PVI', image: 'pvi-800.png'},
@@ -677,10 +234,8 @@ initializePages(pages);
 function initializePages(pages) {
     Object.keys(pages).forEach((pageName) => {
         var page = pages[pageName];
-
         for (let i = 1; i <= 15; i++) {
             page[i] = page[i] || {};
-
             var key = page[i];
             key._page = pageName;
             key.number = i;
@@ -691,7 +246,6 @@ function initializePages(pages) {
 
 function initializeKey(key) {
     switch (key.type) {
-
         case 'static':
             createStaticImage(key);
             break;
@@ -710,7 +264,6 @@ function initializeKey(key) {
         case 'pageWithAction':
             createMomentaryPageButton(key);
             break;
-
         case 'textDisplay':
             createTextDisplay(key);
             break;
@@ -723,157 +276,92 @@ function initializeKey(key) {
 var currentPage;
 displayPage('MAIN');
 
-function displayPage(pageName) {
-    streamDeck.removeButtonListeners();
-    currentPage = pageName;
-    var page = pages[pageName];
 
-    Object.keys(page).forEach((keyNumber) => {
-        var key = page[keyNumber];
-        addKeyListener(key);
-        draw(key);
-    });
-}
-
-function draw(key) {
-    if (currentPage != key._page) {
-        return;
-    }
-
-    if (key.currentImage) {
-        streamDeck.drawImageFile(key.currentImage, key.number);
-    } else {
-        streamDeck.drawColor(0x000000, key.number);
-
-    }
-}
 
 function addKeyListener(key) {
-    if (key.type == 'ledButton') {
-        var upImagePath = path.resolve(IMAGE_FOLDER + key.upImage);
-        var downImagePath = path.resolve(IMAGE_FOLDER + key.downImage);
+    switch (key.type) {
+        case 'ledButton':
+            var upImagePath = path.resolve(IMAGE_FOLDER + key.upImage);
+            var downImagePath = path.resolve(IMAGE_FOLDER + key.downImage);
 
-        streamDeck.on(`down:${key.number}`, () => {
-            api.sendMessage(`${key.button} 1\n`);
-            key.currentImage = downImagePath;
+            streamDeck.on(`down:${key.number}`, () => {
+                api.sendMessage(`${key.button} 1\n`);
+                key.currentImage = downImagePath;
+                draw(key);
+            });
+
+            streamDeck.on(`up:${key.number}`, () => {
+                api.sendMessage(`${key.button} 0\n`);
+                key.currentImage = upImagePath;
+                draw(key);
+            });
+            break;
+        case 'toggle_switch2way':
+            var stateOneImagePath = path.resolve(IMAGE_FOLDER + key.stateOneImage);
+            var stateTwoImagePath = path.resolve(IMAGE_FOLDER + key.stateTwoImage);
+
+            streamDeck.on(`down:${key.number}`, () => {
+                api.sendMessage(`${key.button} 1\n`);
+                //key.currentImage = stateTwoImagePath;
+                draw(key);
+            });
+
+            streamDeck.on(`up:${key.number}`, () => {
+                api.sendMessage(`${key.button} 0\n`);
+                //key.currentImage = stateOneImagePath;
+                draw(key);
+            });
+            break;
+        case 'button':
+            var upImagePath = path.resolve(IMAGE_FOLDER + key.upImage);
+            var downImagePath = path.resolve(IMAGE_FOLDER + key.downImage);
+
+            streamDeck.on(`down:${key.number}`, () => {
+                api.sendMessage(`${key.button} 1\n`);
+                key.currentImage = downImagePath;
+                draw(key);
+            });
+            streamDeck.on(`up:${key.number}`, () => {
+                api.sendMessage(`${key.button} 0\n`);
+                key.currentImage = upImagePath;
+                draw(key);
+            });
+            break;
+        case 'pageWithAction':
+            var upImagePath = path.resolve(IMAGE_FOLDER + key.upImage);
+            var downImagePath = path.resolve(IMAGE_FOLDER + key.downImage);
+
+            streamDeck.on(`down:${key.number}`, () => {
+                api.sendMessage(`${key.button} 1\n`);
+                key.currentImage = downImagePath;
+                draw(key);
+            });
+            streamDeck.on(`up:${key.number}`, () => {
+                api.sendMessage(`${key.button} 0\n`);
+                key.currentImage = upImagePath;
+                draw(key);
+                displayPage(key.page);
+            });
+            break;
+        case 'page':
+            streamDeck.on(`down:${key.number}`, () => {
+                displayPage(key.page);
+            });
+            break;
+        case 'static':
+            var imagePath = path.resolve(IMAGE_FOLDER + key.image);
+            key.currentImage = imagePath;
             draw(key);
-        });
-
-        streamDeck.on(`up:${key.number}`, () => {
-            api.sendMessage(`${key.button} 0\n`);
-            key.currentImage = upImagePath;
-            draw(key);
-        });
-    } else if (key.type == 'toggle_switch2way') {
-        var stateOneImagePath = path.resolve(IMAGE_FOLDER + key.stateOneImage);
-        var stateTwoImagePath = path.resolve(IMAGE_FOLDER + key.stateTwoImage);
-
-        streamDeck.on(`down:${key.number}`, () => {
-            api.sendMessage(`${key.button} 1\n`);
-            //key.currentImage = stateTwoImagePath;
-            draw(key);
-        });
-
-        streamDeck.on(`up:${key.number}`, () => {
-            api.sendMessage(`${key.button} 0\n`);
-            //key.currentImage = stateOneImagePath;
-            draw(key);
-        });
-
-    } else if (key.type == 'button') {
-        var upImagePath = path.resolve(IMAGE_FOLDER + key.upImage);
-        var downImagePath = path.resolve(IMAGE_FOLDER + key.downImage);
-
-        streamDeck.on(`down:${key.number}`, () => {
-            api.sendMessage(`${key.button} 1\n`);
-            key.currentImage = downImagePath;
-            draw(key);
-        });
-
-        streamDeck.on(`up:${key.number}`, () => {
-            api.sendMessage(`${key.button} 0\n`);
-            key.currentImage = upImagePath;
-            draw(key);
-        });
-    } else if (key.type == 'pageWithAction') {
-        var upImagePath = path.resolve(IMAGE_FOLDER + key.upImage);
-        var downImagePath = path.resolve(IMAGE_FOLDER + key.downImage);
-
-        streamDeck.on(`down:${key.number}`, () => {
-            api.sendMessage(`${key.button} 1\n`);
-            key.currentImage = downImagePath;
-            draw(key);
-        });
-
-        streamDeck.on(`up:${key.number}`, () => {
-            api.sendMessage(`${key.button} 0\n`);
-            key.currentImage = upImagePath;
-            draw(key);
-            displayPage(key.page);
-        });
-    } else if (key.type == 'page') {
-        streamDeck.on(`down:${key.number}`, () => {
-            displayPage(key.page);
-        });
-    } else if (key.type == 'static') {
-        var imagePath = path.resolve(IMAGE_FOLDER + key.image);
-        key.currentImage = imagePath;
-        draw(key);
-       // displayPage(key.page);
+            // displayPage(key.page);
+            break;
     }
-
 }
 
 function createStaticImage(key) {
     var imagePath = path.resolve(IMAGE_FOLDER, key.image);
     key.currentImage = imagePath;
-
     draw(key);
     addKeyListener(key);
-
-}
-function createUFCTacanSwitch(key) {
-    var upImagePath = path.resolve(IMAGE_FOLDER + key.stateOneImage);
-    var downImagePath = path.resolve(IMAGE_FOLDER + key.stateTwoImage);
-
-    // Draw the key immediately so that we can see it.
-    draw(key);
-
-    addKeyListener(key);
-
-    // Draw the new image when the LED state changes.
-    api.on(key.button, (value) => {
-        logger.info('key pressed:', key);
-        //      logger.info('value passed:', value);
-        var tcn_aa
-        var tcn_tr
-        var tcn_rcv
-        var tcn_x
-        var tcn_y
-        switch (key.button) {
-            case 'UFC_OS1':
-                var x = api.getControlValue('Ka-50', 'PVI-800 Control Panel', 'UFC_OPTION_DISPLAY_2 RCV');
-                api.on(key.button, (value) => {
-                    //      logger.info('key pressed:', key);
-                    logger.info('value passed:', value);
-                    key.currentImage = value ? downImagePath : upImagePath;
-                    logger.info('current image:', key.currentImage);
-                    draw(key);
-                });
-                break;
-            case 'UFC_OS2':
-                break;
-            case 'UFC_OS3':
-                break;
-            case 'UFC_OS4':
-                break;
-            case 'UFC_O5':
-                break;
-        }
-        key.currentImage = value ? downImagePath : upImagePath;
-        logger.info('current image:', key.currentImage);
-        draw(key);
-    });
 }
 
 function createToggleSwitch2Way(key) {
@@ -885,55 +373,6 @@ function createToggleSwitch2Way(key) {
 
     addKeyListener(key);
 
-    // Draw the new image when the LED state changes.
-    api.on(key.button, (value) => {
-        if (key.currentImage == downImagePath) {
-            key.currentImage = upImagePath;
-        } else {
-            key.currentImage = downImagePath;
-        }
-        //key.currentImage = value ? downImagePath : upImagePath;
-        draw(key);
-    });
-
-
-    api.on('UFC_SCRATCHPAD_STRING_1_DISPLAY', (value) => {
-        logger.info('UFC_SCRATCHPAD_STRING_1_DISPLAY', value);
-        //draw(key)
-    });
-    api.on('UFC_OPTION_DISPLAY_2 RCV', (value) => {
-        logger.info('UFC_SCRATCHPAD_STRING_1_DISPLAY', value);
-        //draw(key)
-    });
-
-
-    api.on('UFC_OPTION_DISPLAY_1', (value) => {
-        //drawImageFile(value, 'btnWPT-on.png');
-        logger.info('UFC_OPTION_DISPLAY_1', value);
-    });
-    api.on('UFC_OPTION_DISPLAY_2', (value) => {
-        //drawImageFile(value, 'btnWPT-on.png');
-        logger.info('UFC_OPTION_DISPLAY_2', value);
-    });
-    api.on('UFC_OPTION_DISPLAY_3', (value) => {
-        //drawImageFile(value, 'btnWPT-on.png');
-        logger.info('UFC_OPTION_DISPLAY_3', value);
-    });
-    api.on('UFC_OPTION_DISPLAY_4', (value) => {
-        //drawImageFile(value, 'btnWPT-on.png');
-        logger.info('UFC_OPTION_DISPLAY_4', value);
-    });
-    api.on('UFC_OPTION_DISPLAY_5', (value) => {
-        //drawImageFile(value, 'btnWPT-on.png');
-        logger.info('UFC_OPTION_DISPLAY_5', value);
-    });
-    api.on('UFC_OS1', (value) => {
-        //drawImageFile(value, 'btnWPT-on.png');
-        logger.info('UFC_OS1', value);
-    });
-
-
-    logger.info(api.getControlValue('Ka-50', 'PVI-800 Control Panel', 'PVI_WAYPOINTS_LED'));
     // Draw the new image when the LED state changes.
     api.on(key.button, (value) => {
         //      logger.info('key pressed:', key);
@@ -961,12 +400,7 @@ function createToggleLedButton(key) {
 
     // Draw the new image when the LED state changes.
     api.on(key.button, (value) => {
-        if (key.currentImage == downImagePath) {
-            key.currentImage = upImagePath;
-        } else {
-            key.currentImage = downImagePath;
-        }
-        //key.currentImage = value ? downImagePath : upImagePath;
+        key.currentImage = value ? downImagePath : upImagePath;
         draw(key);
     });
 }
@@ -977,22 +411,9 @@ function createToggleLedButton(key) {
 function createPageButton(key) {
     var imagePath = path.join(IMAGE_FOLDER, key.image);
     key.currentImage = imagePath;
-
     draw(key);
     addKeyListener(key);
 }
-
-/*
-function drawCanvas(text){
-    Image = Canvas.Image,
-    canvas = new Canvas(200, 200),
-    ctx = canvas.getContext('2d');
-    ctx.font = '30px Impact';
-    ctx.rotate(0.1);
-    ctx.fillText('Awesome!', 50, 100);
-    return canvas;
-}
-*/
 
 
 /**
@@ -1019,6 +440,10 @@ function createMomentaryButton(key) {
     addKeyListener(key);
 }
 
+/**
+ *
+ * @param key
+ */
 function createMomentaryPageButton(key) {
     createMomentaryButton(key);
     logger.info('key.button', key.button);
@@ -1070,4 +495,35 @@ function createPviSelectedWaypointIndicator(buttonNumber) {
     api.on('PVI_TARGETS_LED', (value) => {
         drawImageFile(value, 'btnNAV-on.png');
     });
+}
+
+/**
+ *
+ * @param pageName
+ */
+function displayPage(pageName) {
+    streamDeck.removeButtonListeners();
+    currentPage = pageName;
+    var page = pages[pageName];
+
+    Object.keys(page).forEach((keyNumber) => {
+        var key = page[keyNumber];
+        addKeyListener(key);
+        draw(key);
+    });
+}
+
+/**
+ *
+ * @param key
+ */
+function draw(key) {
+    if (currentPage != key._page) {
+        return;
+    }
+    if (key.currentImage) {
+        streamDeck.drawImageFile(key.currentImage, key.number);
+    } else {
+        streamDeck.drawColor(0x000000, key.number);
+    }
 }
