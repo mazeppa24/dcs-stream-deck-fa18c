@@ -1,0 +1,21 @@
+{
+  "name": "dcs-stream-deck-fa18",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "mazeppa <mazeppa@nym.hush.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^3.19.0"
+  },
+  "description": "Displays FA18C Hornet controls on an Elgato Stream Deck controller. Requires DCS BIOS.",
+  "dependencies": {
+    "audio-loader": "^1.0.3",
+    "audio-play": "^2.1.1",
+    "dcs-bios-api": "https://github.com/mazeppashorse/dcs-bios-api.git",
+    "robotjs": "github:dbkynd/robotjs",
+    "stream-deck-api": "https://github.com/mazeppashorse/stream-deck-api.git"
+  }
+}
