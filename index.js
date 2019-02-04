@@ -1,3 +1,15 @@
+/**
+ * DCS STREAM DECK APPLICATION
+ * ***************************
+ *
+ *
+ * Supported Aircraft:
+ * - FA-18C_Hornet
+ *
+ *
+ * Usage:
+ *
+ */
 const streamDeckApi = require('stream-deck-api');
 const DcsBiosApi = require('dcs-bios-api');
 const path = require('path');
@@ -7,11 +19,11 @@ const logger = Logger.create('dcs-stream-deck-fa18');
 
 
 const IMAGE_FOLDER = './images/';
+const api = new DcsBiosApi({logLevel: 'INFO'});
+const streamDeck = streamDeckApi.getStreamDeck();
+let currentPage;
 
-var api = new DcsBiosApi({logLevel: 'INFO'});
-var streamDeck = streamDeckApi.getStreamDeck();
 api.startListening();
-
 process.on('SIGINT', () => {
     streamDeck.reset();
     api.stopListening();
@@ -19,6 +31,12 @@ process.on('SIGINT', () => {
 });
 streamDeck.reset();
 
+initializePages(pages);
+displayPage('MAIN');
+
+/**
+ * Page definitions
+ */
 var pages = {
     MAIN: {
         1: {type: 'image', image: '/background/sdkey1.png'},
@@ -53,8 +71,8 @@ var pages = {
     UFC: {
         1: {type: 'page', page: 'MAIN', image: '/menus/button_back.png'},
         2: {type: 'image', image: '/menus/menu_text_UFC.png'},
-        6: {type: 'pageWithAction', button: 'UFC_AP', upImage: '/ufc/ufc_ap.png', downImage: '/ufc/ufc_ap_down.png',page: 'UFC_AP'},
-        11: {type: 'pageWithAction', button: 'UFC_TCN', upImage: '/ufc/ufc_tcn.png', downImage: '/ufc/ufc_tcn_down.png', page: 'UFC_TCN'},
+        6: {type: 'buttonGotoPage', button: 'UFC_AP', upImage: '/ufc/ufc_ap.png', downImage: '/ufc/ufc_ap_down.png',page: 'UFC_AP'},
+        11: {type: 'buttonGotoPage', button: 'UFC_TCN', upImage: '/ufc/ufc_tcn.png', downImage: '/ufc/ufc_tcn_down.png', page: 'UFC_TCN'},
         7: {type: 'button', button: 'UFC_IFF', upImage: '/ufc/ufc_iff.png', downImage: '/ufc/ufc_iff_down.png'},
         12: {type: 'button', button: 'UFC_ILS', upImage: '/ufc/ufc_ils.png', downImage: '/ufc/ufc_ils_down.png'},
         13: {type: 'button', button: 'UFC_DL', upImage: '/ufc/ufc_dl.png', downImage: '/ufc/ufc_dl_down.png'},
@@ -65,10 +83,10 @@ var pages = {
         1: {type: 'page', page: 'UFC', image: '/menus/button_back.png'},
         2: {type: 'image', image: '/menus/menu_text_UFC.png'},
         3: {type: 'image', image: '/menus/menu_text_AP.png'},
-        11: {type: 'ufcDisplayButton', state: 0, button: 'UFC_OS1' ,upImage: '/ufc/ufc_ap/ufc_ap_atth_on.png', downImage: '/ufc/ufc_ap/ufc_ap_atth_off.png'},
-        12: {type: 'buttonUFC_OS2', button: 'UFC_OS2', upImage: '/ufc/ufc_ap/ufc_ap_hsel_on.png', downImage: '/ufc/ufc_ap/ufc_ap_hsel_off.png', page: 'UFC_AP_HSEL'},
-        13: {type: 'ufcDisplayButton', state: 0, button: 'UFC_OS3', upImage: '/ufc/ufc_ap/ufc_ap_balt_on.png', downImage: '/ufc/ufc_ap/ufc_ap_balt_off.png'},
-        14: {type: 'ufcDisplayButton', state: 0, button: 'UFC_OS4', upImage: '/ufc/ufc_ap/ufc_ap_ralt_on.png', downImage: '/ufc/ufc_ap/ufc_ap_ralt_off.png'},
+        11: {type: 'buttonUFCDisplay', state: 0, button: 'UFC_OS1' ,upImage: '/ufc/ufc_ap/ufc_ap_atth_on.png', downImage: '/ufc/ufc_ap/ufc_ap_atth_off.png'},
+        12: {type: 'buttonUFCPage', button: 'UFC_OS2', eventKey:'UFC_OPTION_CUEING_2', upImage: '/ufc/ufc_ap/ufc_ap_hsel_on.png', downImage: '/ufc/ufc_ap/ufc_ap_hsel_off.png', page: 'UFC_AP_HSEL'},
+        13: {type: 'buttonUFCDisplay', state: 0, button: 'UFC_OS3', upImage: '/ufc/ufc_ap/ufc_ap_balt_on.png', downImage: '/ufc/ufc_ap/ufc_ap_balt_off.png'},
+        14: {type: 'buttonUFCDisplay', state: 0, button: 'UFC_OS4', upImage: '/ufc/ufc_ap/ufc_ap_ralt_on.png', downImage: '/ufc/ufc_ap/ufc_ap_ralt_off.png'},
         //14: {type: 'twoStateButton', state: 0, button: 'UFC_OS4', upImage: '/ufc/ufc_ap/ufc_ap_ralt_off.png', downImage: '/ufc/ufc_ap/ufc_ap_ralt_on.png'},
     },
     UFC_AP_HSEL: {
@@ -77,7 +95,7 @@ var pages = {
         3: {type: 'image', image: '/menus/menu_text_AP.png'},
         4: {type: 'image', image: '/menus/menu_text_HSEL.png'},
         8: {type: 'toggle_hdgSelect',button: 'LEFT_DDI_HDG_SW' , stateOneImage: '/ufc/ufc_ap/ufc_ap_hdg_neutral.png', stateTwoImage: '/ufc/ufc_ap/ufc_ap_hdg_right.png', page:'UFC_AP_HSEL_HDG'},
-        //11: {type: 'pageWithAction',upImage: '/ufc/ufc_ap/ufc_ap_hsel_on.png', downImage: '/ufc/ufc_ap/ufc_ap_hsel_off.png', page: 'UFC_AP_HSEL'},
+        //11: {type: 'buttonGotoPage',upImage: '/ufc/ufc_ap/ufc_ap_hsel_on.png', downImage: '/ufc/ufc_ap/ufc_ap_hsel_off.png', page: 'UFC_AP_HSEL'},
         //11: {type: 'buttonHSEL', button: 'UFC_OS2', upImage: '/ufc/ufc_ap/ufc_ap_hsel_on.png', downImage: '/ufc/ufc_ap/ufc_ap_hsel_off.png', page: 'UFC_AP_HSEL'},
 
     },
@@ -106,11 +124,11 @@ var pages = {
         2: {type: 'image', image: '/menus/menu_text_UFC.png'},
         3: {type: 'image', image: '/menus/menu_text_TACAN.png'},
         6: {type: 'button', button: 'UFC_ONOFF', upImage: '/ufc/ufc_on_off.png', downImage: '/ufc/ufc_on_off_down.png'},
-        11: {type: 'buttonUFC_OS1',  button: 'UFC_OS1', upImage: '/ufc/ufc_tcn/ufc_tcn_tr_off.png', downImage: '/ufc/ufc_tcn/ufc_tcn_tr_on.png', page: 'UFC_TCN_TR', prevPage: 'UFC_TCN', timeout:5000},
-        12: {type: 'buttonUFC_OS2', button: 'UFC_OS2', upImage: '/ufc/ufc_tcn/ufc_tcn_rcv_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_rcv_off.png', page: 'UFC_TCN_RCV', prevPage: 'UFC_TCN', timeout:5000},
-        13: {type: 'buttonUFC_OS3', button: 'UFC_OS3', upImage: '/ufc/ufc_tcn/ufc_tcn_aa_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_aa_off.png', page: 'UFC_TCN_AA', prevPage: 'UFC_TCN', timeout:5000},
-        14: {type: 'buttonUFC_OS4', button: 'UFC_OS4', upImage: '/ufc/ufc_tcn/ufc_tcn_x_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_x_off.png', page: 'UFC_TCN_X', prevPage: 'UFC_TCN', timeout:5000},
-        15: {type: 'buttonUFC_OS5', button: 'UFC_OS5', upImage: '/ufc/ufc_tcn/ufc_tcn_y_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_y_off.png', page: 'UFC_TCN_Y', prevPage: 'UFC_TCN', timeout:5000},
+        11: {type: 'buttonUFCPageWithTimeout',  button: 'UFC_OS1', eventKey:'UFC_OPTION_CUEING_1', upImage: '/ufc/ufc_tcn/ufc_tcn_tr_off.png', downImage: '/ufc/ufc_tcn/ufc_tcn_tr_on.png', page: 'UFC_TCN_TR', prevPage: 'UFC_TCN', timeout:5000},
+        12: {type: 'buttonUFCPageWithTimeout', button: 'UFC_OS2', eventKey:'UFC_OPTION_CUEING_2',upImage: '/ufc/ufc_tcn/ufc_tcn_rcv_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_rcv_off.png', page: 'UFC_TCN_RCV', prevPage: 'UFC_TCN', timeout:5000},
+        13: {type: 'buttonUFCPageWithTimeout', button: 'UFC_OS3', eventKey:'UFC_OPTION_CUEING_3',upImage: '/ufc/ufc_tcn/ufc_tcn_aa_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_aa_off.png', page: 'UFC_TCN_AA', prevPage: 'UFC_TCN', timeout:5000},
+        14: {type: 'buttonUFCPageWithTimeout', button: 'UFC_OS4', eventKey:'UFC_OPTION_CUEING_4',upImage: '/ufc/ufc_tcn/ufc_tcn_x_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_x_off.png', page: 'UFC_TCN_X', prevPage: 'UFC_TCN', timeout:5000},
+        15: {type: 'buttonUFCPageWithTimeout', button: 'UFC_OS5', eventKey:'UFC_OPTION_CUEING_5',upImage: '/ufc/ufc_tcn/ufc_tcn_y_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_y_off.png', page: 'UFC_TCN_Y', prevPage: 'UFC_TCN', timeout:5000},
     },
     UFC_TCN_TR: {
         1: {type: 'page', page: 'UFC_TCN', image: '/menus/button_back.png'},
@@ -118,7 +136,7 @@ var pages = {
         3: {type: 'button', button: 'UFC_2', upImage: '/ufc/keyboard/ufc_two.png', downImage: '/ufc/keyboard/ufc_two_down.png'},
         4: {type: 'button', button: 'UFC_3', upImage: '/ufc/keyboard/ufc_three.png', downImage: '/ufc/keyboard/ufc_three_down.png'},
         5: {type: 'button', button: 'UFC_CLR', upImage: '/ufc/keyboard/ufc_clr.png', downImage: '/ufc/keyboard/ufc_clr_down.png'},
-        11: {type: 'pageWithAction',upImage: '/ufc/ufc_tcn/ufc_tcn_tr_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_tr_off.png', page: 'UFC_TCN_TR'},
+        11: {type: 'buttonGotoPage',upImage: '/ufc/ufc_tcn/ufc_tcn_tr_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_tr_off.png', page: 'UFC_TCN_TR'},
         7: {type: 'button', button: 'UFC_4', upImage: '/ufc/keyboard/ufc_four.png', downImage: '/ufc/keyboard/ufc_four_down.png'},
         8: {type: 'button', button: 'UFC_5', upImage: '/ufc/keyboard/ufc_five.png', downImage: '/ufc/keyboard/ufc_five_down.png'},
         9: {type: 'button', button: 'UFC_6', upImage: '/ufc/keyboard/ufc_six.png', downImage: '/ufc/keyboard/ufc_six_down.png'},
@@ -134,7 +152,7 @@ var pages = {
         3: {type: 'button', button: 'UFC_2', upImage: '/ufc/keyboard/ufc_two.png', downImage: '/ufc/keyboard/ufc_two_down.png'},
         4: {type: 'button', button: 'UFC_3', upImage: '/ufc/keyboard/ufc_three.png', downImage: '/ufc/keyboard/ufc_three_down.png'},
         5: {type: 'button', button: 'UFC_CLR', upImage: '/ufc/keyboard/ufc_clr.png', downImage: '/ufc/keyboard/ufc_clr_down.png'},
-        11: {type: 'pageWithAction', upImage: '/ufc/ufc_tcn/ufc_tcn_rcv_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_rcv_off.png', page: 'UFC_TCN_RCV'},
+        11: {type: 'buttonGotoPage', upImage: '/ufc/ufc_tcn/ufc_tcn_rcv_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_rcv_off.png', page: 'UFC_TCN_RCV'},
         7: {type: 'button', button: 'UFC_4', upImage: '/ufc/keyboard/ufc_four.png', downImage: '/ufc/keyboard/ufc_four_down.png'},
         8: {type: 'button', button: 'UFC_5', upImage: '/ufc/keyboard/ufc_five.png', downImage: '/ufc/keyboard/ufc_five_down.png'},
         9: {type: 'button', button: 'UFC_6', upImage: '/ufc/keyboard/ufc_six.png', downImage: '/ufc/keyboard/ufc_six_down.png'},
@@ -150,7 +168,7 @@ var pages = {
         3: {type: 'button', button: 'UFC_2', upImage: '/ufc/keyboard/ufc_two.png', downImage: '/ufc/keyboard/ufc_two_down.png'},
         4: {type: 'button', button: 'UFC_3', upImage: '/ufc/keyboard/ufc_three.png', downImage: '/ufc/keyboard/ufc_three_down.png'},
         5: {type: 'button', button: 'UFC_CLR', upImage: '/ufc/keyboard/ufc_clr.png', downImage: '/ufc/keyboard/ufc_clr_down.png'},
-        11: {type: 'pageWithAction', upImage: '/ufc/ufc_tcn/ufc_tcn_aa_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_aa_off.png', page: 'UFC_TCN_RCV'},
+        11: {type: 'buttonGotoPage', upImage: '/ufc/ufc_tcn/ufc_tcn_aa_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_aa_off.png', page: 'UFC_TCN_RCV'},
         7: {type: 'button', button: 'UFC_4', upImage: '/ufc/keyboard/ufc_four.png', downImage: '/ufc/keyboard/ufc_four_down.png'},
         8: {type: 'button', button: 'UFC_5', upImage: '/ufc/keyboard/ufc_five.png', downImage: '/ufc/keyboard/ufc_five_down.png'},
         9: {type: 'button', button: 'UFC_6', upImage: '/ufc/keyboard/ufc_six.png', downImage: '/ufc/keyboard/ufc_six_down.png'},
@@ -166,7 +184,7 @@ var pages = {
         3: {type: 'button', button: 'UFC_2', upImage: '/ufc/keyboard/ufc_two.png', downImage: '/ufc/keyboard/ufc_two_down.png'},
         4: {type: 'button', button: 'UFC_3', upImage: '/ufc/keyboard/ufc_three.png', downImage: '/ufc/keyboard/ufc_three_down.png'},
         5: {type: 'button', button: 'UFC_CLR', upImage: '/ufc/keyboard/ufc_clr.png', downImage: '/ufc/keyboard/ufc_clr_down.png'},
-        11: {type: 'pageWithAction', upImage: '/ufc/ufc_tcn/ufc_tcn_x_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_x_off.png', page: 'UFC_TCN_TR'},
+        11: {type: 'buttonGotoPage', upImage: '/ufc/ufc_tcn/ufc_tcn_x_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_x_off.png', page: 'UFC_TCN_TR'},
         7: {type: 'button', button: 'UFC_4', upImage: '/ufc/keyboard/ufc_four.png', downImage: '/ufc/keyboard/ufc_four_down.png'},
         8: {type: 'button', button: 'UFC_5', upImage: '/ufc/keyboard/ufc_five.png', downImage: '/ufc/keyboard/ufc_five_down.png'},
         9: {type: 'button', button: 'UFC_6', upImage: '/ufc/keyboard/ufc_six.png', downImage: '/ufc/keyboard/ufc_six_down.png'},
@@ -183,7 +201,7 @@ var pages = {
         3: {type: 'button', button: 'UFC_2', upImage: '/ufc/keyboard/ufc_two.png', downImage: '/ufc/keyboard/ufc_two_down.png'},
         4: {type: 'button', button: 'UFC_3', upImage: '/ufc/keyboard/ufc_three.png', downImage: '/ufc/keyboard/ufc_three_down.png'},
         5: {type: 'button', button: 'UFC_CLR', upImage: '/ufc/keyboard/ufc_clr.png', downImage: '/ufc/keyboard/ufc_clr_down.png'},
-        11: {type: 'pageWithAction', upImage: '/ufc/ufc_tcn/ufc_tcn_y_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_y_off.png', page: 'UFC_TCN_TR'},
+        11: {type: 'buttonGotoPage', upImage: '/ufc/ufc_tcn/ufc_tcn_y_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_y_off.png', page: 'UFC_TCN_TR'},
         7: {type: 'button', button: 'UFC_4', upImage: '/ufc/keyboard/ufc_four.png', downImage: '/ufc/keyboard/ufc_four_down.png'},
         8: {type: 'button', button: 'UFC_5', upImage: '/ufc/keyboard/ufc_five.png', downImage: '/ufc/keyboard/ufc_five_down.png'},
         9: {type: 'button', button: 'UFC_6', upImage: '/ufc/keyboard/ufc_six.png', downImage: '/ufc/keyboard/ufc_six_down.png'},
@@ -195,17 +213,18 @@ var pages = {
     },
     PVI_SELECTION: {
         1: {type: 'page', page: 'PVI', image: 'pvi-800.png'},
-        //2: { type: 'pageWithAction', button: 'PVI_WAYPOINTS_BTN', page: 'PVI', upImage: 'btnWPT-off.png', downImage: 'btnWPT-on.png' },
-        //7: { type: 'pageWithAction', button: 'PVI_AIRFIELDS_BTN', page: 'PVI', upImage: 'btnAIR-off.png', downImage: 'btnAIR-on.png' },
-        //11: { type: 'pageWithAction', button: 'PVI_FIXPOINTS_BTN', page: 'PVI', upImage: 'btnFIX-off.png', downImage: 'btnFIX-on.png' },
-        //12: { type: 'pageWithAction', button: 'PVI_TARGETS_BTN', page: 'PVI', upImage: 'btnNAV-off.png', downImage: 'btnNAV-on.png' }
+        //2: { type: 'buttonGotoPage', button: 'PVI_WAYPOINTS_BTN', page: 'PVI', upImage: 'btnWPT-off.png', downImage: 'btnWPT-on.png' },
+        //7: { type: 'buttonGotoPage', button: 'PVI_AIRFIELDS_BTN', page: 'PVI', upImage: 'btnAIR-off.png', downImage: 'btnAIR-on.png' },
+        //11: { type: 'buttonGotoPage', button: 'PVI_FIXPOINTS_BTN', page: 'PVI', upImage: 'btnFIX-off.png', downImage: 'btnFIX-on.png' },
+        //12: { type: 'buttonGotoPage', button: 'PVI_TARGETS_BTN', page: 'PVI', upImage: 'btnNAV-off.png', downImage: 'btnNAV-on.png' }
     },
-
     RADIO: {}
 };
 
-initializePages(pages);
-
+/**
+ * Initialize all pages
+ * @param pages
+ */
 function initializePages(pages) {
     Object.keys(pages).forEach((pageName) => {
         var page = pages[pageName];
@@ -220,56 +239,47 @@ function initializePages(pages) {
     });
 }
 
+/**
+ * Initialize a key for given type
+ * @param key
+ */
 function initializeKey(key) {
     switch (key.type) {
-
         case 'image':
             createStaticImage(key);
             break;
-        case 'ufcDisplayButton':
+        case 'buttonUFCDisplay':
             createUFCDisplayButton(key);
             break;
         case 'twoStateButton':
             createTwoStateButton(key);
             break;
-        case 'static':
-            createStaticImage(key);
+        case 'rocker_switch':
+            //createTwoStateButton(key);
             break;
-        case 'toggle_switch3way':
-            createToggleSwitch3Way(key);
+        case 'toggle_switch':
+            //createTwoStateButton(key);
             break;
-        case 'toggle_switch2way':
-            createToggleSwitch2Way(key);
+        case 'limited_rotary':
+            //createTwoStateButton(key);
             break;
         case 'toggle_hdgSelect':
-            createHSELToggle(key);
+            createTwoStateButton(key);
             break;
         case 'ledButton':
             createToggleLedButton(key);
             break;
         case 'button':
-            createMomentaryButton(key);
+            createButtonSwitchImage(key);
             break;
         case 'page':
-            createPageButton(key);
+            createButtonGotoPage(key);
             break;
-        case 'pageWithAction':
-            createMomentaryPageButton(key);
+        case 'buttonGotoPage':
+            createButtonGotoPageOnUp(key);
             break;
-        case 'buttonUFC_OS1':
-            createMomentaryPageButtonUFC_OS1(key);
-            break;
-        case 'buttonUFC_OS2':
-            createMomentaryPageButtonUFC_OS2(key);
-            break;
-        case 'buttonUFC_OS3':
-            createMomentaryPageButtonUFC_OS3(key);
-            break;
-        case 'buttonUFC_OS4':
-            createMomentaryPageButtonUFC_OS4(key);
-            break;
-        case 'buttonUFC_OS5':
-            createMomentaryPageButtonUFC_OS5(key);
+        case 'buttonUFCPageWithTimeout':
+            createButtonGoToPageWithTimeoutUFC(key);
             break;
         case 'textDisplay':
             createTextDisplay(key);
@@ -280,14 +290,13 @@ function initializeKey(key) {
     }
 }
 
-var currentPage;
-displayPage('MAIN');
-
-
-
+/**
+ * Add key listeners for given button type
+ * @param key
+ */
 function addKeyListener(key) {
     switch (key.type) {
-        case 'ufcDisplayButton':
+        case 'buttonUFCDisplay':
             var upImagePath = path.resolve(IMAGE_FOLDER + key.upImage);
             var downImagePath = path.resolve(IMAGE_FOLDER + key.downImage);
 
@@ -300,6 +309,22 @@ function addKeyListener(key) {
                 api.sendMessage(`${key.button} 0\n`);
                 key.currentImage = upImagePath;
                 draw(key);
+            });
+            break;
+        case 'buttonUFCPageWithTimeout':
+            var upImagePath = path.resolve(IMAGE_FOLDER + key.upImage);
+            var downImagePath = path.resolve(IMAGE_FOLDER + key.downImage);
+
+            streamDeck.on(`down:${key.number}`, () => {
+                api.sendMessage(`${key.button} 1\n`);
+                key.currentImage = downImagePath;
+                draw(key);
+            });
+            streamDeck.on(`up:${key.number}`, () => {
+                api.sendMessage(`${key.button} 0\n`);
+                key.currentImage = upImagePath;
+                draw(key);
+                displayPage(key.page, key.prevPage, key.timeout);
             });
             break;
         case 'ledButton':
@@ -352,24 +377,6 @@ function addKeyListener(key) {
                 displayPage(key.page);
             });
             break;
-        case 'toggle_switch3way':
-            var stateOneImagePath = path.resolve(IMAGE_FOLDER + key.stateOneImage);
-            var stateTwoImagePath = path.resolve(IMAGE_FOLDER + key.stateTwoImage);
-            logger.info('in toggle_switch3way');
-            streamDeck.on(`down:${key.number}`, () => {
-                logger.info('sending 3way DOWN signal');
-                api.sendMessage(`${key.button} 1\n`);
-                key.currentImage = stateTwoImagePath;
-                draw(key);
-            });
-
-            streamDeck.on(`up:${key.number}`, () => {
-                api.sendMessage(`${key.button} 0\n`);
-                logger.info('sending 3way UP  signal');
-                key.currentImage = stateOneImagePath;
-                draw(key);
-            });
-            break;
         case 'button':
             var upImagePath = path.resolve(IMAGE_FOLDER + key.upImage);
             var downImagePath = path.resolve(IMAGE_FOLDER + key.downImage);
@@ -385,7 +392,7 @@ function addKeyListener(key) {
                 draw(key);
             });
             break;
-        case 'pageWithAction':
+        case 'buttonGotoPage':
             var upImagePath = path.resolve(IMAGE_FOLDER + key.upImage);
             var downImagePath = path.resolve(IMAGE_FOLDER + key.downImage);
 
@@ -399,86 +406,6 @@ function addKeyListener(key) {
                 key.currentImage = upImagePath;
                 draw(key);
                 displayPage(key.page);
-            });
-            break;
-        case 'buttonUFC_OS1':
-            var upImagePath = path.resolve(IMAGE_FOLDER + key.upImage);
-            var downImagePath = path.resolve(IMAGE_FOLDER + key.downImage);
-
-            streamDeck.on(`down:${key.number}`, () => {
-                api.sendMessage(`${key.button} 1\n`);
-                key.currentImage = downImagePath;
-                draw(key);
-            });
-            streamDeck.on(`up:${key.number}`, () => {
-                api.sendMessage(`${key.button} 0\n`);
-                key.currentImage = upImagePath;
-                draw(key);
-                displayPage(key.page, key.prevPage, key.timeout);
-            });
-            break;
-        case 'buttonUFC_OS2':
-            var upImagePath = path.resolve(IMAGE_FOLDER + key.upImage);
-            var downImagePath = path.resolve(IMAGE_FOLDER + key.downImage);
-
-            streamDeck.on(`down:${key.number}`, () => {
-                api.sendMessage(`${key.button} 1\n`);
-                key.currentImage = downImagePath;
-                draw(key);
-            });
-            streamDeck.on(`up:${key.number}`, () => {
-                api.sendMessage(`${key.button} 0\n`);
-                key.currentImage = upImagePath;
-                draw(key);
-                displayPage(key.page, key.prevPage, key.timeout);
-            });
-            break;
-        case 'buttonUFC_OS3':
-            var upImagePath = path.resolve(IMAGE_FOLDER + key.upImage);
-            var downImagePath = path.resolve(IMAGE_FOLDER + key.downImage);
-
-            streamDeck.on(`down:${key.number}`, () => {
-                api.sendMessage(`${key.button} 1\n`);
-                key.currentImage = downImagePath;
-                draw(key);
-            });
-            streamDeck.on(`up:${key.number}`, () => {
-                api.sendMessage(`${key.button} 0\n`);
-                key.currentImage = upImagePath;
-                draw(key);
-                displayPage(key.page, key.prevPage, key.timeout);
-            });
-            break;
-        case 'buttonUFC_OS4':
-            var upImagePath = path.resolve(IMAGE_FOLDER + key.upImage);
-            var downImagePath = path.resolve(IMAGE_FOLDER + key.downImage);
-
-            streamDeck.on(`down:${key.number}`, () => {
-                api.sendMessage(`${key.button} 1\n`);
-                key.currentImage = downImagePath;
-                draw(key);
-            });
-            streamDeck.on(`up:${key.number}`, () => {
-                api.sendMessage(`${key.button} 0\n`);
-                key.currentImage = upImagePath;
-                draw(key);
-                displayPage(key.page, key.prevPage, key.timeout);
-            });
-            break;
-        case 'buttonUFC_OS5':
-            var upImagePath = path.resolve(IMAGE_FOLDER + key.upImage);
-            var downImagePath = path.resolve(IMAGE_FOLDER + key.downImage);
-
-            streamDeck.on(`down:${key.number}`, () => {
-                api.sendMessage(`${key.button} 1\n`);
-                key.currentImage = downImagePath;
-                draw(key);
-            });
-            streamDeck.on(`up:${key.number}`, () => {
-                api.sendMessage(`${key.button} 0\n`);
-                key.currentImage = upImagePath;
-                draw(key);
-                displayPage(key.page, key.prevPage, key.timeout);
             });
             break;
         case 'page':
@@ -490,7 +417,6 @@ function addKeyListener(key) {
             var imagePath = path.resolve(IMAGE_FOLDER + key.image);
             key.currentImage = imagePath;
             draw(key);
-            // displayPage(key.page);
             break;
         case 'twoStateButton':
             var upImagePath = path.resolve(IMAGE_FOLDER + key.upImage);
@@ -520,23 +446,16 @@ function addKeyListener(key) {
     }
 }
 
+/**
+ * Draw a button as image without key-listeners
+ * @param key
+ */
 function createStaticImage(key) {
     var imagePath = path.resolve(IMAGE_FOLDER, key.image);
     key.currentImage = imagePath;
     draw(key);
-    //addKeyListener(key);
 }
-
-
-function createHSELToggle(key) {
-    var upImagePath = path.resolve(IMAGE_FOLDER + key.stateOneImage);
-    var downImagePath = path.resolve(IMAGE_FOLDER + key.stateTwoImage);
-    key.currentImage = upImagePath;
-    // Draw the key immediately so that we can see it.
-    draw(key);
-    addKeyListener(key);
-}
-
+//TODO: Cleanup toggle switch experiments
 function createToggleSwitch2Way(key) {
     var upImagePath = path.resolve(IMAGE_FOLDER + key.stateOneImage);
     var downImagePath = path.resolve(IMAGE_FOLDER + key.stateTwoImage);
@@ -545,7 +464,6 @@ function createToggleSwitch2Way(key) {
     draw(key);
     addKeyListener(key);
 }
-
 function createTwoStateButton(key) {
     var upImagePath = path.resolve(IMAGE_FOLDER + key.stateOneImage);
     var downImagePath = path.resolve(IMAGE_FOLDER + key.stateTwoImage);
@@ -553,7 +471,6 @@ function createTwoStateButton(key) {
     draw(key);
     addKeyListener(key);
 }
-
 function createToggleSwitch3Way(key) {
     var upImagePath = path.resolve(IMAGE_FOLDER + key.stateOneImage);
     var downImagePath = path.resolve(IMAGE_FOLDER + key.stateTwoImage);
@@ -587,8 +504,6 @@ function createToggleSwitch3Way(key) {
     });
 }
 
-
-
 /**
  * Create a button that has a LED in it.
  */
@@ -602,7 +517,6 @@ function createToggleLedButton(key) {
     addKeyListener(key);
 
     // Draw the new image when the LED state changes.
-
     api.on(key.button, (value) => {
         key.currentImage = value ? downImagePath : upImagePath;
         draw(key);
@@ -612,27 +526,21 @@ function createToggleLedButton(key) {
 /**
  * Create a button that navigates to another page.
  */
-function createPageButton(key) {
+function createButtonGotoPage(key) {
     var imagePath = path.join(IMAGE_FOLDER, key.image);
     key.currentImage = imagePath;
     draw(key);
     addKeyListener(key);
 }
 
-
 /**
- * Create a Text display field
+ * Create a UFC Display Button that will listen to its events and set
+ * the button picture according to values received from the UFC display.
+ *
+ * Value: ":" == ON
+ * Value: " " == OFF
  * @param key
  */
-function createTextDisplay(key) {
-    if (key.text) {
-        //drawCanvas(key.text);
-        draw(key);
-        addKeyListener(key);
-    }
-}
-
-
 function createUFCDisplayButton(key){
     var upImagePath = path.resolve(IMAGE_FOLDER + key.upImage);
     var downImagePath = path.resolve(IMAGE_FOLDER + key.downImage);
@@ -641,41 +549,30 @@ function createUFCDisplayButton(key){
     addKeyListener(key);
 
     api.on('UFC_OPTION_CUEING_1', (value) => {
-        //drawImageFile(value, 'btnWPT-on.png');
-
         if(value === ':'& key.button == 'UFC_OS1'){
-            logger.info('UFC_OPTION_CUEING_1 for key: ' + key.button + ' with value-> ' + value);
             key.currentImage = upImagePath;
         } else{
             key.currentImage = downImagePath;
-            logger.info('UFC_OPTION_CUEING_1 for key ELSE: ' + key.button + ' with value-> '+ value);
         }
         draw(key);
     });
     api.on('UFC_OPTION_CUEING_2', (value) => {
-        //drawImageFile(value, 'btnWPT-on.png');
         if(value === ':' & key.button == 'UFC_OS2'){
-            logger.info('UFC_OPTION_CUEING_2 for key: ' + key.button + ' with value-> ' + value);
             key.currentImage = upImagePath;
         } else{
             key.currentImage = downImagePath;
-            logger.info('UFC_OPTION_CUEING_2 for key ELSE: ' + key.button + ' with value-> '+ value);
         }
         draw(key);
     });
     api.on('UFC_OPTION_CUEING_3', (value) => {
-        //drawImageFile(value, 'btnWPT-on.png');
         if(value === ':' & key.button == 'UFC_OS3'){
-            logger.info('UFC_OPTION_CUEING_3 for key: ' + key.button + ' with value-> ' + value);
             key.currentImage = upImagePath;
         } else{
             key.currentImage = downImagePath;
-            logger.info('UFC_OPTION_CUEING_3 for key ELSE: ' + key.button + ' with value-> '+ value);
         }
         draw(key);
     });
     api.on('UFC_OPTION_CUEING_4', (value) => {
-        //drawImageFile(value, 'btnWPT-on.png');
         if(value === ':'& key.button == 'UFC_OS4'){
           logger.info('UFC_OPTION_CUEING_4 for key: ' + key.button + ' with value-> '+ value);
             key.currentImage = upImagePath;
@@ -686,7 +583,6 @@ function createUFCDisplayButton(key){
         draw(key);
     });
     api.on('UFC_OPTION_CUEING_5', (value) => {
-        //drawImageFile(value, 'btnWPT-on.png');
         if(value === ':'& key.button == 'UFC_OS5'){
            logger.info('UFC_OPTION_CUEING_5 for key: ' + key.button + ' with value-> '+ value);
             key.currentImage = upImagePath;
@@ -701,7 +597,7 @@ function createUFCDisplayButton(key){
 /**
  * Create a momentary button that will switch images when it is pressed and released.
  */
-function createMomentaryButton(key) {
+function createButtonSwitchImage(key) {
     var upImagePath = path.resolve(IMAGE_FOLDER + key.upImage);
     var downImagePath = path.resolve(IMAGE_FOLDER + key.downImage);
     key.currentImage = upImagePath;
@@ -710,154 +606,68 @@ function createMomentaryButton(key) {
 }
 
 /**
- * Create a momentary button that will switch images when it is pressed and released.
- */
-function createMomentaryButtonUFC_OS1(key) {
-    var upImagePath = path.resolve(IMAGE_FOLDER + key.upImage);
-    var downImagePath = path.resolve(IMAGE_FOLDER + key.downImage);
-    key.currentImage = upImagePath;
-    draw(key);
-    addKeyListener(key);
-
-    api.on('UFC_OPTION_CUEING_1', (value) => {
-        //drawImageFile(value, 'btnWPT-on.png');
-        if(value === ':' & key.button == 'UFC_OS2'){
-            logger.info('UFC_OPTION_CUEING_1 for key: ' + key.button + ' with value-> ' + value);
-            key.currentImage = upImagePath;
-        } else{
-            key.currentImage = downImagePath;
-            logger.info('UFC_OPTION_CUEING_1 for key ELSE: ' + key.button + ' with value-> '+ value);
-        }
-        logger.info('IMAGE ON: ' + key.currentImage);
-        draw(key);
-    });
-}
-function createMomentaryButtonUFC_OS2(key) {
-    var upImagePath = path.resolve(IMAGE_FOLDER + key.upImage);
-    var downImagePath = path.resolve(IMAGE_FOLDER + key.downImage);
-    key.currentImage = upImagePath;
-    draw(key);
-    addKeyListener(key);
-
-    api.on('UFC_OPTION_CUEING_2', (value) => {
-        //drawImageFile(value, 'btnWPT-on.png');
-        if(value === ':' & key.button == 'UFC_OS2'){
-            logger.info('UFC_OPTION_CUEING_2 for key: ' + key.button + ' with value-> ' + value);
-            key.currentImage = upImagePath;
-        } else{
-            key.currentImage = downImagePath;
-            logger.info('UFC_OPTION_CUEING_2 for key ELSE: ' + key.button + ' with value-> '+ value);
-        }
-        logger.info('IMAGE ON: ' + key.currentImage);
-        draw(key);
-    });
-}
-function createMomentaryButtonUFC_OS3(key) {
-    var upImagePath = path.resolve(IMAGE_FOLDER + key.upImage);
-    var downImagePath = path.resolve(IMAGE_FOLDER + key.downImage);
-    key.currentImage = upImagePath;
-    draw(key);
-    addKeyListener(key);
-
-    api.on('UFC_OPTION_CUEING_3', (value) => {
-        //drawImageFile(value, 'btnWPT-on.png');
-        if(value === ':' & key.button == 'UFC_OS3'){
-            logger.info('UFC_OPTION_CUEING_3 for key: ' + key.button + ' with value-> ' + value);
-            key.currentImage = upImagePath;
-        } else{
-            key.currentImage = downImagePath;
-            logger.info('UFC_OPTION_CUEING_3 for key ELSE: ' + key.button + ' with value-> '+ value);
-        }
-        logger.info('IMAGE ON: ' + key.currentImage);
-        draw(key);
-    });
-}
-function createMomentaryButtonUFC_OS4(key) {
-    var upImagePath = path.resolve(IMAGE_FOLDER + key.upImage);
-    var downImagePath = path.resolve(IMAGE_FOLDER + key.downImage);
-    key.currentImage = upImagePath;
-    draw(key);
-    addKeyListener(key);
-
-    api.on('UFC_OPTION_CUEING_4', (value) => {
-        //drawImageFile(value, 'btnWPT-on.png');
-        if(value === ':' & key.button == 'UFC_OS4'){
-            logger.info('UFC_OPTION_CUEING_4 for key: ' + key.button + ' with value-> ' + value);
-            key.currentImage = upImagePath;
-        } else{
-            key.currentImage = downImagePath;
-            logger.info('UFC_OPTION_CUEING_2 for key ELSE: ' + key.button + ' with value-> '+ value);
-        }
-        logger.info('IMAGE ON: ' + key.currentImage);
-        draw(key);
-    });
-}
-function createMomentaryButtonUFC_OS5(key) {
-    var upImagePath = path.resolve(IMAGE_FOLDER + key.upImage);
-    var downImagePath = path.resolve(IMAGE_FOLDER + key.downImage);
-    key.currentImage = upImagePath;
-    draw(key);
-    addKeyListener(key);
-
-    api.on('UFC_OPTION_CUEING_5', (value) => {
-        //drawImageFile(value, 'btnWPT-on.png');
-        if(value === ':' & key.button == 'UFC_OS5'){
-            logger.info('UFC_OPTION_CUEING_5 for key: ' + key.button + ' with value-> ' + value);
-            key.currentImage = upImagePath;
-        } else{
-            key.currentImage = downImagePath;
-            logger.info('UFC_OPTION_CUEING_5 for key ELSE: ' + key.button + ' with value-> '+ value);
-        }
-        logger.info('IMAGE ON: ' + key.currentImage);
-        draw(key);
-    });
-}
-/**
+ * Create a Button that will display a page after key-up
  *
  * @param key
  */
-function createMomentaryPageButton(key) {
-    createMomentaryButton(key);
+function createButtonGotoPageOnUp(key) {
+    createButtonSwitchImage(key);
     streamDeck.on(`up:${key.button}`, () => {
         displayPage(pages[key.page]);
     });
 }
 
 /**
- *
+ * Create a Button that will display a page with a set timeout
+ * (after which it will revert to the 'target' page)
  * @param key
  */
-function createMomentaryPageButtonUFC_OS1(key) {
-    createMomentaryButtonUFC_OS1(key);
-    streamDeck.on(`up:${key.button}`, () => {
-        displayPage(pages[key.page], key.prevPage, key.timeout);
-    });
-}
-function createMomentaryPageButtonUFC_OS2(key) {
-    createMomentaryButtonUFC_OS2(key);
-    streamDeck.on(`up:${key.button}`, () => {
-        displayPage(pages[key.page], key.prevPage, key.timeout);
-    });
-}
-function createMomentaryPageButtonUFC_OS3(key) {
-    createMomentaryButtonUFC_OS3(key);
-    streamDeck.on(`up:${key.button}`, () => {
-        displayPage(pages[key.page], key.prevPage, key.timeout);
-    });
-}
-function createMomentaryPageButtonUFC_OS4(key) {
-    createMomentaryButtonUFC_OS4(key);
-    streamDeck.on(`up:${key.button}`, () => {
-        displayPage(pages[key.page], key.prevPage, key.timeout);
-    });
-}
-function createMomentaryPageButtonUFC_OS5(key) {
-    createMomentaryButtonUFC_OS5(key);
+function createButtonGoToPageWithTimeoutUFC(key) {
+    createUFCDisplayButton(key);
     streamDeck.on(`up:${key.button}`, () => {
         displayPage(pages[key.page], key.prevPage, key.timeout);
     });
 }
 
+/**
+ * Display a Page with all its
+ * @param pageName
+ */
+function displayPage(pageName, target, timeout) {
+    streamDeck.removeButtonListeners();
+    currentPage = pageName;
+    var page = pages[pageName];
+
+    // set timeout if available on control to redirect to a different page
+    if(timeout){
+        setTimeout(returnToPreviousPage, timeout);
+    }
+    function returnToPreviousPage() {
+        displayPage(target);
+    }
+    Object.keys(page).forEach((keyNumber) => {
+        var key = page[keyNumber];
+        addKeyListener(key);
+        draw(key);
+    });
+}
+
+/**
+ * Draw a given key on the stream deck
+ * @param key
+ */
+function draw(key) {
+    if (currentPage != key._page) {
+        return;
+    }
+    if (key.currentImage) {
+        streamDeck.drawImageFile(key.currentImage, key.number);
+    } else {
+        streamDeck.drawColor(0x000000, key.number);
+    }
+}
+
+/*
 
 function createPviSelectedWaypointIndicator(buttonNumber) {
     var drawImageFile = (value, imageName) => {
@@ -903,42 +713,4 @@ function createPviSelectedWaypointIndicator(buttonNumber) {
         drawImageFile(value, 'btnNAV-on.png');
     });
 }
-
-/**
- *
- * @param pageName
  */
-function displayPage(pageName, target, timeout) {
-    streamDeck.removeButtonListeners();
-    currentPage = pageName;
-    var page = pages[pageName];
-    logger.info('PAGE:' + page);
-    if(timeout){
-        logger.info('TIMOUT:' + page);
-        setTimeout(returnToPreviousPage, timeout);
-    }
-    function returnToPreviousPage() {
-        logger.info('rETURN TO:' + target);
-        displayPage(target);
-    }
-    Object.keys(page).forEach((keyNumber) => {
-        var key = page[keyNumber];
-        addKeyListener(key);
-        draw(key);
-    });
-}
-
-/**
- *
- * @param key
- */
-function draw(key) {
-    if (currentPage != key._page) {
-        return;
-    }
-    if (key.currentImage) {
-        streamDeck.drawImageFile(key.currentImage, key.number);
-    } else {
-        streamDeck.drawColor(0x000000, key.number);
-    }
-}
