@@ -34,8 +34,6 @@ process.on('SIGINT', () => {
 });
 streamDeck.reset();
 
-initializePages(pages);
-displayPage('MAIN');
 
 /**
  * Page definitions
@@ -127,11 +125,11 @@ var pages = {
         2: {type: 'image', image: '/menus/menu_text_UFC.png'},
         3: {type: 'image', image: '/menus/menu_text_TACAN.png'},
         6: {type: 'button', button: 'UFC_ONOFF', upImage: '/ufc/ufc_on_off.png', downImage: '/ufc/ufc_on_off_down.png'},
-        11: {type: 'buttonUFCPageWithTimeout',  button: 'UFC_OS1', eventKey:'UFC_OPTION_CUEING_1', upImage: '/ufc/ufc_tcn/ufc_tcn_tr_off.png', downImage: '/ufc/ufc_tcn/ufc_tcn_tr_on.png', page: 'UFC_TCN_TR', prevPage: 'UFC_TCN', timeout:5000},
-        12: {type: 'buttonUFCPageWithTimeout', button: 'UFC_OS2', eventKey:'UFC_OPTION_CUEING_2',upImage: '/ufc/ufc_tcn/ufc_tcn_rcv_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_rcv_off.png', page: 'UFC_TCN_RCV', prevPage: 'UFC_TCN', timeout:5000},
-        13: {type: 'buttonUFCPageWithTimeout', button: 'UFC_OS3', eventKey:'UFC_OPTION_CUEING_3',upImage: '/ufc/ufc_tcn/ufc_tcn_aa_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_aa_off.png', page: 'UFC_TCN_AA', prevPage: 'UFC_TCN', timeout:5000},
-        14: {type: 'buttonUFCPageWithTimeout', button: 'UFC_OS4', eventKey:'UFC_OPTION_CUEING_4',upImage: '/ufc/ufc_tcn/ufc_tcn_x_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_x_off.png', page: 'UFC_TCN_X', prevPage: 'UFC_TCN', timeout:5000},
-        15: {type: 'buttonUFCPageWithTimeout', button: 'UFC_OS5', eventKey:'UFC_OPTION_CUEING_5',upImage: '/ufc/ufc_tcn/ufc_tcn_y_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_y_off.png', page: 'UFC_TCN_Y', prevPage: 'UFC_TCN', timeout:5000},
+        11: {type: 'buttonGotoPageUFCWithTimeout',  button: 'UFC_OS1', eventKey:'UFC_OPTION_CUEING_1', upImage: '/ufc/ufc_tcn/ufc_tcn_tr_off.png', downImage: '/ufc/ufc_tcn/ufc_tcn_tr_on.png', page: 'UFC_TCN_TR', prevPage: 'UFC_TCN', timeout:5000},
+        12: {type: 'buttonGotoPageUFCWithTimeout', button: 'UFC_OS2', eventKey:'UFC_OPTION_CUEING_2',upImage: '/ufc/ufc_tcn/ufc_tcn_rcv_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_rcv_off.png', page: 'UFC_TCN_RCV', prevPage: 'UFC_TCN', timeout:5000},
+        13: {type: 'buttonGotoPageUFCWithTimeout', button: 'UFC_OS3', eventKey:'UFC_OPTION_CUEING_3',upImage: '/ufc/ufc_tcn/ufc_tcn_aa_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_aa_off.png', page: 'UFC_TCN_AA', prevPage: 'UFC_TCN', timeout:5000},
+        14: {type: 'buttonGotoPageUFCWithTimeout', button: 'UFC_OS4', eventKey:'UFC_OPTION_CUEING_4',upImage: '/ufc/ufc_tcn/ufc_tcn_x_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_x_off.png', page: 'UFC_TCN_X', prevPage: 'UFC_TCN', timeout:5000},
+        15: {type: 'buttonGotoPageUFCWithTimeout', button: 'UFC_OS5', eventKey:'UFC_OPTION_CUEING_5',upImage: '/ufc/ufc_tcn/ufc_tcn_y_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_y_off.png', page: 'UFC_TCN_Y', prevPage: 'UFC_TCN', timeout:5000},
     },
     UFC_TCN_TR: {
         1: {type: 'page', page: 'UFC_TCN', image: '/menus/button_back.png'},
@@ -224,6 +222,11 @@ var pages = {
     RADIO: {}
 };
 
+
+initializePages(pages);
+displayPage('MAIN');
+
+
 /**
  * Initialize all pages
  * @param pages
@@ -281,7 +284,10 @@ function initializeKey(key) {
         case 'buttonGotoPage':
             createButtonGotoPageOnUp(key);
             break;
-        case 'buttonUFCPageWithTimeout':
+        case 'buttonGotoPageUFC':
+            createButtonGoToPageOnUpUFC(key);
+            break;
+        case 'buttonGotoPageUFCWithTimeout':
             createButtonGoToPageOnUpWithTimeoutUFC(key);
             break;
         case 'textDisplay':
@@ -314,7 +320,7 @@ function addKeyListener(key) {
                 draw(key);
             });
             break;
-        case 'buttonUFCPageWithTimeout':
+        case 'buttonGotoPageUFCWithTimeout':
             var upImagePath = path.resolve(IMAGE_FOLDER + key.upImage);
             var downImagePath = path.resolve(IMAGE_FOLDER + key.downImage);
 
@@ -636,6 +642,13 @@ function createButtonGoToPageOnUpWithTimeoutUFC(key) {
     createUFCDisplayButton(key);
     streamDeck.on(`up:${key.button}`, () => {
         displayPage(pages[key.page], key.prevPage, key.timeout);
+    });
+}
+
+function createButtonGoToPageOnUpUFC() {
+    createUFCDisplayButton(key);
+    streamDeck.on(`up:${key.button}`, () => {
+        displayPage(pages[key.page]);
     });
 }
 
