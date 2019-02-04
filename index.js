@@ -21,6 +21,9 @@ const logger = Logger.create('dcs-stream-deck-fa18');
 const IMAGE_FOLDER = './images/';
 const api = new DcsBiosApi({logLevel: 'INFO'});
 const streamDeck = streamDeckApi.getStreamDeck();
+
+const UFC_DISP_ENABLED = ":";
+
 let currentPage;
 
 api.startListening();
@@ -279,7 +282,7 @@ function initializeKey(key) {
             createButtonGotoPageOnUp(key);
             break;
         case 'buttonUFCPageWithTimeout':
-            createButtonGoToPageWithTimeoutUFC(key);
+            createButtonGoToPageOnUpWithTimeoutUFC(key);
             break;
         case 'textDisplay':
             createTextDisplay(key);
@@ -534,7 +537,7 @@ function createButtonGotoPage(key) {
 }
 
 /**
- * Create a UFC Display Button that will listen to its events and set
+ * Create a specific UFC Display Button that will listen to its events (enabled/disabled) and set
  * the button picture according to values received from the UFC display.
  *
  * Value: ":" == ON
@@ -548,8 +551,15 @@ function createUFCDisplayButton(key){
     draw(key);
     addKeyListener(key);
 
+    value = api.getControlValue('UFC_OPTION_CUEING_1', 'prefix');
+
+    if(value){
+        logger.info('GOT CONTROL VALUE -> ', value);
+    }
+
+
     api.on('UFC_OPTION_CUEING_1', (value) => {
-        if(value === ':'& key.button == 'UFC_OS1'){
+        if(value === UFC_DISP_ENABLED & key.button == 'UFC_OS1'){
             key.currentImage = upImagePath;
         } else{
             key.currentImage = downImagePath;
@@ -557,7 +567,7 @@ function createUFCDisplayButton(key){
         draw(key);
     });
     api.on('UFC_OPTION_CUEING_2', (value) => {
-        if(value === ':' & key.button == 'UFC_OS2'){
+        if(value === UFC_DISP_ENABLED & key.button == 'UFC_OS2'){
             key.currentImage = upImagePath;
         } else{
             key.currentImage = downImagePath;
@@ -565,7 +575,7 @@ function createUFCDisplayButton(key){
         draw(key);
     });
     api.on('UFC_OPTION_CUEING_3', (value) => {
-        if(value === ':' & key.button == 'UFC_OS3'){
+        if(value === UFC_DISP_ENABLED & key.button == 'UFC_OS3'){
             key.currentImage = upImagePath;
         } else{
             key.currentImage = downImagePath;
@@ -573,7 +583,7 @@ function createUFCDisplayButton(key){
         draw(key);
     });
     api.on('UFC_OPTION_CUEING_4', (value) => {
-        if(value === ':'& key.button == 'UFC_OS4'){
+        if(value === UFC_DISP_ENABLED & key.button == 'UFC_OS4'){
           logger.info('UFC_OPTION_CUEING_4 for key: ' + key.button + ' with value-> '+ value);
             key.currentImage = upImagePath;
         } else{
@@ -583,7 +593,7 @@ function createUFCDisplayButton(key){
         draw(key);
     });
     api.on('UFC_OPTION_CUEING_5', (value) => {
-        if(value === ':'& key.button == 'UFC_OS5'){
+        if(value === UFC_DISP_ENABLED & key.button == 'UFC_OS5'){
            logger.info('UFC_OPTION_CUEING_5 for key: ' + key.button + ' with value-> '+ value);
             key.currentImage = upImagePath;
         } else{
@@ -622,7 +632,7 @@ function createButtonGotoPageOnUp(key) {
  * (after which it will revert to the 'target' page)
  * @param key
  */
-function createButtonGoToPageWithTimeoutUFC(key) {
+function createButtonGoToPageOnUpWithTimeoutUFC(key) {
     createUFCDisplayButton(key);
     streamDeck.on(`up:${key.button}`, () => {
         displayPage(pages[key.page], key.prevPage, key.timeout);
