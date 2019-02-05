@@ -1,9 +1,9 @@
 {
   "name": "dcs-stream-deck-fa18",
   "version": "0.0.1",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node app.js"
   },
   "author": "mazeppa <mazeppa@nym.hush.com>",
   "license": "MIT",
