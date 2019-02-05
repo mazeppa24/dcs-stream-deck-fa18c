@@ -29,25 +29,23 @@ const pages = {
     JETT_SELECT:{
         1: {type: 'page', page:'FA_18C',image: '/menus/button_back.png'},
         2: {type: 'image', image: '/menus/menu_jett_select.png'},
-
-        4: {type: 'twoStateButton', state: 0, button: 'SJ_CTR', stateOneImage: '/jett_select/jett_select_ctr_off.png', stateTwoImage: '/jett_select/jett_select_ctr_on.png'},
-
-
         // toggle the SEL_JETT_KNOB
-        5: {type: 'buttonToggleJettSelect', button: 'SEL_JETT_KNOB', upImage: '/menus/menu_right.png', downImage: '/menus/menu_right.png'},
+        3: {type: 'buttonToggleJettSelectKnob', button: 'SEL_JETT_KNOB', upImage: '/menus/menu_right.png', downImage: '//menus/menu_right.png'},
+        4: {type: 'twoStateButtonJettSelect', state: 0, button: 'SJ_CTR', stateOneImage: '/jett_select/jett_select_ctr_on.png', stateTwoImage: '/jett_select/jett_select_ctr_off.png'},
+        5: {type: 'button', button: 'SEL_JETT_BTN', upImage: '/jett_select/jett_select_main_off.png', downImage: '/jett_select/jett_select_main_on.png'},
 
-        // display state of selected jettison type (via Main button) -> SAFE, RACK, etc..
         6: {type: 'buttonDisplayJettSelect', button: 'SAFE', upImage: '/jett_select/jett_select_safe.png', downImage: '/jett_select/jett_select_safe.png'},
-        7: {type: 'buttonDisplayJettSelect', button: 'LFUS', upImage: '/jett_select/jett_select_lfus_off.png', downImage: '/jett_select/jett_select_lfus_on.png'},
-        11: {type: 'buttonDisplayJettSelect', button: 'RFUS', upImage: '/jett_select/jett_select_rfus_off.png', downImage: '/jett_select/jett_select_rfus_on.png'},
-        12: {type: 'buttonDisplayJettSelect', button: 'RACK', upImage: '/jett_select/jett_select_rack_off.png', downImage: '/jett_select/jett_select_rack_on.png'},
+        7: {type: 'buttonDisplayJettSelect', button: 'LFUS', upImage: '/jett_select/jett_select_lfus_on.png', downImage: '/jett_select/jett_select_lfus_off.png'},
+        9: {type: 'twoStateButtonJettSelect', state: 0, button: 'SJ_LI', stateOneImage: '/jett_select/jett_select_li_on.png', stateTwoImage: '/jett_select/jett_select_li_off.png'},
+        10: {type: 'twoStateButtonJettSelect', state: 0, button: 'SJ_RI', stateOneImage: '/jett_select/jett_select_ri_on.png', stateTwoImage: '/jett_select/jett_select_ri_off.png'},
         //9: {type: 'button', button: 'SAFE', upImage: '/jett_select/jett_select_main_off.png', downImage: '/jett_select/jett_select_main_on.png'},
 
-        8: {type: 'twoStateButton', state: 0, button: 'SJ_LI', stateOneImage: '/jett_select/jett_select_li_off.png', stateTwoImage: '/jett_select/jett_select_li_on.png'},
-        9: {type: 'button', button: 'SEL_JETT_BTN', upImage: '/jett_select/jett_select_main_off.png', downImage: '/jett_select/jett_select_main_on.png'},
-        10: {type: 'twoStateButton', state: 0, button: 'SJ_RI', stateOneImage: '/jett_select/jett_select_ri_off.png', stateTwoImage: '/jett_select/jett_select_ri_on.png'},
-        13:{type: 'twoStateButton', state: 0, button: 'SJ_LO', stateOneImage: '/jett_select/jett_select_lo_off.png', stateTwoImage: '/jett_select/jett_select_lo_on.png'},
-        15: {type: 'twoStateButton', state: 0, button: 'SJ_RO', stateOneImage: '/jett_select/jett_select_ro_off.png', stateTwoImage: '/jett_select/jett_select_ro_on.png'},
+        11: {type: 'buttonDisplayJettSelect', button: 'RFUS', upImage: '/jett_select/jett_select_rfus_on.png', downImage: '/jett_select/jett_select_rfus_off.png'},
+        12: {type: 'buttonDisplayJettSelect', button: 'RACK', upImage: '/jett_select/jett_select_rack_on.png', downImage: '/jett_select/jett_select_rack_off.png'},
+        14:{type: 'twoStateButtonJettSelect', state: 0, button: 'SJ_LO', stateOneImage: '/jett_select/jett_select_lo_on.png', stateTwoImage: '/jett_select/jett_select_lo_off.png'},
+        // display state of selected jettison type (via Main button) -> SAFE, RACK, etc..
+        13: {type: 'buttonDisplayJettSelect', button: 'STORES', upImage: '/jett_select/jett_select_stores_on.png', downImage: '/jett_select/jett_select_stores_off.png'},
+        15: {type: 'twoStateButtonJettSelect', state: 0, button: 'SJ_RO', stateOneImage: '/jett_select/jett_select_ro_on.png', stateTwoImage: '/jett_select/jett_select_ro_off.png'},
 
         /*
                 3: {type: 'twoStateButton', state: 0, button: 'SJ_CTR', stateOneImage: '/jett_select/jett_select_ctr_off.png', stateTwoImage: '/jett_select/jett_select_ctr_on.png'},
@@ -78,10 +76,10 @@ const pages = {
         1:  {type: 'page', page: 'UFC', image: '/menus/button_back.png'},
         2:  {type: 'image', image: '/menus/menu_text_UFC.png'},
         3:  {type: 'image', image: '/menus/menu_text_AP.png'},
-        11: {type: 'buttonUFCDisplay', button: 'UFC_OS1' ,upImage: '/ufc/ufc_ap/ufc_ap_atth_on.png', downImage: '/ufc/ufc_ap/ufc_ap_atth_off.png'},
-        12: {type: 'buttonUFCDisplayGotoPage',button: 'UFC_OS2', eventKey:'UFC_OPTION_CUEING_2', upImage: '/ufc/ufc_ap/ufc_ap_hsel_on.png', downImage: '/ufc/ufc_ap/ufc_ap_hsel_off.png', page: 'UFC_AP_HSEL'},
-        13: {type: 'buttonUFCDisplay', button: 'UFC_OS3', upImage: '/ufc/ufc_ap/ufc_ap_balt_on.png', downImage: '/ufc/ufc_ap/ufc_ap_balt_off.png'},
-        14: {type: 'buttonUFCDisplay', button: 'UFC_OS4', upImage: '/ufc/ufc_ap/ufc_ap_ralt_on.png', downImage: '/ufc/ufc_ap/ufc_ap_ralt_off.png'},
+        11: {type: 'buttonDisplayUFC', button: 'UFC_OS1' ,upImage: '/ufc/ufc_ap/ufc_ap_atth_on.png', downImage: '/ufc/ufc_ap/ufc_ap_atth_off.png'},
+        12: {type: 'buttonGotoPageDisplayUFC',button: 'UFC_OS2', eventKey:'UFC_OPTION_CUEING_2', upImage: '/ufc/ufc_ap/ufc_ap_hsel_on.png', downImage: '/ufc/ufc_ap/ufc_ap_hsel_off.png', page: 'UFC_AP_HSEL'},
+        13: {type: 'buttonDisplayUFC', button: 'UFC_OS3', upImage: '/ufc/ufc_ap/ufc_ap_balt_on.png', downImage: '/ufc/ufc_ap/ufc_ap_balt_off.png'},
+        14: {type: 'buttonDisplayUFC', button: 'UFC_OS4', upImage: '/ufc/ufc_ap/ufc_ap_ralt_on.png', downImage: '/ufc/ufc_ap/ufc_ap_ralt_off.png'},
         //14: {type: 'twoStateButton', state: 0, button: 'UFC_OS4', upImage: '/ufc/ufc_ap/ufc_ap_ralt_off.png', downImage: '/ufc/ufc_ap/ufc_ap_ralt_on.png'},
     },
     UFC_AP_HSEL: {
@@ -102,14 +100,14 @@ const pages = {
         3: {type: 'image', image: '/menus/menu_text_AP.png'},
         4: {type: 'image', image: '/menus/menu_text_HSEL.png'},
 
-        8: {type: 'buttonGotoPageWithTimeout', button: 'KEYBOARD', upImage: '/ufc/keyboard/keyboard_full.png', downImage: '/ufc/keyboard/keyboard_full.png', page: 'UFC_AP_HSEL_HDG', prevPage: 'UFC_AP_HSEL', timeout: 10000},
+        8: {type: 'buttonGotoPageWithTimeout', button: 'KEYBOARD', upImage: '/ufc/keyboard/keyboard_full.png', downImage: '/ufc/keyboard/keyboard_full.png', page: 'UFC_AP_HSEL_HDG', prevPage: 'UFC_AP_HSEL_KEYB', timeout: 20000},
 
         12: {type: 'buttonLeft', button: 'LEFT_DDI_HDG_SW', image: '/menus/menu_left.png'},
         13: {type: 'rocker_switch', button: 'LEFT_DDI_HDG_SW' , stateOneImage: '/ufc/ufc_ap/ufc_ap_hdg_neutral.png', stateTwoImage: '/ufc/ufc_ap/ufc_ap_hdg_left.png', stateThreeImage: '/ufc/ufc_ap/ufc_ap_hdg_right.png'},
         14: {type: 'buttonRight', button: 'LEFT_DDI_HDG_SW', image: '/menus/menu_right.png'},
     },
     UFC_AP_HSEL_HDG: {
-        1: {type: 'page', page: 'UFC_AP_HSEL', image: '/menus/button_back.png'},
+        1: {type: 'page', page: 'UFC_AP_HSEL_KEYB', image: '/menus/button_back.png'},
         2: {type: 'button', button: 'UFC_1', upImage: '/ufc/keyboard/ufc_one.png', downImage: '/ufc/keyboard/ufc_one_down.png'},
         3: {type: 'button', button: 'UFC_2', upImage: '/ufc/keyboard/ufc_two.png', downImage: '/ufc/keyboard/ufc_two_down.png'},
         4: {type: 'button', button: 'UFC_3', upImage: '/ufc/keyboard/ufc_three.png', downImage: '/ufc/keyboard/ufc_three_down.png'},
@@ -133,11 +131,11 @@ const pages = {
         2: {type: 'image', image: '/menus/menu_text_UFC.png'},
         3: {type: 'image', image: '/menus/menu_text_TACAN.png'},
         6: {type: 'button', button: 'UFC_ONOFF', upImage: '/ufc/ufc_on_off.png', downImage: '/ufc/ufc_on_off_down.png'},
-        11: {type: 'buttonGoToPageOnUpWithTimeoutUFC',  button: 'UFC_OS1', eventKey:'UFC_OPTION_CUEING_1', upImage: '/ufc/ufc_tcn/ufc_tcn_tr_off.png', downImage: '/ufc/ufc_tcn/ufc_tcn_tr_on.png', page: 'UFC_TCN_TR', prevPage: 'UFC_TCN', timeout:10000},
-        12: {type: 'buttonGoToPageOnUpWithTimeoutUFC', button: 'UFC_OS2', eventKey:'UFC_OPTION_CUEING_2',upImage: '/ufc/ufc_tcn/ufc_tcn_rcv_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_rcv_off.png', page: 'UFC_TCN_RCV', prevPage: 'UFC_TCN', timeout:10000},
-        13: {type: 'buttonGoToPageOnUpWithTimeoutUFC', button: 'UFC_OS3', eventKey:'UFC_OPTION_CUEING_3',upImage: '/ufc/ufc_tcn/ufc_tcn_aa_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_aa_off.png', page: 'UFC_TCN_AA', prevPage: 'UFC_TCN', timeout:10000},
-        14: {type: 'buttonGoToPageOnUpWithTimeoutUFC', button: 'UFC_OS4', eventKey:'UFC_OPTION_CUEING_4',upImage: '/ufc/ufc_tcn/ufc_tcn_x_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_x_off.png', page: 'UFC_TCN_X', prevPage: 'UFC_TCN', timeout:10000},
-        15: {type: 'buttonGoToPageOnUpWithTimeoutUFC', button: 'UFC_OS5', eventKey:'UFC_OPTION_CUEING_5',upImage: '/ufc/ufc_tcn/ufc_tcn_y_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_y_off.png', page: 'UFC_TCN_Y', prevPage: 'UFC_TCN', timeout:10000},
+        11: {type: 'buttonGoToPageOnUpWithTimeoutUFC',  button: 'UFC_OS1', eventKey:'UFC_OPTION_CUEING_1', upImage: '/ufc/ufc_tcn/ufc_tcn_tr_off.png', downImage: '/ufc/ufc_tcn/ufc_tcn_tr_on.png', page: 'UFC_TCN_TR', prevPage: 'UFC_TCN', timeout:20000},
+        12: {type: 'buttonGoToPageOnUpWithTimeoutUFC', button: 'UFC_OS2', eventKey:'UFC_OPTION_CUEING_2',upImage: '/ufc/ufc_tcn/ufc_tcn_rcv_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_rcv_off.png', page: 'UFC_TCN_RCV', prevPage: 'UFC_TCN', timeout:20000},
+        13: {type: 'buttonGoToPageOnUpWithTimeoutUFC', button: 'UFC_OS3', eventKey:'UFC_OPTION_CUEING_3',upImage: '/ufc/ufc_tcn/ufc_tcn_aa_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_aa_off.png', page: 'UFC_TCN_AA', prevPage: 'UFC_TCN', timeout:20000},
+        14: {type: 'buttonGoToPageOnUpWithTimeoutUFC', button: 'UFC_OS4', eventKey:'UFC_OPTION_CUEING_4',upImage: '/ufc/ufc_tcn/ufc_tcn_x_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_x_off.png', page: 'UFC_TCN_X', prevPage: 'UFC_TCN', timeout:20000},
+        15: {type: 'buttonGoToPageOnUpWithTimeoutUFC', button: 'UFC_OS5', eventKey:'UFC_OPTION_CUEING_5',upImage: '/ufc/ufc_tcn/ufc_tcn_y_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_y_off.png', page: 'UFC_TCN_Y', prevPage: 'UFC_TCN', timeout:20000},
     },
     UFC_TCN_TR: {
         1: {type: 'page', page: 'UFC_TCN', image: '/menus/button_back.png'},
@@ -161,7 +159,7 @@ const pages = {
         3: {type: 'button', button: 'UFC_2', upImage: '/ufc/keyboard/ufc_two.png', downImage: '/ufc/keyboard/ufc_two_down.png'},
         4: {type: 'button', button: 'UFC_3', upImage: '/ufc/keyboard/ufc_three.png', downImage: '/ufc/keyboard/ufc_three_down.png'},
         5: {type: 'button', button: 'UFC_CLR', upImage: '/ufc/keyboard/ufc_clr.png', downImage: '/ufc/keyboard/ufc_clr_down.png'},
-        11: {type: 'buttonGotoPage', upImage: '/ufc/ufc_tcn/ufc_tcn_rcv_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_rcv_off.png', page: 'UFC_TCN_RCV'},
+        //11: {type: 'buttonGotoPage', upImage: '/ufc/ufc_tcn/ufc_tcn_rcv_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_rcv_off.png', page: 'UFC_TCN_RCV'},
         7: {type: 'button', button: 'UFC_4', upImage: '/ufc/keyboard/ufc_four.png', downImage: '/ufc/keyboard/ufc_four_down.png'},
         8: {type: 'button', button: 'UFC_5', upImage: '/ufc/keyboard/ufc_five.png', downImage: '/ufc/keyboard/ufc_five_down.png'},
         9: {type: 'button', button: 'UFC_6', upImage: '/ufc/keyboard/ufc_six.png', downImage: '/ufc/keyboard/ufc_six_down.png'},
@@ -177,7 +175,7 @@ const pages = {
         3: {type: 'button', button: 'UFC_2', upImage: '/ufc/keyboard/ufc_two.png', downImage: '/ufc/keyboard/ufc_two_down.png'},
         4: {type: 'button', button: 'UFC_3', upImage: '/ufc/keyboard/ufc_three.png', downImage: '/ufc/keyboard/ufc_three_down.png'},
         5: {type: 'button', button: 'UFC_CLR', upImage: '/ufc/keyboard/ufc_clr.png', downImage: '/ufc/keyboard/ufc_clr_down.png'},
-        11: {type: 'buttonGotoPage', upImage: '/ufc/ufc_tcn/ufc_tcn_aa_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_aa_off.png', page: 'UFC_TCN_RCV'},
+        //11: {type: 'buttonGotoPage', upImage: '/ufc/ufc_tcn/ufc_tcn_aa_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_aa_off.png', page: 'UFC_TCN_RCV'},
         7: {type: 'button', button: 'UFC_4', upImage: '/ufc/keyboard/ufc_four.png', downImage: '/ufc/keyboard/ufc_four_down.png'},
         8: {type: 'button', button: 'UFC_5', upImage: '/ufc/keyboard/ufc_five.png', downImage: '/ufc/keyboard/ufc_five_down.png'},
         9: {type: 'button', button: 'UFC_6', upImage: '/ufc/keyboard/ufc_six.png', downImage: '/ufc/keyboard/ufc_six_down.png'},
@@ -193,7 +191,7 @@ const pages = {
         3: {type: 'button', button: 'UFC_2', upImage: '/ufc/keyboard/ufc_two.png', downImage: '/ufc/keyboard/ufc_two_down.png'},
         4: {type: 'button', button: 'UFC_3', upImage: '/ufc/keyboard/ufc_three.png', downImage: '/ufc/keyboard/ufc_three_down.png'},
         5: {type: 'button', button: 'UFC_CLR', upImage: '/ufc/keyboard/ufc_clr.png', downImage: '/ufc/keyboard/ufc_clr_down.png'},
-        11: {type: 'buttonGotoPage', upImage: '/ufc/ufc_tcn/ufc_tcn_x_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_x_off.png', page: 'UFC_TCN_TR'},
+        //11: {type: 'buttonGotoPage', upImage: '/ufc/ufc_tcn/ufc_tcn_x_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_x_off.png', page: 'UFC_TCN_TR'},
         7: {type: 'button', button: 'UFC_4', upImage: '/ufc/keyboard/ufc_four.png', downImage: '/ufc/keyboard/ufc_four_down.png'},
         8: {type: 'button', button: 'UFC_5', upImage: '/ufc/keyboard/ufc_five.png', downImage: '/ufc/keyboard/ufc_five_down.png'},
         9: {type: 'button', button: 'UFC_6', upImage: '/ufc/keyboard/ufc_six.png', downImage: '/ufc/keyboard/ufc_six_down.png'},
@@ -210,7 +208,7 @@ const pages = {
         3: {type: 'button', button: 'UFC_2', upImage: '/ufc/keyboard/ufc_two.png', downImage: '/ufc/keyboard/ufc_two_down.png'},
         4: {type: 'button', button: 'UFC_3', upImage: '/ufc/keyboard/ufc_three.png', downImage: '/ufc/keyboard/ufc_three_down.png'},
         5: {type: 'button', button: 'UFC_CLR', upImage: '/ufc/keyboard/ufc_clr.png', downImage: '/ufc/keyboard/ufc_clr_down.png'},
-        11: {type: 'buttonGotoPage', upImage: '/ufc/ufc_tcn/ufc_tcn_y_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_y_off.png', page: 'UFC_TCN_TR'},
+        //11: {type: 'buttonGotoPage', upImage: '/ufc/ufc_tcn/ufc_tcn_y_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_y_off.png', page: 'UFC_TCN_TR'},
         7: {type: 'button', button: 'UFC_4', upImage: '/ufc/keyboard/ufc_four.png', downImage: '/ufc/keyboard/ufc_four_down.png'},
         8: {type: 'button', button: 'UFC_5', upImage: '/ufc/keyboard/ufc_five.png', downImage: '/ufc/keyboard/ufc_five_down.png'},
         9: {type: 'button', button: 'UFC_6', upImage: '/ufc/keyboard/ufc_six.png', downImage: '/ufc/keyboard/ufc_six_down.png'},
@@ -229,3 +227,4 @@ const pages = {
     },
     RADIO: {}
 };
+module.exports = pages;

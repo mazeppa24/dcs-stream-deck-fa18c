@@ -11,7 +11,7 @@
  *
  */
 
-import pages from './app/pages';
+const pages = require('./app/pages');
 
 const streamDeckApi = require('stream-deck-api');
 const DcsBiosApi = require('dcs-bios-api');
@@ -21,7 +21,7 @@ const Logger = require('logplease');
 const logger = Logger.create('dcs-stream-deck-fa18');
 
 
-const IMAGE_FOLDER = './images/';
+const IMAGE_FOLDER = './resources/images/';
 const api = new DcsBiosApi({logLevel: 'INFO'});
 const streamDeck = streamDeckApi.getStreamDeck();
 
@@ -88,23 +88,24 @@ function initializeKey(key) {
         case 'buttonDisplayUFC':
             createUFCDisplayButton(key);
             break;
-        case 'twoStateButton':
-            createTwoStateButton(key);
+        case 'twoStateButtonJettSelect':
+            createTwoStateButtonJettSelect(key);
             break;
         case 'rocker_switch':
             createRockerSwitchDisplay(key);
             break;
         case 'toggle_switch':
-            //createTwoStateButton(key);
+            //createTwoStateButtonJettSelect(key);
             break;
         case 'limited_rotary':
-            //createTwoStateButton(key);
+            //createTwoStateButtonJettSelect(key);
             break;
         case 'toggle_switch2way':
             createToggleSwitch2Way(key);
             break;
-        case 'buttonToggleJettSelect':
-            createButtonToggleJettSelect(key);
+        case 'buttonToggleJettSelectKnob':
+            createButtonToggleJettSelectKnob(key);
+            break;
         case 'buttonDisplayJettSelect':
             createButtonDisplayJettSelect(key);
             break;
@@ -151,7 +152,7 @@ function initializeKey(key) {
 function addKeyListener(key) {
     switch (key.type) {
 
-        case 'buttonToggleJettSelectBTN':
+        case 'buttonToggleJettSelectKnob':
             var upImagePath = path.resolve(IMAGE_FOLDER + key.upImage);
             var downImagePath = path.resolve(IMAGE_FOLDER + key.downImage);
 
@@ -363,6 +364,33 @@ function addKeyListener(key) {
                 //draw(key);
             });
             break;
+        //Jettison Station Buttons next to IFEI
+        case 'twoStateButtonJettSelect':
+            var stateOneImage = path.resolve(IMAGE_FOLDER + key.stateOneImage);
+            var stateTwoImage = path.resolve(IMAGE_FOLDER + key.stateTwoImage);
+            key.currentImage = stateTwoImage;
+            draw(key);
+            streamDeck.on(`down:${key.number}`, () => {
+                if (key.state == 0) {
+                    logger.info('stateButton Trigger state = 0');
+                    key.state = 1;
+                    api.sendMessage(`${key.button} 1\n`);
+                    key.currentImage = stateTwoImage;
+                    draw(key);
+                } else {
+                    logger.info('stateButton Trigger state = 1');
+                    key.state = 0;
+                    api.sendMessage(`${key.button} 0\n`);
+                    key.currentImage = stateOneImage;
+                    draw(key);
+                }
+            });
+            streamDeck.on(`up:${key.number}`, () => {
+                //api.sendMessage(`${key.button} 0\n`);
+                //key.currentImage = stateOneImage;
+                //draw(key);
+            });
+            break;
     }
 }
 
@@ -375,6 +403,7 @@ function createStaticImage(key) {
     key.currentImage = imagePath;
     draw(key);
 }
+
 //TODO: Cleanup toggle switch experiments
 function createToggleSwitch2Way(key) {
     var upImagePath = path.resolve(IMAGE_FOLDER + key.stateOneImage);
@@ -384,7 +413,13 @@ function createToggleSwitch2Way(key) {
     draw(key);
     addKeyListener(key);
 }
-function createTwoStateButton(key) {
+
+/**
+ * The 'Jettison Station Select' button box (5) left of the IFEI
+ *
+ * @param key
+ */
+function createTwoStateButtonJettSelect(key) {
     var upImagePath = path.resolve(IMAGE_FOLDER + key.stateOneImage);
     var downImagePath = path.resolve(IMAGE_FOLDER + key.stateTwoImage);
     // Draw the key immediately so that we can see it.
@@ -393,18 +428,18 @@ function createTwoStateButton(key) {
 
     api.on('SJ_CTR_LT', (value) => {
 
-        if(value == '1' & key.button == 'SJ_CTR'){
+        if (value == '1' & key.button == 'SJ_CTR') {
             key.currentImage = upImagePath;
-        } else if (value == '0' & key.button == 'SJ_CTR'){
+        } else if (value == '0' & key.button == 'SJ_CTR'){ //
             key.currentImage = downImagePath;
         }
         draw(key);
     });
     api.on('SJ_LI_LT', (value) => {
 
-        if(value == '1' & key.button == 'SJ_LI'){
+        if (value == '1' & key.button == 'SJ_LI') {
             key.currentImage = upImagePath;
-        } else if (value == '0' & key.button == 'SJ_LI'){
+        } else if (value == '0' & key.button == 'SJ_LI'){ //
             key.currentImage = downImagePath;
         }
         draw(key);
@@ -412,9 +447,9 @@ function createTwoStateButton(key) {
 
     api.on('SJ_LO_LT', (value) => {
 
-        if(value == '1' & key.button == 'SJ_LO'){
+        if (value == '1' & key.button == 'SJ_LO') {
             key.currentImage = upImagePath;
-        } else if (value == '0' & key.button == 'SJ_LO'){
+        } else if (value == '0' & key.button == 'SJ_LO'){ //
             key.currentImage = downImagePath;
         }
         draw(key);
@@ -422,9 +457,9 @@ function createTwoStateButton(key) {
 
     api.on('SJ_RI_LT', (value) => {
 
-        if(value == '1' & key.button == 'SJ_RI'){
+        if (value == '1' & key.button == 'SJ_RI') {
             key.currentImage = upImagePath;
-        } else if (value == '0' & key.button == 'SJ_RI'){
+        } else if (value == '0' & key.button == 'SJ_RI'){ //
             key.currentImage = downImagePath;
         }
         draw(key);
@@ -432,9 +467,9 @@ function createTwoStateButton(key) {
 
     api.on('SJ_RO_LT', (value) => {
 
-        if(value == '1' & key.button == 'SJ_RO'){
+        if (value == '1' & key.button == 'SJ_RO') {
             key.currentImage = upImagePath;
-        } else if (value == '0' & key.button == 'SJ_RO'){
+        } else if (value == '0' & key.button == 'SJ_RO'){ //
             key.currentImage = downImagePath;
         }
         draw(key);
@@ -461,44 +496,6 @@ function createTwoStateButton(key) {
 }
 
 
-//TMP TMP TMP
-function createButtonDisplayJettSelect(key) {
-    var stateOneImagePath = path.resolve(IMAGE_FOLDER + key.stateOneImage); //neutral
-    var stateTwoImagePath = path.resolve(IMAGE_FOLDER + key.stateTwoImage); //left
-
-    key.currentImage = stateOneImagePath;
-    // Draw the key immediately so that we can see it.
-    draw(key);
-    addKeyListener(key);
-
-    /*
-    value = api.getControlValue('UFC_OPTION_CUEING_1', 'prefix');
-    if(value){
-        logger.info('GOT CONTROL VALUE -> ', value);
-    }
-    */
-    // create a buttonGotoPage button to display the keyboard when 'HSEL'
-    // is displayed on the UFC_OS5 display/button
-
-    api.on('SJ_CTR_LT', (value) => {
-        // right click
-        if(value == 2){
-            key.currentImage = stateTwoImagePath;
-            draw(key);
-        }
-        // center
-        if(value == 1){
-            key.currentImage = stateOneImagePath;
-            draw(key);
-        }
-        // left
-        if(value == 0){
-            key.currentImage = stateTwoImagePath;
-            draw(key);
-        }
-    });
-}
-
 function createRockerSwitchDisplay(key) {
     var stateOneImagePath = path.resolve(IMAGE_FOLDER + key.stateOneImage); //neutral
     var stateTwoImagePath = path.resolve(IMAGE_FOLDER + key.stateTwoImage); //left
@@ -517,8 +514,8 @@ function createRockerSwitchDisplay(key) {
     */
     // create a buttonGotoPage button to display the keyboard when 'HSEL'
     // is displayed on the UFC_OS5 display/button
-    api.on('UFC_OPTION_DISPLAY_5', (value) =>{
-        if((value.indexOf('HS') !== -1) & (key._page === 'UFC_AP_HSEL')){
+    api.on('UFC_OPTION_DISPLAY_5', (value) => {
+        if ((value.indexOf('HS') !== -1) & (key._page === 'UFC_AP_HSEL')) {
 
             //alternative
             displayPage('UFC_AP_HSEL_KEYB');
@@ -534,17 +531,17 @@ function createRockerSwitchDisplay(key) {
 
     api.on('LEFT_DDI_HDG_SW', (value) => {
         // right click
-        if(value == 2){
+        if (value == 2) {
             key.currentImage = stateThreeImagePath;
             draw(key);
         }
         // center
-        if(value == 1){
+        if (value == 1) {
             key.currentImage = stateOneImagePath;
             draw(key);
         }
         // left
-        if(value == 0){
+        if (value == 0) {
             key.currentImage = stateTwoImagePath;
             draw(key);
         }
@@ -552,11 +549,10 @@ function createRockerSwitchDisplay(key) {
 }
 
 
-
-
-function createButtonToggleJettSelect(key) {
-    createButtonSwitchImage(key);
+function createButtonToggleJettSelectKnob(key) {
+    createButtonSwitchImageJettSelectState(key);
 }
+
 /**
  * Create a Button with one image
  * @param key
@@ -585,8 +581,8 @@ function createButtonTwoImages(key) {
 }
 
 /**
- * Create a display button that displays (on/off) if the state selected by the Jettison Select knob
- * is selected.
+ * Create a display button that switches images (on/off) when the Jettison Select Knob (big red JETT button)
+ * is set to a value left/right (SAFE, STORES, RACK etc.)
  * @param key
  */
 function createButtonDisplayJettSelect(key) {
@@ -599,52 +595,49 @@ function createButtonDisplayJettSelect(key) {
     addKeyListener(key);
 
 
-    api.on('SEL_JETT_KNOB', (value) =>{
-        if(value == '1' & key.button == 'SAFE'){
-            key.currentImage = downImagePath;
-            draw(key);
-        } else {
+    api.on('SEL_JETT_KNOB', (value)=>{
+
+        if(key.button === 'LFUS' & value == 0){
             key.currentImage = upImagePath;
             draw(key);
-        }
-    });
-    api.on('SEL_JETT_KNOB', (value) =>{
-        if(value == '1' & key.button == 'RFUS'){
+        } else if (key.button == 'LFUS' & value != 0) {
             key.currentImage = downImagePath;
             draw(key);
-        }else {
+        }
+        if(key.button === 'SAFE' & value == 1){
             key.currentImage = upImagePath;
             draw(key);
-        }
-    });
-    api.on('SEL_JETT_KNOB', (value) =>{
-        if(value == '1' & key.button == 'LFUS'){
+        } else if (key.button === 'SAFE' & value != 1){
             key.currentImage = downImagePath;
             draw(key);
-        }else {
+        }
+        if(key.button == 'RFUS' & value == 2){
             key.currentImage = upImagePath;
             draw(key);
-        }
-    });
-    api.on('SEL_JETT_KNOB', (value) =>{
-        if(value == '1' & key.button == 'RACK'){
+        } else if(key.button == 'RFUS' & value != 2){
             key.currentImage = downImagePath;
             draw(key);
-        }else {
+        }
+        if(key.button == 'RACK' & value == 3){
             key.currentImage = upImagePath;
             draw(key);
-        }
-    });
-    api.on('SEL_JETT_KNOB', (value) =>{
-        if(value == '1' & key.button == 'STORES'){
+        } else if(key.button == 'RACK' & value != 3){
             key.currentImage = downImagePath;
             draw(key);
-        }else {
+        }
+        if(key.button == 'STORES' & value == 4){
             key.currentImage = upImagePath;
             draw(key);
+        } else if(key.button == 'STORES' & value != 4){
+            key.currentImage = downImagePath;
+            draw(key);
         }
+
+
+        logger.info('SEL_JETT_KNOB in createButtonDisplayJettSelect: ' + value);
     });
 }
+
 /**
  * Create a button that has a LED in it.
  */
@@ -683,7 +676,7 @@ function createButtonGotoPage(key) {
  * Value: " " == OFF
  * @param key
  */
-function createUFCDisplayButton(key){
+function createUFCDisplayButton(key) {
     var upImagePath = path.resolve(IMAGE_FOLDER + key.upImage);
     var downImagePath = path.resolve(IMAGE_FOLDER + key.downImage);
     key.currentImage = upImagePath;
@@ -692,41 +685,41 @@ function createUFCDisplayButton(key){
 
     api.on(UFC_OPTION_CUEING_1, (value) => {
 
-        if(value === UFC_DISP_ENABLED & key.button == UFC_OS1){
+        if (value === UFC_DISP_ENABLED & key.button == UFC_OS1) {
             key.currentImage = upImagePath;
-        } else{
+        } else {
             key.currentImage = downImagePath;
         }
         draw(key);
     });
     api.on(UFC_OPTION_CUEING_2, (value) => {
-        if(value === UFC_DISP_ENABLED & key.button == UFC_OS2){
+        if (value === UFC_DISP_ENABLED & key.button == UFC_OS2) {
             key.currentImage = upImagePath;
-        } else{
+        } else {
             key.currentImage = downImagePath;
         }
         draw(key);
     });
     api.on(UFC_OPTION_CUEING_3, (value) => {
-        if(value === UFC_DISP_ENABLED & key.button == UFC_OS3){
+        if (value === UFC_DISP_ENABLED & key.button == UFC_OS3) {
             key.currentImage = upImagePath;
-        } else{
+        } else {
             key.currentImage = downImagePath;
         }
         draw(key);
     });
     api.on(UFC_OPTION_CUEING_4, (value) => {
-        if(value === UFC_DISP_ENABLED & key.button == UFC_OS4){
+        if (value === UFC_DISP_ENABLED & key.button == UFC_OS4) {
             key.currentImage = upImagePath;
-        } else{
+        } else {
             key.currentImage = downImagePath;
         }
         draw(key);
     });
     api.on(UFC_OPTION_CUEING_5, (value) => {
-        if(value === UFC_DISP_ENABLED & key.button == UFC_OS5){
+        if (value === UFC_DISP_ENABLED & key.button == UFC_OS5) {
             key.currentImage = upImagePath;
-        } else{
+        } else {
             key.currentImage = downImagePath;
         }
         draw(key);
@@ -743,6 +736,16 @@ function createButtonSwitchImage(key) {
     draw(key);
     addKeyListener(key);
 }
+
+function createButtonSwitchImageJettSelectState(key) {
+    var upImagePath = path.resolve(IMAGE_FOLDER + key.upImage);
+    var downImagePath = path.resolve(IMAGE_FOLDER + key.downImage);
+    key.currentImage = upImagePath;
+    draw(key);
+    addKeyListener(key);
+}
+
+
 
 /**
  * Create a Button that will display a page after key-up
@@ -797,13 +800,17 @@ function displayPage(pageName, target, timeout) {
     currentPage = pageName;
     var page = pages[pageName];
 
+
+
     // set timeout if available on control to redirect to a different page
-    if(timeout){
-        setTimeout(returnToPreviousPage, timeout);
-    }
+    //if (timeout) {
+      //  setTimeout(returnToPreviousPage, pageName, timeout);
+    //}
+
     function returnToPreviousPage() {
         displayPage(target);
     }
+
     Object.keys(page).forEach((keyNumber) => {
         var key = page[keyNumber];
         addKeyListener(key);
@@ -819,7 +826,7 @@ function draw(key) {
     if (currentPage != key._page) {
         return;
     }
-    if(!key.hidden){
+    if (!key.hidden) {
         if (key.currentImage) {
             streamDeck.drawImageFile(key.currentImage, key.number);
         } else {
