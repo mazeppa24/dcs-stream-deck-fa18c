@@ -1,3 +1,4 @@
+'use strict';
 /**
  * DCS STREAM DECK APPLICATION
  * ***************************
@@ -44,9 +45,15 @@ api.startListening();
 process.on('SIGINT', () => {
     streamDeck.reset();
     api.stopListening();
-    process.exit();
+    process.exit(1);
 });
-streamDeck.reset();
+if(streamDeck){
+    streamDeck.reset();
+} else {
+    logger.error('No Streamdeck connected! Please make sure Streamdeck is plugged in to you computer');
+    process.exit(1);
+}
+
 
 
 /**
