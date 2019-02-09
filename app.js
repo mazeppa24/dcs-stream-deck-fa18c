@@ -7,10 +7,9 @@
 
 const pages = require('./config/pages');
 
-const streamDeckApi = require('stream-deck-api');
+const streamDeckApi = require('stream-deck-api-mazeppa');
 const DcsBiosApi = require('dcs-bios-api');
 const path = require('path');
-const robot = require('robotjs');
 const Logger = require('logplease');
 const logger = Logger.create('dcs-stream-deck-fa18');
 
@@ -814,7 +813,7 @@ function draw(key) {
         if (key.currentImage) {
             streamDeck.drawImageFile(key.currentImage, key.number);
         } else if (key.type == 'pageText' || key.type == 'text') {
-            streamDeck.drawText(key.text, key.textColor, key.number, key.buttonColor);
+            streamDeck.drawText(key.text, key.textColor, key.buttonColor, key.number);
         } else {
             streamDeck.drawColor(0x000000, key.number);
         }
