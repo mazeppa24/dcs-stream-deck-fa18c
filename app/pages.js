@@ -37,6 +37,9 @@ const pages = {
 
         6: {type: 'buttonDisplayJettSelect', button: 'SAFE', upImage: '/jett_select/jett_select_safe.png', downImage: '/jett_select/jett_select_safe.png'},
         7: {type: 'buttonDisplayJettSelect', button: 'LFUS', upImage: '/jett_select/jett_select_lfus_on.png', downImage: '/jett_select/jett_select_lfus_off.png'},
+
+        7: {type: 'textDisplayJettSelectStatus', text:'', textColor: ''},
+
         9: {type: 'twoStateButtonJettSelect', state: 0, button: 'SJ_LI', stateOneImage: '/jett_select/jett_select_li_on.png', stateTwoImage: '/jett_select/jett_select_li_off.png'},
         10: {type: 'twoStateButtonJettSelect', state: 0, button: 'SJ_RI', stateOneImage: '/jett_select/jett_select_ri_on.png', stateTwoImage: '/jett_select/jett_select_ri_off.png'},
         //9: {type: 'button', button: 'SAFE', upImage: '/jett_select/jett_select_main_off.png', downImage: '/jett_select/jett_select_main_on.png'},
