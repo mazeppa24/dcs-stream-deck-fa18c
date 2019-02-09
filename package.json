@@ -12,10 +12,7 @@
   },
   "description": "Displays FA18C Hornet controls on an Elgato Stream Deck controller. Requires DCS BIOS.",
   "dependencies": {
-    "audio-loader": "^1.0.3",
-    "audio-play": "^2.1.1",
     "dcs-bios-api": "https://github.com/mazeppashorse/dcs-bios-api.git",
-    "robotjs": "github:dbkynd/robotjs",
-    "stream-deck-api": "https://github.com/mazeppashorse/stream-deck-api.git"
+    "stream-deck-api-mazeppa": "^0.1.2"
   }
 }
