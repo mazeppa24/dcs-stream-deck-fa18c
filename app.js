@@ -5,7 +5,7 @@
  * - FA-18C_Hornet
  */
 
-const pages = require('./app/pages');
+const pages = require('./config/pages');
 
 const streamDeckApi = require('stream-deck-api');
 const DcsBiosApi = require('dcs-bios-api');
