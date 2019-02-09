@@ -20,15 +20,16 @@ const pages = {
 
     },
     FA_18C:{
+        //2: {type: 'pageText', text: 'JETT', textColor: 'white', buttonColor: 'black'},
         1:  {type: 'page', page: 'MAIN', image: '/menus/button_back.png'},
-        2: {type: 'page', page: 'UFC', image: '/menus/menu_text_UFC.png'},
-        3: {type: 'page', page: 'UFC', image: '/menus/menu_text_IFEI.png'},
-        4: {type: 'page', page: 'JETT_SELECT', image: '/menus/menu_jett_select.png'},
+        2:  {type: 'pageText', page: 'UFC', text: 'UFC', textColor: 'white', buttonColor: 'black'},
+        3: {type: 'pageText', page: 'JETT_SELECT' ,text: 'JETT', textColor: 'white', buttonColor: 'black'},
 
     },
     JETT_SELECT:{
         1: {type: 'page', page:'FA_18C',image: '/menus/button_back.png'},
-        2: {type: 'image', image: '/menus/menu_jett_select.png'},
+        //2: {type: 'image', image: '/menus/menu_jett_select.png'},
+        2: {type: 'text', text: 'JETT', textColor: 'white', buttonColor: 'black'},
         // toggle the SEL_JETT_KNOB
         3: {type: 'buttonToggleJettSelectKnob', button: 'SEL_JETT_KNOB', upImage: '/menus/menu_right.png', downImage: '//menus/menu_right.png'},
         4: {type: 'twoStateButtonJettSelect', state: 0, button: 'SJ_CTR', stateOneImage: '/jett_select/jett_select_ctr_on.png', stateTwoImage: '/jett_select/jett_select_ctr_off.png'},
@@ -36,6 +37,9 @@ const pages = {
 
         6: {type: 'buttonDisplayJettSelect', button: 'SAFE', upImage: '/jett_select/jett_select_safe.png', downImage: '/jett_select/jett_select_safe.png'},
         7: {type: 'buttonDisplayJettSelect', button: 'LFUS', upImage: '/jett_select/jett_select_lfus_on.png', downImage: '/jett_select/jett_select_lfus_off.png'},
+
+        7: {type: 'textDisplayJettSelectStatus', text:'', textColor: ''},
+
         9: {type: 'twoStateButtonJettSelect', state: 0, button: 'SJ_LI', stateOneImage: '/jett_select/jett_select_li_on.png', stateTwoImage: '/jett_select/jett_select_li_off.png'},
         10: {type: 'twoStateButtonJettSelect', state: 0, button: 'SJ_RI', stateOneImage: '/jett_select/jett_select_ri_on.png', stateTwoImage: '/jett_select/jett_select_ri_off.png'},
         //9: {type: 'button', button: 'SAFE', upImage: '/jett_select/jett_select_main_off.png', downImage: '/jett_select/jett_select_main_on.png'},
@@ -62,7 +66,7 @@ const pages = {
     },
     UFC: {
         1:  {type: 'page', page: 'MAIN', image: '/menus/button_back.png'},
-        2:  {type: 'image', image: '/menus/menu_text_UFC.png'},
+        2: {type: 'text', text: 'UFC', textColor: 'white', buttonColor: 'black'},
         6:  {type: 'buttonGotoPage', button: 'UFC_AP', upImage: '/ufc/ufc_ap.png', downImage: '/ufc/ufc_ap_down.png', page: 'UFC_AP'},
         7:  {type: 'button', button: 'UFC_IFF', upImage: '/ufc/ufc_iff.png', downImage: '/ufc/ufc_iff_down.png'},
 
@@ -74,8 +78,8 @@ const pages = {
     },
     UFC_AP: {
         1:  {type: 'page', page: 'UFC', image: '/menus/button_back.png'},
-        2:  {type: 'image', image: '/menus/menu_text_UFC.png'},
-        3:  {type: 'image', image: '/menus/menu_text_AP.png'},
+        2: {type: 'text', text: 'UFC', textColor: 'white', buttonColor: 'black'},
+        3: {type: 'text', text: 'AP', textColor: 'white', buttonColor: 'black'},
         11: {type: 'buttonDisplayUFC', button: 'UFC_OS1' ,upImage: '/ufc/ufc_ap/ufc_ap_atth_on.png', downImage: '/ufc/ufc_ap/ufc_ap_atth_off.png'},
         12: {type: 'buttonGotoPageDisplayUFC',button: 'UFC_OS2', eventKey:'UFC_OPTION_CUEING_2', upImage: '/ufc/ufc_ap/ufc_ap_hsel_on.png', downImage: '/ufc/ufc_ap/ufc_ap_hsel_off.png', page: 'UFC_AP_HSEL'},
         13: {type: 'buttonDisplayUFC', button: 'UFC_OS3', upImage: '/ufc/ufc_ap/ufc_ap_balt_on.png', downImage: '/ufc/ufc_ap/ufc_ap_balt_off.png'},
@@ -84,9 +88,9 @@ const pages = {
     },
     UFC_AP_HSEL: {
         1: {type: 'page', page: 'UFC_AP', image: '/menus/button_back.png'},
-        2: {type: 'image', image: '/menus/menu_text_UFC.png'},
-        3: {type: 'image', image: '/menus/menu_text_AP.png'},
-        4: {type: 'image', image: '/menus/menu_text_HSEL.png'},
+        2: {type: 'text', text: 'UFC', textColor: 'white', buttonColor: 'black'},
+        3: {type: 'text', text: 'AP', textColor: 'white', buttonColor: 'black'},
+        4: {type: 'text', text: 'HSEL', textColor: 'white', buttonColor: 'black'},
 
         //8: {type: 'buttonGotoPageWithTimeout', button: 'KEYBOARD', upImage: '/ufc/keyboard/keyboard_full.png', downImage: '/ufc/keyboard/keyboard_full.png', page: 'UFC_AP_HSEL_HDG', hidden: true, prevPage: 'UFC_AP_HSEL', timeout: 10000},
 
@@ -96,9 +100,9 @@ const pages = {
     },
     UFC_AP_HSEL_KEYB: {
         1: {type: 'page', page: 'UFC_AP', image: '/menus/button_back.png'},
-        2: {type: 'image', image: '/menus/menu_text_UFC.png'},
-        3: {type: 'image', image: '/menus/menu_text_AP.png'},
-        4: {type: 'image', image: '/menus/menu_text_HSEL.png'},
+        2: {type: 'text', text: 'UFC', textColor: 'white', buttonColor: 'black'},
+        3: {type: 'text', text: 'AP', textColor: 'white', buttonColor: 'black'},
+        4: {type: 'text', text: 'HSEL', textColor: 'white', buttonColor: 'black'},
 
         8: {type: 'buttonGotoPageWithTimeout', button: 'KEYBOARD', upImage: '/ufc/keyboard/keyboard_full.png', downImage: '/ufc/keyboard/keyboard_full.png', page: 'UFC_AP_HSEL_HDG', prevPage: 'UFC_AP_HSEL_KEYB', timeout: 20000},
 
@@ -113,7 +117,7 @@ const pages = {
         4: {type: 'button', button: 'UFC_3', upImage: '/ufc/keyboard/ufc_three.png', downImage: '/ufc/keyboard/ufc_three_down.png'},
         5: {type: 'button', button: 'UFC_CLR', upImage: '/ufc/keyboard/ufc_clr.png', downImage: '/ufc/keyboard/ufc_clr_down.png'},
 
-        6: {type: 'image', image: '/menus/menu_text_setHDG.png'},
+        6: {type: 'text', text: 'SET HDG', textColor: 'white', buttonColor: 'black'},
         7: {type: 'button', button: 'UFC_4', upImage: '/ufc/keyboard/ufc_four.png', downImage: '/ufc/keyboard/ufc_four_down.png'},
         8: {type: 'button', button: 'UFC_5', upImage: '/ufc/keyboard/ufc_five.png', downImage: '/ufc/keyboard/ufc_five_down.png'},
         9: {type: 'button', button: 'UFC_6', upImage: '/ufc/keyboard/ufc_six.png', downImage: '/ufc/keyboard/ufc_six_down.png'},
@@ -128,8 +132,8 @@ const pages = {
     },
     UFC_TCN: {
         1: {type: 'page', page: 'UFC', image: '/menus/button_back.png'},
-        2: {type: 'image', image: '/menus/menu_text_UFC.png'},
-        3: {type: 'image', image: '/menus/menu_text_TACAN.png'},
+        2: {type: 'text', text: 'UFC', textColor: 'white', buttonColor: 'black'},
+        3: {type: 'text', text: 'TCN', textColor: 'white', buttonColor: 'black'},
         6: {type: 'button', button: 'UFC_ONOFF', upImage: '/ufc/ufc_on_off.png', downImage: '/ufc/ufc_on_off_down.png'},
         11: {type: 'buttonGoToPageOnUpWithTimeoutUFC',  button: 'UFC_OS1', eventKey:'UFC_OPTION_CUEING_1', upImage: '/ufc/ufc_tcn/ufc_tcn_tr_off.png', downImage: '/ufc/ufc_tcn/ufc_tcn_tr_on.png', page: 'UFC_TCN_TR', prevPage: 'UFC_TCN', timeout:20000},
         12: {type: 'buttonGoToPageOnUpWithTimeoutUFC', button: 'UFC_OS2', eventKey:'UFC_OPTION_CUEING_2',upImage: '/ufc/ufc_tcn/ufc_tcn_rcv_on.png', downImage: '/ufc/ufc_tcn/ufc_tcn_rcv_off.png', page: 'UFC_TCN_RCV', prevPage: 'UFC_TCN', timeout:20000},

@@ -1,14 +1,8 @@
+'use strict';
 /**
  * DCS STREAM DECK APPLICATION
  * ***************************
- *
- *
- * Supported Aircraft:
  * - FA-18C_Hornet
- *
- *
- * Usage:
- *
  */
 
 const pages = require('./app/pages');
@@ -19,7 +13,6 @@ const path = require('path');
 const robot = require('robotjs');
 const Logger = require('logplease');
 const logger = Logger.create('dcs-stream-deck-fa18');
-
 
 const IMAGE_FOLDER = './resources/images/';
 const api = new DcsBiosApi({logLevel: 'INFO'});
@@ -40,22 +33,30 @@ const UFC_OPTION_CUEING_5 = 'UFC_OPTION_CUEING_5';
 
 let currentPage;
 
+// connect to dcs-bios
 api.startListening();
+
+// handle interrupts
 process.on('SIGINT', () => {
     streamDeck.reset();
     api.stopListening();
-    process.exit();
+    process.exit(1);
 });
-streamDeck.reset();
+// initial reset
+if (streamDeck) {
+    streamDeck.reset();
+} else {
+    logger.error('No Streamdeck connected! Please make sure Streamdeck is plugged in to you computer');
+    process.exit(1);
+}
 
-
-/**
- * Page definitions
- */
-
-
+// start
 initializePages(pages);
 displayPage('MAIN');
+
+
+
+
 
 
 /**
@@ -85,6 +86,9 @@ function initializeKey(key) {
         case 'image':
             createStaticImage(key);
             break;
+        case 'text':
+            createText(key);
+            break;
         case 'buttonDisplayUFC':
             createUFCDisplayButton(key);
             break;
@@ -99,9 +103,6 @@ function initializeKey(key) {
             break;
         case 'limited_rotary':
             //createTwoStateButtonJettSelect(key);
-            break;
-        case 'toggle_switch2way':
-            createToggleSwitch2Way(key);
             break;
         case 'buttonToggleJettSelectKnob':
             createButtonToggleJettSelectKnob(key);
@@ -123,6 +124,9 @@ function initializeKey(key) {
             break;
         case 'page':
             createButtonGotoPage(key);
+            break;
+        case 'pageText':
+            createButtonGotoPageText(key);
             break;
         case 'buttonGotoPage':
             createButtonGotoPageOnUp(key);
@@ -151,7 +155,6 @@ function initializeKey(key) {
  */
 function addKeyListener(key) {
     switch (key.type) {
-
         case 'buttonToggleJettSelectKnob':
             var upImagePath = path.resolve(IMAGE_FOLDER + key.upImage);
             var downImagePath = path.resolve(IMAGE_FOLDER + key.downImage);
@@ -162,12 +165,8 @@ function addKeyListener(key) {
                 draw(key);
             });
             streamDeck.on(`up:${key.number}`, () => {
-                //api.sendMessage(`${key.button} 0\n`);
-                //key.currentImage = upImagePath;
-                //draw(key);
             });
             break;
-
         case 'button':
             var upImagePath = path.resolve(IMAGE_FOLDER + key.upImage);
             var downImagePath = path.resolve(IMAGE_FOLDER + key.downImage);
@@ -287,7 +286,6 @@ function addKeyListener(key) {
                 key.currentImage = downImagePath;
                 draw(key);
             });
-
             streamDeck.on(`up:${key.number}`, () => {
                 api.sendMessage(`${key.button} 0\n`);
                 key.currentImage = upImagePath;
@@ -315,16 +313,21 @@ function addKeyListener(key) {
             var stateOneImagePath = path.resolve(IMAGE_FOLDER + key.stateOneImage);
             var stateTwoImagePath = path.resolve(IMAGE_FOLDER + key.stateTwoImage);
             draw(key);
+
             streamDeck.on(`down:${key.number}`, () => {
                 api.sendMessage(`${key.button} 2\n`);
                 key.currentImage = stateTwoImagePath;
                 draw(key);
             });
-
             streamDeck.on(`up:${key.number}`, () => {
                 api.sendMessage(`${key.button} 1\n`);
                 key.currentImage = stateOneImagePath;
                 draw(key);
+                displayPage(key.page);
+            });
+            break;
+        case 'pageText':
+            streamDeck.on(`down:${key.number}`, () => {
                 displayPage(key.page);
             });
             break;
@@ -359,9 +362,6 @@ function addKeyListener(key) {
                 }
             });
             streamDeck.on(`up:${key.number}`, () => {
-                //api.sendMessage(`${key.button} 0\n`);
-                //key.currentImage = stateOneImage;
-                //draw(key);
             });
             break;
         //Jettison Station Buttons next to IFEI
@@ -386,9 +386,6 @@ function addKeyListener(key) {
                 }
             });
             streamDeck.on(`up:${key.number}`, () => {
-                //api.sendMessage(`${key.button} 0\n`);
-                //key.currentImage = stateOneImage;
-                //draw(key);
             });
             break;
     }
@@ -404,6 +401,14 @@ function createStaticImage(key) {
     draw(key);
 }
 
+/**
+ * Just use the drawText method
+ * @param key
+ */
+function createText(key) {
+    draw(key);
+}
+
 //TODO: Cleanup toggle switch experiments
 function createToggleSwitch2Way(key) {
     var upImagePath = path.resolve(IMAGE_FOLDER + key.stateOneImage);
@@ -415,7 +420,7 @@ function createToggleSwitch2Way(key) {
 }
 
 /**
- * The 'Jettison Station Select' button box (5) left of the IFEI
+ * One of the 5 'Jettison Station Select' buttons left of the IFEI
  *
  * @param key
  */
@@ -427,72 +432,45 @@ function createTwoStateButtonJettSelect(key) {
     addKeyListener(key);
 
     api.on('SJ_CTR_LT', (value) => {
-
         if (value == '1' & key.button == 'SJ_CTR') {
             key.currentImage = upImagePath;
-        } else if (value == '0' & key.button == 'SJ_CTR'){ //
+        } else if (value == '0' & key.button == 'SJ_CTR') { //
             key.currentImage = downImagePath;
         }
         draw(key);
     });
     api.on('SJ_LI_LT', (value) => {
-
         if (value == '1' & key.button == 'SJ_LI') {
             key.currentImage = upImagePath;
-        } else if (value == '0' & key.button == 'SJ_LI'){ //
+        } else if (value == '0' & key.button == 'SJ_LI') { //
             key.currentImage = downImagePath;
         }
         draw(key);
     });
-
     api.on('SJ_LO_LT', (value) => {
-
         if (value == '1' & key.button == 'SJ_LO') {
             key.currentImage = upImagePath;
-        } else if (value == '0' & key.button == 'SJ_LO'){ //
+        } else if (value == '0' & key.button == 'SJ_LO') { //
             key.currentImage = downImagePath;
         }
         draw(key);
     });
-
     api.on('SJ_RI_LT', (value) => {
-
         if (value == '1' & key.button == 'SJ_RI') {
             key.currentImage = upImagePath;
-        } else if (value == '0' & key.button == 'SJ_RI'){ //
+        } else if (value == '0' & key.button == 'SJ_RI') { //
             key.currentImage = downImagePath;
         }
         draw(key);
     });
-
     api.on('SJ_RO_LT', (value) => {
-
         if (value == '1' & key.button == 'SJ_RO') {
             key.currentImage = upImagePath;
-        } else if (value == '0' & key.button == 'SJ_RO'){ //
+        } else if (value == '0' & key.button == 'SJ_RO') { //
             key.currentImage = downImagePath;
         }
         draw(key);
     });
-
-
-    /*
-        api.on('SJ_CTR_LT', (value) => {
-            logger.info('loggin SJ_CTR_LT: ' + value);
-
-
-            if(value == '1'){
-                logger.info('value is 1: ' + value);
-                key.currentImage = downImagePath;
-                draw(key);
-            }
-            else if(value == '0'){
-                logger.info('value is 0: ' + value);
-                key.currentImage = upImagePath;
-                draw(key);
-            }
-        });
-        */
 }
 
 
@@ -528,7 +506,6 @@ function createRockerSwitchDisplay(key) {
             //streamDeck.removeButtonListeners();
         }
     });
-
     api.on('LEFT_DDI_HDG_SW', (value) => {
         // right click
         if (value == 2) {
@@ -588,47 +565,47 @@ function createButtonTwoImages(key) {
 function createButtonDisplayJettSelect(key) {
     var upImagePath = path.resolve(IMAGE_FOLDER + key.upImage);
     var downImagePath = path.resolve(IMAGE_FOLDER + key.downImage);
-
+    key.currentImage = downImagePath;
     // Draw the key immediately so that we can see it.
     draw(key);
 
     addKeyListener(key);
 
 
-    api.on('SEL_JETT_KNOB', (value)=>{
+    api.on('SEL_JETT_KNOB', (value) => {
 
-        if(key.button === 'LFUS' & value == 0){
+        if (key.button === 'LFUS' & value == 0) {
             key.currentImage = upImagePath;
             draw(key);
         } else if (key.button == 'LFUS' & value != 0) {
             key.currentImage = downImagePath;
             draw(key);
         }
-        if(key.button === 'SAFE' & value == 1){
+        if (key.button === 'SAFE' & value == 1) {
             key.currentImage = upImagePath;
             draw(key);
-        } else if (key.button === 'SAFE' & value != 1){
+        } else if (key.button === 'SAFE' & value != 1) {
             key.currentImage = downImagePath;
             draw(key);
         }
-        if(key.button == 'RFUS' & value == 2){
+        if (key.button == 'RFUS' & value == 2) {
             key.currentImage = upImagePath;
             draw(key);
-        } else if(key.button == 'RFUS' & value != 2){
+        } else if (key.button == 'RFUS' & value != 2) {
             key.currentImage = downImagePath;
             draw(key);
         }
-        if(key.button == 'RACK' & value == 3){
+        if (key.button == 'RACK' & value == 3) {
             key.currentImage = upImagePath;
             draw(key);
-        } else if(key.button == 'RACK' & value != 3){
+        } else if (key.button == 'RACK' & value != 3) {
             key.currentImage = downImagePath;
             draw(key);
         }
-        if(key.button == 'STORES' & value == 4){
+        if (key.button == 'STORES' & value == 4) {
             key.currentImage = upImagePath;
             draw(key);
-        } else if(key.button == 'STORES' & value != 4){
+        } else if (key.button == 'STORES' & value != 4) {
             key.currentImage = downImagePath;
             draw(key);
         }
@@ -664,6 +641,15 @@ function createToggleLedButton(key) {
 function createButtonGotoPage(key) {
     var imagePath = path.join(IMAGE_FOLDER, key.image);
     key.currentImage = imagePath;
+    draw(key);
+    addKeyListener(key);
+}
+
+/**
+ * Button with text that navigates to target page
+ * @param key
+ */
+function createButtonGotoPageText(key) {
     draw(key);
     addKeyListener(key);
 }
@@ -746,7 +732,6 @@ function createButtonSwitchImageJettSelectState(key) {
 }
 
 
-
 /**
  * Create a Button that will display a page after key-up
  *
@@ -801,10 +786,9 @@ function displayPage(pageName, target, timeout) {
     var page = pages[pageName];
 
 
-
     // set timeout if available on control to redirect to a different page
     //if (timeout) {
-      //  setTimeout(returnToPreviousPage, pageName, timeout);
+    //  setTimeout(returnToPreviousPage, pageName, timeout);
     //}
 
     function returnToPreviousPage() {
@@ -829,56 +813,10 @@ function draw(key) {
     if (!key.hidden) {
         if (key.currentImage) {
             streamDeck.drawImageFile(key.currentImage, key.number);
+        } else if (key.type == 'pageText' || key.type == 'text') {
+            streamDeck.drawText(key.text, key.textColor, key.number, key.buttonColor);
         } else {
             streamDeck.drawColor(0x000000, key.number);
         }
     }
 }
-
-/*
-
-function createPviSelectedWaypointIndicator(buttonNumber) {
-    var drawImageFile = (value, imageName) => {
-        if (value) {
-            streamDeck.drawImageFile(path.resolve(IMAGE_FOLDER + imageName), buttonNumber);
-        } else if (!value && currentSelection == imageName) {
-            streamDeck.drawColor(0x000000, buttonNumber);
-            currentSelection = undefined;
-        } else {
-            currentSelection = imageName;
-        }
-    };
-
-    var currentSelection;
-
-    if (api.getControlValue('Ka-50', 'PVI-800 Control Panel', 'PVI_WAYPOINTS_LED')) {
-        drawImageFile(buttonNumber, 'btnWPT-on.png');
-        currentSelection = 'btnWPT-on.png';
-    } else if (api.getControlValue('Ka-50', 'PVI-800 Control Panel', 'PVI_AIRFIELDS_LED')) {
-        drawImageFile(buttonNumber, 'btnAIR-on.png');
-        currentSelection = 'btnAIR-on.png';
-    } else if (api.getControlValue('Ka-50', 'PVI-800 Control Panel', 'PVI_FIXPOINTS_LED')) {
-        drawImageFile(buttonNumber, 'btnFIX-on.png');
-        currentSelection = 'btnFIX-on.png';
-    } else if (api.getControlValue('Ka-50', 'PVI-800 Control Panel', 'PVI_TARGETS_LED')) {
-        drawImageFile(buttonNumber, 'btnNAV-on.png');
-        currentSelection = 'btnNAV-on.png';
-    }
-
-    api.on('PVI_WAYPOINTS_LED', (value) => {
-        drawImageFile(value, 'btnWPT-on.png');
-    });
-
-    api.on('PVI_AIRFIELDS_LED', (value) => {
-        drawImageFile(value, 'btnAIR-on.png');
-    });
-
-    api.on('PVI_FIXPOINTS_LED', (value) => {
-        drawImageFile(value, 'btnFIX-on.png');
-    });
-
-    api.on('PVI_TARGETS_LED', (value) => {
-        drawImageFile(value, 'btnNAV-on.png');
-    });
-}
- */
