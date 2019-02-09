@@ -2,14 +2,7 @@
 /**
  * DCS STREAM DECK APPLICATION
  * ***************************
- *
- *
- * Supported Aircraft:
  * - FA-18C_Hornet
- *
- *
- * Usage:
- *
  */
 
 const pages = require('./app/pages');
@@ -20,7 +13,6 @@ const path = require('path');
 const robot = require('robotjs');
 const Logger = require('logplease');
 const logger = Logger.create('dcs-stream-deck-fa18');
-
 
 const IMAGE_FOLDER = './resources/images/';
 const api = new DcsBiosApi({logLevel: 'INFO'});
@@ -47,13 +39,12 @@ process.on('SIGINT', () => {
     api.stopListening();
     process.exit(1);
 });
-if(streamDeck){
+if (streamDeck) {
     streamDeck.reset();
 } else {
     logger.error('No Streamdeck connected! Please make sure Streamdeck is plugged in to you computer');
     process.exit(1);
 }
-
 
 
 /**
@@ -91,6 +82,9 @@ function initializeKey(key) {
     switch (key.type) {
         case 'image':
             createStaticImage(key);
+            break;
+        case 'text':
+            createText(key);
             break;
         case 'buttonDisplayUFC':
             createUFCDisplayButton(key);
@@ -130,6 +124,9 @@ function initializeKey(key) {
             break;
         case 'page':
             createButtonGotoPage(key);
+            break;
+        case 'pageText':
+            createButtonGotoPageText(key);
             break;
         case 'buttonGotoPage':
             createButtonGotoPageOnUp(key);
@@ -335,6 +332,11 @@ function addKeyListener(key) {
                 displayPage(key.page);
             });
             break;
+        case 'pageText':
+            streamDeck.on(`down:${key.number}`, () => {
+                displayPage(key.page);
+            });
+            break;
         case 'page':
             streamDeck.on(`down:${key.number}`, () => {
                 displayPage(key.page);
@@ -411,6 +413,14 @@ function createStaticImage(key) {
     draw(key);
 }
 
+/**
+ * Just use the drawText method
+ * @param key
+ */
+function createText(key) {
+    draw(key);
+}
+
 //TODO: Cleanup toggle switch experiments
 function createToggleSwitch2Way(key) {
     var upImagePath = path.resolve(IMAGE_FOLDER + key.stateOneImage);
@@ -437,7 +447,7 @@ function createTwoStateButtonJettSelect(key) {
 
         if (value == '1' & key.button == 'SJ_CTR') {
             key.currentImage = upImagePath;
-        } else if (value == '0' & key.button == 'SJ_CTR'){ //
+        } else if (value == '0' & key.button == 'SJ_CTR') { //
             key.currentImage = downImagePath;
         }
         draw(key);
@@ -446,7 +456,7 @@ function createTwoStateButtonJettSelect(key) {
 
         if (value == '1' & key.button == 'SJ_LI') {
             key.currentImage = upImagePath;
-        } else if (value == '0' & key.button == 'SJ_LI'){ //
+        } else if (value == '0' & key.button == 'SJ_LI') { //
             key.currentImage = downImagePath;
         }
         draw(key);
@@ -456,7 +466,7 @@ function createTwoStateButtonJettSelect(key) {
 
         if (value == '1' & key.button == 'SJ_LO') {
             key.currentImage = upImagePath;
-        } else if (value == '0' & key.button == 'SJ_LO'){ //
+        } else if (value == '0' & key.button == 'SJ_LO') { //
             key.currentImage = downImagePath;
         }
         draw(key);
@@ -466,7 +476,7 @@ function createTwoStateButtonJettSelect(key) {
 
         if (value == '1' & key.button == 'SJ_RI') {
             key.currentImage = upImagePath;
-        } else if (value == '0' & key.button == 'SJ_RI'){ //
+        } else if (value == '0' & key.button == 'SJ_RI') { //
             key.currentImage = downImagePath;
         }
         draw(key);
@@ -476,7 +486,7 @@ function createTwoStateButtonJettSelect(key) {
 
         if (value == '1' & key.button == 'SJ_RO') {
             key.currentImage = upImagePath;
-        } else if (value == '0' & key.button == 'SJ_RO'){ //
+        } else if (value == '0' & key.button == 'SJ_RO') { //
             key.currentImage = downImagePath;
         }
         draw(key);
@@ -602,40 +612,40 @@ function createButtonDisplayJettSelect(key) {
     addKeyListener(key);
 
 
-    api.on('SEL_JETT_KNOB', (value)=>{
+    api.on('SEL_JETT_KNOB', (value) => {
 
-        if(key.button === 'LFUS' & value == 0){
+        if (key.button === 'LFUS' & value == 0) {
             key.currentImage = upImagePath;
             draw(key);
         } else if (key.button == 'LFUS' & value != 0) {
             key.currentImage = downImagePath;
             draw(key);
         }
-        if(key.button === 'SAFE' & value == 1){
+        if (key.button === 'SAFE' & value == 1) {
             key.currentImage = upImagePath;
             draw(key);
-        } else if (key.button === 'SAFE' & value != 1){
+        } else if (key.button === 'SAFE' & value != 1) {
             key.currentImage = downImagePath;
             draw(key);
         }
-        if(key.button == 'RFUS' & value == 2){
+        if (key.button == 'RFUS' & value == 2) {
             key.currentImage = upImagePath;
             draw(key);
-        } else if(key.button == 'RFUS' & value != 2){
+        } else if (key.button == 'RFUS' & value != 2) {
             key.currentImage = downImagePath;
             draw(key);
         }
-        if(key.button == 'RACK' & value == 3){
+        if (key.button == 'RACK' & value == 3) {
             key.currentImage = upImagePath;
             draw(key);
-        } else if(key.button == 'RACK' & value != 3){
+        } else if (key.button == 'RACK' & value != 3) {
             key.currentImage = downImagePath;
             draw(key);
         }
-        if(key.button == 'STORES' & value == 4){
+        if (key.button == 'STORES' & value == 4) {
             key.currentImage = upImagePath;
             draw(key);
-        } else if(key.button == 'STORES' & value != 4){
+        } else if (key.button == 'STORES' & value != 4) {
             key.currentImage = downImagePath;
             draw(key);
         }
@@ -671,6 +681,11 @@ function createToggleLedButton(key) {
 function createButtonGotoPage(key) {
     var imagePath = path.join(IMAGE_FOLDER, key.image);
     key.currentImage = imagePath;
+    draw(key);
+    addKeyListener(key);
+}
+
+function createButtonGotoPageText(key) {
     draw(key);
     addKeyListener(key);
 }
@@ -753,7 +768,6 @@ function createButtonSwitchImageJettSelectState(key) {
 }
 
 
-
 /**
  * Create a Button that will display a page after key-up
  *
@@ -808,10 +822,9 @@ function displayPage(pageName, target, timeout) {
     var page = pages[pageName];
 
 
-
     // set timeout if available on control to redirect to a different page
     //if (timeout) {
-      //  setTimeout(returnToPreviousPage, pageName, timeout);
+    //  setTimeout(returnToPreviousPage, pageName, timeout);
     //}
 
     function returnToPreviousPage() {
@@ -836,6 +849,8 @@ function draw(key) {
     if (!key.hidden) {
         if (key.currentImage) {
             streamDeck.drawImageFile(key.currentImage, key.number);
+        } else if (key.type == 'pageText' || key.type == 'text') {
+            streamDeck.drawText(key.text, key.textColor, key.number, key.buttonColor);
         } else {
             streamDeck.drawColor(0x000000, key.number);
         }
