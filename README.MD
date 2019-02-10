@@ -1,28 +1,35 @@
 # DCS F/A-18 & Elgato Stream-Deck
-
 ![Alt text](./resources/docs/dcs_logo_small.jpg?raw=true "DCS")
 ![Alt text](./resources/docs/elgato_logo_small.jpg?raw=true "ELGATO Stream Deck")
 ---
+## Overview
+### This is a NodeJs app to control parts of the *F/A-18 Hornet* cockpit with the *Elgato Stream-Deck* button box
 
+- Using this application, DCS-World will work with [**DCS-BIOS**](https://github.com/dcs-bios/dcs-bios.git) and will require that you install some software (see below). **Alternatively** You can also map your cockpit controls using the [Elgato Stream-Deck supplied Software](https://www.elgato.com/en/gaming/downloads) but this is not covered here.
 
-### Use the Elgato Stream-Deck to control the cockpit of your favourite DCS-Module
-
-- Using this application you will interact with DCS via **DCS-BIOS** and will require that you install some software (see below). **Alternatively** You can also map your cockpit controls using the Elgato Stream-Deck supplied Software but is not covered here.
-
-- This is currently a **work in progress**. The build might break or certain functions might not work.
-Feel free to fork this repository and extend as you see fit.
+- This is currently a **work in progress** and largely a mess (js noob) until I get around to structure it better and add unit-testing. The build might break or certain functions might not work.
+Feel free to fork this repository (or contribute) and extend as you see fit.
  
 - Many thanks to [Daniel Tian](https://github.com/danieltian) for writing the crucial components to interact with DCS and the Stream-Deck. 
 
+**Further Reading / Tools:**
 
-First I will implement most of the F/A-18C controls that are typically not mapped to my HOTAS to reduce the use of the mouse.
+- [DCS-Forum: Elgato Stream Deck as a configurable button box](https://forums.eagle.ru/showthread.php?t=189194)
+- [DCS-BIOS Homepage](http://dcs-bios.a10c.de/)
+- [Create Button Images Online](https://www.elgato.com/en/gaming/keycreator)
+- [Button Types Video](https://youtu.be/cql9y2FIPvA)
 
-Although there is a large overlap of button functionality for most aircraft (Button-Types: e.g. Switches, Led-Buttons, Radials etc.) they react to different DCS-BIOS events and makes configuration a very time consuming process. (Especially when control behaviour relates to other individual or groups of buttons)
 
-Time permitting, I will refactor most of the logic to create buttons in a more convenient way in a future release.
+## Project Scope
+
+I will try to implement most of the F/A-18C controls that are typically not mapped to my HOTAS to reduce the workload of the mouse. The left and right DDI are currently out of scope. A 5x5 version of the Stream-Deck would help in that regard.
+
+Although there is a large overlap of button functionality for most aircraft (Button types like Switches, Led-Buttons, Radials etc.) they ususally react to different aircraft control events and makes their configuration a very time consuming process.
+
+Time permitting, I will refactor most of the logic to create and configure buttons in a more convenient way in a future release.
 
 
-### Currently Supported Aircraft
+#### Currently (limited) supported Aircraft
 ![Alt text](./resources/images/menus/menu_fa_18c.png?raw=true "FA-18C Hornet")
 
 #### Future (planned) Aircraft
@@ -31,15 +38,18 @@ Time permitting, I will refactor most of the logic to create buttons in a more c
 ![Alt text](./resources/images/menus/menu_m2000.png?raw=true "Mirage 2000")
 ![Alt text](./resources/images/menus/menu_av8b.png?raw=true "AV8B Harrier")
 
+#### Example
 
-## Overview & Installation
+//TODO: Video link
 
-### Requirements
+## Installation
 
-The following Software must be installed on your computer to run this NodeJS application. 
+### Prerequisits
+
+The following Software must be installed on your computer to run this application. 
  
-- [NodeJS > v11.4.0](https://nodejs.org/en/)
-- [NPM > 6.7.0](https://www.npmjs.com/get-npm)
+- [NodeJS >= v11.4.0](https://nodejs.org/en/)
+- [NPM >= 6.7.0](https://www.npmjs.com/get-npm)
 - [GIT](https://git-scm.com/)
 - [DCS-BIOS](https://github.com/dcs-bios/dcs-bios.git)
 - [DCS by *Digital Combat Simulator*](https://www.digitalcombatsimulator.com/en/products/world/)
@@ -50,33 +60,36 @@ These are installed automatically by building this project on your machine.
 - [dcs-bios-api-mazeppa fork](https://github.com/mazeppashorse/dcs-bios-api.git)
 - [dcs-stream-deck-api-mazeppa fork](https://github.com/mazeppashorse/stream-deck-api.git)
 
-### Setup
+### Application Overview
 
 ![Alt text](resources/docs/elgato_dcs_fa18_architecture.png?raw=true "DCS")
 
-### Further Reading
+### Setup
 
-- [DCS-Forum: Elgato Stream Deck as a configurable button box](https://forums.eagle.ru/showthread.php?t=189194)
-- [Create Button Images Online](https://www.elgato.com/en/gaming/keycreator)
+//TODO: Clean slate tutorial steps
 
-TODO: Full installation instructions
+```sh
+git clone https://github.com/mazeppashorse/dcs-stream-deck-fa18c.git
 
+npm install
+
+npm start
+```
     
-## Development Overview
+## Development Guide
 * Buttons are arranged on **pages** from positions 1 to 15. 
 * There can be only one page visible at any given time.
 * Theoretically there is no limit to the number of pages.
-* A Button can execute different actions upon **key-press** up or down.
-* A Button can have **event-listeners** that react to dcs control changes or other button events related to itself.
-* A Button can either be of an **image** or **text** type. Type *image* references a picture you would like to display. Type *text* lets you write a string to the button.
+* A Button can execute different actions (or do nothing) upon **key-press** events (up or down).
+* A Button can have additional **event-listeners** attached that react to dcs control changes or other button events.
+* A Button can either be of two main super-types: **image** and **text**. Type *image* references a picture you would like to display. Type *text* lets you write a string to the button (limited currently to 5 characters).
 * The **text color** and **background color** of the button can also be set in *text* type.
 * A Button of type image can display either one, two or more images (ex. up/down/on/off/state1/state2/state3 etc.)
-* A Button can either be static (just display a text or an image) or have actions like page-navigation.
 * Buttons can be grouped with other buttons or dcs game events.
 * Experimental Timeout feature. (Go back to a page after a predetermined time. Useful to mimik the UFC behaviour)
 
-# Implemented Features
-## UFC Control Center
+## Implemented Features
+### UFC Control Center
 -  Buttons for (A/P, IFF, TCN, D/L, BCN, ILS, ON/OFF)
 -  Full Number Keyboard with (CLR & ENT)
 
@@ -87,25 +100,34 @@ TODO: Full installation instructions
 ### Jettison select
  - Full implementation of the state buttons next to the IFEI to select the stations on the plane. 
  
-##TODO:
+## TODO:
+- Add caching to improve performance in text buttons
 - Dynamic status (text) display of selected jettison mode
+- Line Breaks and proper text alignment/sizing for text buttons
+- Interface definitions; Refactoring of code base
 - HUD Section of UFC
 - COM1/COM2 of UFC
 - Radial Buttons (3 buttons, 1 display, 1 up/right, 1 down/left)
 - GRND Controls (Taxi Lights, Slip, etc)
 - Weapons ARM (AA / AG)
-- Cockpit Lights ()
+- Cockpit Lights
 - Ejection Seat
 - Night Vision (incl. sens. adjust)
 - External Views (F1 - F12) -> (Will require second stream deck with hot key-actions as of now)
 - Carrier Ops (U-Button, Hook, Wings)
 - Radio Controls (Will require second stream deck with hot key-actions as of now)
+- Example Video / Screen-Shots
+- High quality images of aircraft cockpit controls
 
 
-```
-cd path/to/project-b
-git remote add project-a path/to/project-a
-git fetch project-a --tags
-git merge --allow-unrelated-histories project-a/master # or whichever branch you want to merge
-git remote remove project-a
-```
+## Release History
+
+* 0.0.0
+   
+## Contributing
+
+1. Fork it (<https://github.com/yourname/yourproject/fork>)
+2. Create your feature branch (`git checkout -b feature/fooBar`)
+3. Commit your changes (`git commit -am 'Add some fooBar'`)
+4. Push to the branch (`git push origin feature/fooBar`)
+5. Create a new Pull Request
