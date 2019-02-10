@@ -29,6 +29,8 @@ If possible, I will refactor most of the logic to generically create buttons in 
 ### Requirements 
 - NodeJS > v11.4.0
 - NPM > 6.7.0
+- DCS (Release or OpenBeta)
+- DCS-BIOS
   
 ```
     npm install
