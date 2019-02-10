@@ -1,15 +1,36 @@
-# Elgato Stream-Deck DCS FA-18C Controller
+# Elgato Stream-Deck & DCS 
 
-![Alt text](./resources/docs/dcs_logo_small.jpg?raw=true "Title")
-![Alt text](./resources/docs/elgato_logo_small.jpg?raw=true "Title")
+![Alt text](./resources/docs/dcs_logo_small.jpg?raw=true "DCS")
+![Alt text](./resources/docs/elgato_logo_small.jpg?raw=true "ELGATO Stream Deck")
+---
 
-## Button box to control various switches and control inputs
 
-...work in progress...
+### Use the Elgato Stream-Deck to control the cockpit of your favourite DCS-Module
+
+This is a **work in progress**. First I will implement most of the F/A-18C controls that are typically not mapped to a HOTAS to reduce the use of the mouse.
+
+Although there is a large overlap of button functionality for most aircraft (Button-Types: e.g. Switches, Led-Buttons, Radials etc.) they react to different DCS-BIOS events and makes configuration a very time consuming process. (Especially when control behaviour relates to other individual or groups of buttons)
+
+If possible, I will refactor most of the logic to generically create buttons in a future release so that others don't have to go through the same amount of time and effort.
+
+
+### Currently Supported Aircraft
+![Alt text](./resources/images/menus/menu_fa_18c.png?raw=true "FA-18C Hornet")
+
+#### Future (planned) Aircraft
+![Alt text](./resources/images/menus/menu_f14.png?raw=true "F15 Tomcat")
+![Alt text](./resources/images/menus/menu_aj37.png?raw=true "AJ37 Viggen")
+![Alt text](./resources/images/menus/menu_m2000.png?raw=true "Mirage 2000")
+![Alt text](./resources/images/menus/menu_av8b.png?raw=true "AV8B Harrier")
+
 
 ## Installation & Start
 
-```js
+### Requirements 
+- NodeJS > v11.4.0
+- NPM > 6.7.0
+  
+```
     npm install
     
     node app.js // or npm start
