@@ -8,7 +8,7 @@ const pages = {
 
         6: {type: 'image', image: '/background/sdkey6.png'},
         7: {type: 'image', image: '/background/sdkey7.png'},
-        8: {type: 'page', page:'FA_18C',image: '/background/sdkey8.png'},
+        8: {type: 'page', page:'MAIN_MENU',image: '/background/sdkey8.png'},
         9: {type: 'image', image: '/background/sdkey9.png'},
         10: {type: 'image', image: '/background/sdkey10.png'},
 
@@ -18,6 +18,10 @@ const pages = {
         14: {type: 'image', image: '/background/sdkey14.png'},
         15: {type: 'image', image: '/background/sdkey15.png'},
 
+    },
+    MAIN_MENU:{
+        7: {type: 'page', page:'FA_18C',image: '/menus/menu_fa_18c.png'},
+        9: {type: 'page', page:'F14',image: '/menus/menu_f14.png'},
     },
     FA_18C:{
         //2: {type: 'pageText', text: 'JETT', textColor: 'white', buttonColor: 'black'},
