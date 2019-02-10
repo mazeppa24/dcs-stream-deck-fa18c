@@ -1,14 +1,13 @@
 # DCS F/A-18 & Elgato Stream-Deck
 ![Alt text](./resources/docs/dcs_logo_small.jpg?raw=true "DCS")
 ![Alt text](./resources/docs/elgato_logo_small.jpg?raw=true "ELGATO Stream Deck")
----
 ## Overview
 ### This is a NodeJs app to control parts of the *F/A-18 Hornet* cockpit with the *Elgato Stream-Deck* button box
 
 - Using this application, DCS-World will work with [**DCS-BIOS**](https://github.com/dcs-bios/dcs-bios.git) and will require that you install some software (see below). **Alternatively** You can also map your cockpit controls using the [Elgato Stream-Deck supplied Software](https://www.elgato.com/en/gaming/downloads) but this is not covered here.
 
 - This is currently a **work in progress** and largely a mess (js noob) until I get around to structure it better and add unit-testing. The build might break or certain functions might not work.
-Feel free to fork this repository (or contribute) and extend as you see fit.
+Feel free to fork this repository and extend as you see fit.
  
 - Many thanks to [Daniel Tian](https://github.com/danieltian) for writing the crucial components to interact with DCS and the Stream-Deck. 
 
@@ -17,12 +16,12 @@ Feel free to fork this repository (or contribute) and extend as you see fit.
 - [DCS-Forum: Elgato Stream Deck as a configurable button box](https://forums.eagle.ru/showthread.php?t=189194)
 - [DCS-BIOS Homepage](http://dcs-bios.a10c.de/)
 - [Create Button Images Online](https://www.elgato.com/en/gaming/keycreator)
-- [Button Types Video](https://youtu.be/cql9y2FIPvA)
 
 
 ## Project Scope
 
 I will try to implement most of the F/A-18C controls that are typically not mapped to my HOTAS to reduce the workload of the mouse. The left and right DDI are currently out of scope. A 5x5 version of the Stream-Deck would help in that regard.
+Later on more aircraft will be added.
 
 Although there is a large overlap of button functionality for most aircraft (Button types like Switches, Led-Buttons, Radials etc.) they ususally react to different aircraft control events and makes their configuration a very time consuming process.
 
@@ -33,7 +32,7 @@ Time permitting, I will refactor most of the logic to create and configure butto
 ![Alt text](./resources/images/menus/menu_fa_18c.png?raw=true "FA-18C Hornet")
 
 #### Future (planned) Aircraft
-![Alt text](./resources/images/menus/menu_f14.png?raw=true "F15 Tomcat")
+![Alt text](./resources/images/menus/menu_f14.png?raw=true "F14 Tomcat")
 ![Alt text](./resources/images/menus/menu_aj37.png?raw=true "AJ37 Viggen")
 ![Alt text](./resources/images/menus/menu_m2000.png?raw=true "Mirage 2000")
 ![Alt text](./resources/images/menus/menu_av8b.png?raw=true "AV8B Harrier")
@@ -60,7 +59,7 @@ These are installed automatically by building this project on your machine.
 - [dcs-bios-api-mazeppa fork](https://github.com/mazeppashorse/dcs-bios-api.git)
 - [dcs-stream-deck-api-mazeppa fork](https://github.com/mazeppashorse/stream-deck-api.git)
 
-### Application Overview
+### Application Context
 
 ![Alt text](resources/docs/elgato_dcs_fa18_architecture.png?raw=true "DCS")
 
@@ -69,7 +68,7 @@ These are installed automatically by building this project on your machine.
 //TODO: Clean slate tutorial steps
 
 ```sh
-git clone https://github.com/mazeppashorse/dcs-stream-deck-fa18c.git
+git clone 
 
 npm install
 
