@@ -20,8 +20,11 @@ const pages = {
 
     },
     MAIN_MENU:{
-        7: {type: 'page', page:'FA_18C',image: '/menus/menu_fa_18c.png'},
-        9: {type: 'page', page:'F14',image: '/menus/menu_f14.png'},
+        6: {type: 'page', page:'MAIN',image: '/menus/menu_m2000.png'},
+        7: {type: 'page', page:'MAIN',image: '/menus/menu_aj37.png'},
+        8: {type: 'page', page:'FA_18C',image: '/menus/menu_fa_18c.png'},
+        9: {type: 'page', page:'MAIN',image: '/menus/menu_f14.png'},
+        10: {type: 'page', page:'MAIN',image: '/menus/menu_av8b.png'},
     },
     FA_18C:{
         //2: {type: 'pageText', text: 'JETT', textColor: 'white', buttonColor: 'black'},

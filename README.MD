@@ -48,3 +48,12 @@ Similar to autopilot. UFC Displays will update their state (on/off) according to
 - External Views (F1 - F12) -> (Will require second stream deck with hot key-actions as of now)
 - Carrier Ops (Salut, U-Button)
 - Radio Controls (Will require second stream deck with hot key-actions as of now)
+
+
+```
+cd path/to/project-b
+git remote add project-a path/to/project-a
+git fetch project-a --tags
+git merge --allow-unrelated-histories project-a/master # or whichever branch you want to merge
+git remote remove project-a
+```

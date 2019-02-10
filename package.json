@@ -1,6 +1,17 @@
 {
   "name": "dcs-stream-deck-fa18",
   "version": "0.0.1",
+  "keywords": [
+    "dcs",
+    "world",
+    "bios",
+    "elgato",
+    "stream",
+    "deck",
+    "api",
+    "fa18",
+    "hornet"
+  ],
   "main": "app.js",
   "scripts": {
     "start": "node app.js"
