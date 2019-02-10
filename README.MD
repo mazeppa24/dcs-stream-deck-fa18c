@@ -7,6 +7,8 @@
 
 ### Use the Elgato Stream-Deck to control the cockpit of your favourite DCS-Module
 
+- Using this application you will interact with DCS via **DCS-BIOS** and will require that you install some software (see below). **Alternatively** You can also map your cockpit controls using the Elgato Stream-Deck supplied Software but is not covered here.
+
 - This is currently a **work in progress**. The build might break or certain functions might not work.
 Feel free to fork this repository and extend as you see fit.
  
@@ -17,7 +19,7 @@ First I will implement most of the F/A-18C controls that are typically not mappe
 
 Although there is a large overlap of button functionality for most aircraft (Button-Types: e.g. Switches, Led-Buttons, Radials etc.) they react to different DCS-BIOS events and makes configuration a very time consuming process. (Especially when control behaviour relates to other individual or groups of buttons)
 
-If possible, I will refactor most of the logic to create buttons in a more practical way in a future release.
+Time permitting, I will refactor most of the logic to create buttons in a more convenient way in a future release.
 
 
 ### Currently Supported Aircraft
@@ -55,6 +57,7 @@ These are installed automatically by building this project on your machine.
 ### Further Reading
 
 - [DCS-Forum: Elgato Stream Deck as a configurable button box](https://forums.eagle.ru/showthread.php?t=189194)
+- [Create Button Images Online](https://www.elgato.com/en/gaming/keycreator)
 
 TODO: Full installation instructions
 
