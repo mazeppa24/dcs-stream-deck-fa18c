@@ -12,9 +12,9 @@
     "fa18",
     "hornet"
   ],
-  "main": "app.js",
+  "main": "app2.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app2.js"
   },
   "author": "mazeppa <mazeppa@nym.hush.com>",
   "license": "MIT",

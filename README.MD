@@ -45,7 +45,7 @@ Time permitting, I will refactor most of the logic to create and configure butto
 
 ### Prerequisits
 
-The following Software must be installed on your computer to run this application. 
+The following Software and Hardware must be installed on your computer to run this application. 
  
 - [NodeJS >= v11.4.0](https://nodejs.org/en/)
 - [NPM >= 6.7.0](https://www.npmjs.com/get-npm)
@@ -53,6 +53,7 @@ The following Software must be installed on your computer to run this applicatio
 - [DCS-BIOS](https://github.com/dcs-bios/dcs-bios.git)
 - [DCS by *Digital Combat Simulator*](https://www.digitalcombatsimulator.com/en/products/world/)
 - [DCS F/A-18 Module by *Eagly Dynamics*](https://www.digitalcombatsimulator.com/en/products/planes/hornet/)
+- [Elgato Stream Deck](https://www.elgato.com/en/gaming/stream-deck)
 
 **Project Dependencies**:
 These are installed automatically by building this project on your machine.
