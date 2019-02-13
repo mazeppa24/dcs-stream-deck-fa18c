@@ -156,21 +156,15 @@ aircraftPages['FA-18C'] = {
             view: {type: 'page_text', text: 'UFC', textColor: 'white', buttonColor: 'black'},
         },
         6: {
-            view: {
-                type: 'state_image', input: 'UFC_AP', states: {'0': '/ufc/ufc_ap.png', '1': '/ufc/ufc_ap_down.png'},
-                action: {type: 'page', page: 'UFC_AP'}
-            }
+            view: {type: 'state_image', input: 'UFC_AP', states: {'0': '/ufc/ufc_ap.png', '1': '/ufc/ufc_ap_down.png'}},
+            action: {type: 'push_button_page', output: 'UFC_AP', page: 'UFC_AP'}
         },
         7: {
-            view: {
-                type: 'state_image', input: 'UFC_IFF', states: {'0': '/ufc/ufc_iff.png', '1': '/ufc/ufc_iff_down.png'}
-            },
+            view: {type: 'state_image', input: 'UFC_IFF', states: {'0': '/ufc/ufc_iff.png', '1': '/ufc/ufc_iff_down.png'}},
             action: {type: 'page', page: 'UFC_IFF'}
         },
         11: {
-            view: {
-                type: 'state_image', input: 'UFC_TCN', states: {'0': '/ufc/ufc_tcn.png', '1': '/ufc/ufc_iff_down.png'}
-            },
+            view: {type: 'state_image', input: 'UFC_TCN', states: {'0': '/ufc/ufc_tcn.png', '1': '/ufc/ufc_iff_down.png'}},
             action: {type: 'page', page: 'UFC_TCN'}
         },
         12: {
@@ -192,9 +186,7 @@ aircraftPages['FA-18C'] = {
             action: {type: 'page', page: 'UFC_BCN'}
         },
         15: {
-            view: {
-                type: 'state_image', input: 'UFC_ONOFF', states: {'0': '/ufc/ufc_on_off.png', '1': '/ufc/ufc_on_off_down.png'}
-            },
+            view: {type: 'state_image', input: 'UFC_ONOFF', states: {'0': '/ufc/ufc_on_off.png', '1': '/ufc/ufc_on_off_down.png'}},
             action: {type: 'push_button', output: 'UFC_ONOFF'}
         }
     },
@@ -212,7 +204,7 @@ aircraftPages['FA-18C'] = {
         // view: { type: 'state_label', text: 'LIGHTS', input: 'LANDING_LIGHTS', states: { '0': 'TAXI', '1': 'OFF', '2': 'LAND' }},
         6: {
             view: {
-                type: 'state_label', text: 'ATTH', input: 'UFC_OPTION_CUEING_1', states: {':': ':ATTH', ' ': 'ATTH'}
+                type: 'state_label', text: 'ATTH', input: 'UFC_OPTION_CUEING_1', states: {'1':':ATTH', '2': 'ATTH'}
             },
         },
         7: {
