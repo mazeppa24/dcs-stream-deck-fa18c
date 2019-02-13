@@ -158,7 +158,7 @@ aircraftPages['FA-18C'] = {
         6: {
             view: {
                 type: 'state_image', input: 'UFC_AP', states: {'0': '/ufc/ufc_ap.png', '1': '/ufc/ufc_ap_down.png'},
-                action: {type: 'push_button_page', output: 'UFC_AP', page: 'UFC_AP'}
+                action: {type: 'page', page: 'UFC_AP'}
             }
         },
         7: {
