@@ -161,29 +161,29 @@ aircraftPages['FA-18C'] = {
         },
         7: {
             view: {type: 'state_image', input: 'UFC_IFF', states: {'0': '/ufc/ufc_iff.png', '1': '/ufc/ufc_iff_down.png'}},
-            action: {type: 'page', page: 'UFC_IFF'}
+            action: {type: 'push_button_page', output:'UFC_IFF', page: 'UFC_IFF'}
         },
         11: {
             view: {type: 'state_image', input: 'UFC_TCN', states: {'0': '/ufc/ufc_tcn.png', '1': '/ufc/ufc_iff_down.png'}},
-            action: {type: 'page', page: 'UFC_TCN'}
+            action: {type: 'push_button_page', output: 'UFC_TCN', page: 'UFC_TCN'}
         },
         12: {
             view: {
                 type: 'state_image', input: 'UFC_ILS', states: {'0': '/ufc/ufc_ils.png', '1': '/ufc/ufc_ils_down.png'}
             },
-            action: {type: 'page', page: 'UFC_ILS'}
+            action: {type: 'push_button_page', output: 'UFC_ILS', page: 'UFC_ILS'}
         },
         13: {
             view: {
                 type: 'state_image', input: 'UFC_DL', states: {'0': '/ufc/ufc_dl.png', '1': '/ufc/ufc_dl_down.png'}
             },
-            action: {type: 'page', page: 'UFC_DL'}
+            action: {type: 'push_button_page', output: 'UFC_DL', page: 'UFC_DL'}
         },
         14: {
             view: {
                 type: 'state_image', input: 'UFC_BCN', states: {'0': '/ufc/ufc_bcn.png', '1': '/ufc/ufc_bcn_down.png'}
             },
-            action: {type: 'page', page: 'UFC_BCN'}
+            action: {type: 'push_button_page', output: 'UFC_BCN', page: 'UFC_BCN'}
         },
         15: {
             view: {type: 'state_image', input: 'UFC_ONOFF', states: {'0': '/ufc/ufc_on_off.png', '1': '/ufc/ufc_on_off_down.png'}},
@@ -208,9 +208,7 @@ aircraftPages['FA-18C'] = {
             },
         },
         7: {
-            view: {
-                type: 'state_label', text: 'HSEL', input: 'UFC_OPTION_CUEING_2', states: {':': ':HSEL', ' ': 'HSEL'}
-            },
+            view: {type: 'state_label', text: 'HSEL', input: 'UFC_OPTION_CUEING_2', states: {':': ':HSEL', ' ': 'HSEL'}},
         },
         8: {
             view: {
@@ -351,6 +349,7 @@ initializeViewFn['state_image'] = function (view, key) {
  */
 initializeViewFn['state_label'] = function (view, key) {
     // Draw a different text label for each control value
+    //view: {type: 'state_label', text: 'HSEL', input: 'UFC_OPTION_CUEING_2', states: {':': ':HSEL', ' ': 'HSEL'}},
     // view: { type: 'state_label', text: 'LIGHTS', input: 'LANDING_LIGHTS', states: { '0': 'TAXI', '1': 'OFF', '2': 'LAND' }},
     view.text = view.text.centerJustify(7, ' ')
     var fn = function (currentValue) {
@@ -366,7 +365,9 @@ initializeViewFn['state_label'] = function (view, key) {
         })
         */
     }
-    api.on(view.input, fn)
+    api.on(view.input, fn){
+
+    }
     // initial state: the first one
     fn(api.getControlValue(view.input) || Object.keys(view.states)[0]);
 }
